@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Preload de imágenes críticas
     const initImagePreload = () => {
-        const criticalImages = ['banner.png', 'whatsapp.webp'];
+        const criticalImages = ['banner.webp', 'whatsapp.webp'];
         criticalImages.forEach(src => {
             const link = document.createElement('link');
             link.rel = 'preload';
@@ -278,44 +278,33 @@ document.addEventListener('DOMContentLoaded', () => {
     // Manejo de errores global
     const initErrorHandling = () => {
         window.addEventListener('error', (e) => {
-            console.error('❌ Error detectado:', e.message);
             if (e.message.includes('iframe') || e.message.includes('form')) {
                 showNotification('⚠️ Problema al cargar el formulario. Intenta refrescar la página.', 'error');
             }
-        });
-        window.addEventListener('unhandledrejection', (e) => {
-            console.error('❌ Promesa rechazada:', e.reason);
         });
     };
 
     // Inicialización
     const initialize = () => {
         const modules = [
-            { name: 'Menu Mobile',      fn: initMobileMenu },
-            { name: 'Scroll Suave',     fn: initSmoothScroll },
-            { name: 'Formulario',       fn: initFormMonitoring },
-            { name: 'Animaciones',      fn: initScrollAnimations },
-            { name: 'Nav Activo',       fn: initActiveNavIndicator },
-            { name: 'Nav Scroll',       fn: initNavScroll },
-            { name: 'Botón Arriba',     fn: initBackToTop },
-            { name: 'Contadores',       fn: initCounters },
-            { name: 'Lazy Loading',     fn: initLazyLoading },
-            { name: 'WhatsApp',         fn: initWhatsAppThrottle },
-            { name: 'Detec. Offline',   fn: initOfflineDetection },
-            { name: 'Preload Imágenes', fn: initImagePreload },
-            { name: 'Manejo Errores',   fn: initErrorHandling },
+            { fn: initMobileMenu },
+            { fn: initSmoothScroll },
+            { fn: initFormMonitoring },
+            { fn: initScrollAnimations },
+            { fn: initActiveNavIndicator },
+            { fn: initNavScroll },
+            { fn: initBackToTop },
+            { fn: initCounters },
+            { fn: initLazyLoading },
+            { fn: initWhatsAppThrottle },
+            { fn: initOfflineDetection },
+            { fn: initImagePreload },
+            { fn: initErrorHandling },
         ];
 
-        modules.forEach(({ name, fn }) => {
-            try {
-                fn();
-                console.log(`✅ ${name} inicializado`);
-            } catch (error) {
-                console.error(`❌ Error en ${name}:`, error);
-            }
+        modules.forEach(({ fn }) => {
+            try { fn(); } catch (_) {}
         });
-
-        console.log('🚀 RALOZ COL S.A.S - Sistema iniciado correctamente');
     };
 
     initialize();
