@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="RALOZ COL S.A.S - Uniformes escolares de calidad en Colombia con más de 5 años de experiencia.">
-    <meta name="keywords" content="uniformes escolares, uniformes Colombia, confección uniformes, RALOZ COL, colegios">
+    <meta name="description" content="RALOZ COL S.A.S - Uniformes escolares de calidad en Colombia. Cotiza en línea, catálogo por colegio y pedidos personalizados. Más de 5 años de experiencia.">
+    <meta name="keywords" content="uniformes escolares, uniformes Colombia, confección uniformes, RALOZ COL, colegios Bogotá, uniformes Manyanet, uniformes Marillac, chaqueta prom, dotaciones">
     <meta name="author" content="RALOZ COL S.A.S">
     <meta property="og:title" content="RALOZ COL S.A.S - Uniformes Escolares de Calidad">
-    <meta property="og:description" content="Confeccionamos uniformes escolares de alta calidad para colegios en Colombia.">
+    <meta property="og:description" content="Confeccionamos uniformes escolares de alta calidad para colegios en Colombia. Cotiza en línea.">
     <meta property="og:image" content="https://ralozcol.netlify.app/banner.webp">
     <meta property="og:url" content="https://ralozcol.netlify.app">
     <meta name="twitter:card" content="summary_large_image">
@@ -21,6 +21,15 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+    <!-- Barra de anuncio temporada -->
+    <div class="announcement-bar" id="announcementBar">
+        <span><i class="fa-solid fa-graduation-cap"></i> 🎒 Temporada Escolar 2026 — ¡Haz tu pedido con anticipación y asegura tu talla!</span>
+        <a href="#cotizador" class="ann-cta">Cotizar ahora →</a>
+        <button class="ann-close" aria-label="Cerrar anuncio" onclick="this.parentElement.style.display='none'">✕</button>
+    </div>
+
+    <!-- WhatsApp flotante -->
     <a href="https://wa.me/573213412903?text=Hola,%20estoy%20interesado%20en%20cotizar%20uniformes%20escolares"
        class="whatsapp-float"
        target="_blank"
@@ -29,24 +38,35 @@
         <img src="whatsapp.webp" alt="WhatsApp" width="40" height="40" loading="lazy">
     </a>
 
+    <!-- Hero / Header -->
     <header id="inicio">
         <div class="hero-content">
-            <picture>
-                <source srcset="banner.webp" type="image/webp">
-                <img src="banner.png"
-                     alt="Banner RALOZ COL S.A.S - Uniformes Escolares"
-                     loading="eager"
-                     onerror="this.style.display='none';">
-            </picture>
+            <div class="hero-badge"><i class="fa-solid fa-certificate"></i> Calidad certificada · Bogotá, Colombia</div>
+            <div class="hero-logo-wrap">
+                <picture>
+                    <source srcset="banner.webp" type="image/webp">
+                    <img src="banner.png"
+                         alt="Logo RALOZ COL S.A.S"
+                         loading="eager"
+                         class="hero-logo-img"
+                         onerror="this.style.display='none';">
+                </picture>
+                <div class="hero-logo-glow"></div>
+            </div>
             <h1>RALOZ COL <span>S.A.S</span></h1>
-            <p>Uniformes escolares de calidad</p>
+            <p>Uniformes escolares de calidad · Confección a medida · Temporada 2026</p>
             <div class="hero-actions">
-                <a href="#contacto" class="btn-primary">
-                    <i class="fa-solid fa-tag"></i> Cotizar Ahora
+                <a href="#cotizador" class="btn-primary">
+                    <i class="fa-solid fa-calculator"></i> Cotizar en Línea
                 </a>
-                <a href="#productos" class="btn-secondary">
-                    <i class="fa-solid fa-shirt"></i> Ver Productos
+                <a href="#catalogo" class="btn-secondary">
+                    <i class="fa-solid fa-shirt"></i> Ver Catálogo
                 </a>
+            </div>
+            <div class="hero-trust">
+                <span><i class="fa-solid fa-shield-halved"></i> Calidad garantizada</span>
+                <span><i class="fa-solid fa-truck-fast"></i> Entrega a domicilio</span>
+                <span><i class="fa-solid fa-headset"></i> Asesoría personalizada</span>
             </div>
         </div>
         <a href="#bienvenida" class="scroll-indicator" aria-label="Ir al contenido">
@@ -54,28 +74,41 @@
         </a>
     </header>
 
-    <nav>
+    <!-- Navegación -->
+    <nav id="main-nav">
+        <div class="nav-brand">
+            <span class="nav-logo">RALOZ</span>
+        </div>
         <button class="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">☰</button>
         <ul>
             <li><a href="#inicio"><i class="fa-solid fa-house"></i> Inicio</a></li>
-            <li><a href="#quienes-somos"><i class="fa-solid fa-users"></i> ¿Quiénes Somos?</a></li>
-            <li><a href="#mision"><i class="fa-solid fa-bullseye"></i> Misión</a></li>
-            <li><a href="#vision"><i class="fa-solid fa-eye"></i> Visión</a></li>
-            <li><a href="#productos"><i class="fa-solid fa-shirt"></i> Productos</a></li>
+            <li><a href="#quienes-somos"><i class="fa-solid fa-users"></i> Nosotros</a></li>
+            <li><a href="#catalogo"><i class="fa-solid fa-grid-2"></i> Catálogo</a></li>
+            <li><a href="#productos"><i class="fa-solid fa-shirt"></i> Servicios</a></li>
             <li><a href="#colegios"><i class="fa-solid fa-school"></i> Colegios</a></li>
+            <li><a href="#cotizador"><i class="fa-solid fa-calculator"></i> Cotizador</a></li>
             <li><a href="#contacto"><i class="fa-solid fa-envelope"></i> Contacto</a></li>
+            <li>
+                <a href="#portal-raloz" class="nav-portal-btn">
+                    <i class="fa-solid fa-link"></i> Portal RALOZ
+                </a>
+            </li>
         </ul>
     </nav>
 
     <main>
+
+        <!-- Bienvenida -->
         <section id="bienvenida">
             <div class="welcome-content">
                 <i class="fa-solid fa-star welcome-icon"></i>
                 <h2>Bienvenidos a RALOZ COL S.A.S</h2>
-                <p>Somos la empresa que acompaña a tus hijos en su formación escolar con uniformes de alta calidad, diseñados para brindar comodidad e identidad.</p>
+                <p>Somos la empresa que acompaña a tus hijos en su formación escolar con uniformes de alta calidad, diseñados para brindar comodidad, durabilidad e identidad institucional.</p>
+                <p>Trabajamos directamente con colegios y familias para garantizar los mejores precios y la mejor atención.</p>
             </div>
         </section>
 
+        <!-- Estadísticas -->
         <section id="estadisticas" class="section-stats">
             <div class="stats-grid">
                 <div class="stat-card">
@@ -113,43 +146,178 @@
             </div>
         </section>
 
+        <!-- ¿Quiénes Somos? -->
         <section id="quienes-somos">
             <h2><i class="fa-solid fa-building-user"></i> ¿Quiénes Somos?</h2>
             <p>RALOZ COL S.A.S es una empresa con más de 5 años de experiencia en la confección y distribución de uniformes escolares en Colombia. Nos destacamos por la calidad, durabilidad y diseño de nuestras prendas.</p>
             <p>Colaboramos con instituciones como el Colegio Manyanet, Colegio Marillac y anteriormente con el Colegio Adventista del Norte. También ofrecemos chaquetas Prom y dotaciones personalizadas.</p>
-            <h3>Nuestra Experiencia</h3>
-            <ul>
-                <li>Más de 5 años en el mercado</li>
-                <li>Miles de estudiantes uniformados</li>
-                <li>Miles de profesores uniformados</li>
-                <li>Colegios aliados satisfechos</li>
-                <li>Compromiso con la calidad</li>
-            </ul>
+            <div class="quienes-grid">
+                <div class="quienes-item">
+                    <i class="fa-solid fa-scissors"></i>
+                    <h3>Confección Propia</h3>
+                    <p>Fabricamos nuestros uniformes con control de calidad en cada etapa del proceso de confección.</p>
+                </div>
+                <div class="quienes-item">
+                    <i class="fa-solid fa-ruler"></i>
+                    <h3>A Medida</h3>
+                    <p>Ofrecemos uniformes en todas las tallas y ajustamos según los requerimientos de cada institución.</p>
+                </div>
+                <div class="quienes-item">
+                    <i class="fa-solid fa-handshake"></i>
+                    <h3>Alianzas Institucionales</h3>
+                    <p>Trabajamos directamente con colegios para establecer convenios de suministro continuo.</p>
+                </div>
+                <div class="quienes-item">
+                    <i class="fa-solid fa-rotate"></i>
+                    <h3>Stock Permanente</h3>
+                    <p>Mantenemos inventario constante para garantizar disponibilidad durante todo el año escolar.</p>
+                </div>
+            </div>
         </section>
 
+        <!-- Misión / Visión -->
         <div class="mv-grid">
             <section id="mision">
                 <div class="mv-icon"><i class="fa-solid fa-bullseye"></i></div>
                 <h2>Misión</h2>
-                <p>Proveer uniformes escolares de alta calidad que aporten comodidad, confianza e identidad a los estudiantes, con responsabilidad y compromiso.</p>
+                <p>Proveer uniformes escolares de alta calidad que aporten comodidad, confianza e identidad a los estudiantes, con responsabilidad y compromiso hacia las familias e instituciones educativas de Colombia.</p>
             </section>
             <section id="vision">
                 <div class="mv-icon"><i class="fa-solid fa-eye"></i></div>
                 <h2>Visión</h2>
-                <p>Ser la empresa líder en confección de uniformes escolares en Colombia para el 2030, reconocida por calidad, confianza e innovación.</p>
+                <p>Ser la empresa líder en confección de uniformes escolares en Colombia para el 2030, reconocida por calidad, confianza e innovación, con presencia en las principales ciudades del país.</p>
             </section>
         </div>
 
+        <!-- Cómo Funciona -->
+        <section id="como-funciona">
+            <h2><i class="fa-solid fa-list-check"></i> ¿Cómo Funciona?</h2>
+            <p class="section-subtitle">Pedir tus uniformes es fácil y rápido. Sigue estos pasos:</p>
+            <div class="proceso-grid">
+                <div class="proceso-step">
+                    <div class="step-num">1</div>
+                    <div class="step-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <h3>Elige tu Colegio</h3>
+                    <p>Selecciona el colegio de tu hijo/a y explora el catálogo de uniformes disponibles con precios y tallas.</p>
+                </div>
+                <div class="proceso-step">
+                    <div class="step-num">2</div>
+                    <div class="step-icon"><i class="fa-solid fa-calculator"></i></div>
+                    <h3>Cotiza en Línea</h3>
+                    <p>Usa nuestro cotizador para calcular el costo total de tus uniformes según talla y cantidad necesaria.</p>
+                </div>
+                <div class="proceso-step">
+                    <div class="step-num">3</div>
+                    <div class="step-icon"><i class="fa-brands fa-whatsapp"></i></div>
+                    <h3>Confirma tu Pedido</h3>
+                    <p>Envíanos tu cotización por WhatsApp o completa el formulario y te contactamos para confirmar disponibilidad.</p>
+                </div>
+                <div class="proceso-step">
+                    <div class="step-num">4</div>
+                    <div class="step-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                    <h3>Recibe tus Uniformes</h3>
+                    <p>Recoge en nuestro punto de venta o solicita entrega a domicilio. Tu pedido queda registrado en nuestro sistema.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Catálogo estilo Shein -->
+        <section id="catalogo">
+            <h2><i class="fa-solid fa-grid-2"></i> Catálogo de Uniformes</h2>
+            <p class="section-subtitle">Elige tu colegio y ve todos los uniformes disponibles con precios reales.</p>
+
+            <!-- PASO 1: Selector de colegio tipo Shein -->
+            <div class="school-selector" id="selectorEscuelas">
+                <p class="school-selector-hint"><i class="fa-solid fa-hand-pointer"></i> Paso 1 — Selecciona tu colegio</p>
+                <div class="school-cards">
+                    <button class="school-card" data-school="MARILLAC" onclick="selectSchool('MARILLAC')">
+                        <div class="sc-icon sc-marillac"><i class="fa-solid fa-school-flag"></i></div>
+                        <div class="sc-info">
+                            <span class="sc-name">Colegio Marillac</span>
+                            <span class="sc-count">15 productos</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right sc-arrow"></i>
+                    </button>
+                    <button class="school-card" data-school="ADVENTISTA" onclick="selectSchool('ADVENTISTA')">
+                        <div class="sc-icon sc-adventista"><i class="fa-solid fa-school-flag"></i></div>
+                        <div class="sc-info">
+                            <span class="sc-name">Colegio Adventista</span>
+                            <span class="sc-count">13 productos</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right sc-arrow"></i>
+                    </button>
+                    <button class="school-card" data-school="MANYANET" onclick="selectSchool('MANYANET')">
+                        <div class="sc-icon sc-manyanet"><i class="fa-solid fa-school-flag"></i></div>
+                        <div class="sc-info">
+                            <span class="sc-name">Colegio Manyanet</span>
+                            <span class="sc-count">13 productos</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right sc-arrow"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- PASO 2: Productos del colegio seleccionado -->
+            <div class="productos-section" id="productosSection" style="display:none;">
+                <!-- Breadcrumb + back -->
+                <div class="productos-header">
+                    <button class="btn-back-school" onclick="clearSchool()">
+                        <i class="fa-solid fa-arrow-left"></i> Cambiar colegio
+                    </button>
+                    <div class="productos-colegio-tag" id="escuelaTag"></div>
+                </div>
+
+                <!-- Filtros por tipo -->
+                <div class="tipo-filters" id="tipoFilters" role="tablist">
+                    <button class="tipo-btn active" onclick="limpiarFiltros()" role="tab">
+                        <i class="fa-solid fa-layer-group"></i> Todos
+                    </button>
+                    <button class="tipo-btn" onclick="filtrarPorTipo('Completo')" role="tab">
+                        <i class="fa-solid fa-box-open"></i> Completos
+                    </button>
+                    <button class="tipo-btn" onclick="filtrarPorTipo('Diario Niño')" role="tab">
+                        <i class="fa-solid fa-person"></i> Diario Niño
+                    </button>
+                    <button class="tipo-btn" onclick="filtrarPorTipo('Diario Niña')" role="tab">
+                        <i class="fa-solid fa-person-dress"></i> Diario Niña
+                    </button>
+                    <button class="tipo-btn" onclick="filtrarPorTipo('Diario')" role="tab">
+                        <i class="fa-solid fa-vest"></i> Diario (ambos)
+                    </button>
+                    <button class="tipo-btn" onclick="filtrarPorTipo('Ed. Física')" role="tab">
+                        <i class="fa-solid fa-person-running"></i> Ed. Física
+                    </button>
+                    <button class="tipo-btn" onclick="filtrarPorTipo('Medias')" role="tab">
+                        <i class="fa-solid fa-socks"></i> Medias
+                    </button>
+                    <button class="tipo-btn" onclick="filtrarPorTipo('accesorio')" role="tab">
+                        <i class="fa-solid fa-star"></i> Accesorios
+                    </button>
+                </div>
+
+                <!-- Conteo de resultados -->
+                <p class="productos-count" id="contadorProductos"></p>
+
+                <!-- Grid de productos dinámico -->
+                <div class="productos-grid" id="productosGrid"></div>
+            </div>
+
+            <div class="catalogo-cta">
+                <p>¿Tu colegio no está en la lista? <a href="#contacto">Contáctanos</a> — confeccionamos para cualquier institución educativa.</p>
+            </div>
+        </section>
+
+        <!-- Servicios -->
         <section id="productos">
-            <h2><i class="fa-solid fa-shirt"></i> Nuestros Productos y Servicios</h2>
+            <h2><i class="fa-solid fa-shirt"></i> Nuestros Servicios</h2>
             <div class="products-grid">
                 <article class="product-card">
                     <div class="product-icon"><i class="fa-solid fa-vest"></i></div>
                     <h3>Uniformes Completos</h3>
                     <ul>
-                        <li>Uniformes de diario</li>
-                        <li>Educación física</li>
-                        <li>Uniformes de gala</li>
+                        <li>Uniformes de diario (niño y niña)</li>
+                        <li>Uniforme de educación física</li>
+                        <li>Uniformes de gala institucional</li>
                     </ul>
                 </article>
                 <article class="product-card">
@@ -158,21 +326,22 @@
                     <ul>
                         <li>Camisas cuello y camisetas deportivas</li>
                         <li>Pantalón diario (gris ratón o azul oscuro)</li>
-                        <li>Blazer sena</li>
+                        <li>Blazer SENA y chalecos</li>
                     </ul>
                 </article>
                 <article class="product-card">
                     <div class="product-icon"><i class="fa-solid fa-star"></i></div>
-                    <h3>Especiales</h3>
+                    <h3>Pedidos Especiales</h3>
                     <ul>
-                        <li>Chaqueta Prom</li>
-                        <li>Chalecos personalizados</li>
-                        <li>Uniformes institucionales a medida</li>
+                        <li>Chaqueta Prom personalizada</li>
+                        <li>Chalecos con bordado institucional</li>
+                        <li>Dotaciones para empresas e instituciones</li>
                     </ul>
                 </article>
             </div>
         </section>
 
+        <!-- Colegios -->
         <section id="colegios">
             <h2><i class="fa-solid fa-school"></i> Instituciones Educativas</h2>
             <h3>Aliados Actuales</h3>
@@ -196,9 +365,286 @@
                     <span class="badge badge-prev">Anterior</span>
                 </div>
             </div>
-            <p class="colegio-cta"><strong>¿Tu colegio está interesado?</strong> <a href="#contacto">Contáctanos</a> para conocer nuestras soluciones personalizadas.</p>
+            <p class="colegio-cta"><strong>¿Tu colegio está interesado?</strong> <a href="#contacto">Contáctanos</a> para conocer nuestras soluciones personalizadas para instituciones.</p>
         </section>
 
+        <!-- Cotizador Interactivo -->
+        <section id="cotizador">
+            <h2><i class="fa-solid fa-calculator"></i> Cotizador en Línea</h2>
+            <p class="section-subtitle">Calcula el costo estimado de tus uniformes y envíanos tu cotización directamente por WhatsApp.</p>
+
+            <div class="cotizador-container">
+                <div class="cotizador-form-wrap">
+                    <form id="cotizadorForm" class="cotizador-form" novalidate>
+
+                        <div class="cot-row">
+                            <div class="cot-field">
+                                <label for="cot-nombre">Nombre completo <span class="req">*</span></label>
+                                <input type="text" id="cot-nombre" name="nombre" placeholder="Tu nombre" required>
+                            </div>
+                            <div class="cot-field">
+                                <label for="cot-telefono">Teléfono / WhatsApp <span class="req">*</span></label>
+                                <input type="tel" id="cot-telefono" name="telefono" placeholder="+57 300 000 0000" required>
+                            </div>
+                        </div>
+
+                        <div class="cot-row">
+                            <div class="cot-field">
+                                <label for="cot-colegio">Colegio <span class="req">*</span></label>
+                                <select id="cot-colegio" name="colegio" required>
+                                    <option value="">-- Selecciona un colegio --</option>
+                                    <option value="Colegio Manyanet">Colegio Manyanet</option>
+                                    <option value="Colegio Marillac">Colegio Marillac</option>
+                                    <option value="Otro colegio">Otro colegio / Empresa</option>
+                                </select>
+                            </div>
+                            <div class="cot-field">
+                                <label for="cot-tipo">Tipo de uniforme <span class="req">*</span></label>
+                                <select id="cot-tipo" name="tipo" required>
+                                    <option value="">-- Selecciona tipo --</option>
+                                    <option value="Uniforme Diario Niño">Uniforme Diario Niño</option>
+                                    <option value="Uniforme Diario Niña">Uniforme Diario Niña</option>
+                                    <option value="Uniforme Ed. Física">Uniforme Ed. Física</option>
+                                    <option value="Uniforme Gala">Uniforme de Gala</option>
+                                    <option value="Chaqueta Prom">Chaqueta Prom</option>
+                                    <option value="Chaleco Institucional">Chaleco Institucional</option>
+                                    <option value="Dotación Empresarial">Dotación / SENA</option>
+                                    <option value="Otro">Otro (especificar en notas)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="cotizador-items" class="cotizador-items">
+                            <!-- Items de la cotización se agregan aquí -->
+                            <div class="cot-item-empty">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <p>Agrega prendas a tu cotización desde el catálogo o usando el botón de abajo.</p>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn-add-item" onclick="addItemForm()">
+                            <i class="fa-solid fa-plus"></i> Agregar prenda
+                        </button>
+
+                        <div class="cot-field" style="margin-top: 1rem;">
+                            <label for="cot-notas">Notas adicionales</label>
+                            <textarea id="cot-notas" name="notas" rows="3" placeholder="Ej: Necesito 2 conjuntos completos talla 10, colores específicos, entrega urgente, etc."></textarea>
+                        </div>
+
+                        <div class="cotizador-total" id="cotizadorTotal" style="display:none;">
+                            <span>Total estimado:</span>
+                            <strong id="totalAmount">$0</strong>
+                        </div>
+
+                        <div class="cotizador-actions">
+                            <button type="button" class="btn-whatsapp-cot" onclick="enviarCotizacionWhatsApp()">
+                                <i class="fa-brands fa-whatsapp"></i> Enviar por WhatsApp
+                            </button>
+                            <button type="button" class="btn-secondary-cot" onclick="limpiarCotizador()">
+                                <i class="fa-solid fa-trash"></i> Limpiar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="cotizador-info">
+                    <div class="cot-info-card">
+                        <h3><i class="fa-solid fa-circle-info"></i> Información de Precios</h3>
+                        <p>Los precios mostrados son <strong>referenciales</strong>. El precio final depende de:</p>
+                        <ul>
+                            <li>Talla y diseño específico del colegio</li>
+                            <li>Cantidad del pedido</li>
+                            <li>Personalizaciones (bordados, estampados)</li>
+                            <li>Temporada y disponibilidad de tela</li>
+                        </ul>
+                    </div>
+                    <div class="cot-info-card">
+                        <h3><i class="fa-solid fa-truck"></i> Entrega</h3>
+                        <ul>
+                            <li>Recogida en punto de venta (Cll 72 # 70-35)</li>
+                            <li>Envío a domicilio en Bogotá</li>
+                            <li>Envío nacional por transportadora</li>
+                        </ul>
+                    </div>
+                    <div class="cot-info-card">
+                        <h3><i class="fa-solid fa-credit-card"></i> Medios de Pago</h3>
+                        <ul>
+                            <li>Nequi / Daviplata / Llave: <strong>320 318 2862</strong></li>
+                            <li>Bancolombia Cta. Ahorros: <strong>188-000003-53</strong></li>
+                            <li>Efectivo en punto de venta</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonios -->
+        <section id="testimonios">
+            <h2><i class="fa-solid fa-comments"></i> Lo que Dicen Nuestros Clientes</h2>
+            <div class="testimonios-grid">
+                <div class="testimonio-card">
+                    <div class="test-stars">★★★★★</div>
+                    <p>"Excelente calidad de los uniformes. Mis hijos llevan 2 años con los uniformes de RALOZ y siguen como nuevos. Muy buenos precios y atención."</p>
+                    <div class="test-autor">
+                        <div class="test-avatar">MP</div>
+                        <div>
+                            <strong>María P.</strong>
+                            <span>Mamá – Colegio Manyanet</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonio-card">
+                    <div class="test-stars">★★★★★</div>
+                    <p>"Hicimos el pedido de chaquetas prom para todo el grado y quedamos muy satisfechos. El proceso fue fácil, los tiempos de entrega cumplidos y el diseño hermoso."</p>
+                    <div class="test-autor">
+                        <div class="test-avatar">CP</div>
+                        <div>
+                            <strong>Carlos R.</strong>
+                            <span>Coordinador – Grado 11</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonio-card">
+                    <div class="test-stars">★★★★☆</div>
+                    <p>"Muy buena atención. Los uniformes llegan bien presentados y a tiempo. Lo que más valoro es que se adaptan a las necesidades de cada colegio."</p>
+                    <div class="test-autor">
+                        <div class="test-avatar">AL</div>
+                        <div>
+                            <strong>Andrea L.</strong>
+                            <span>Mamá – Colegio Marillac</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq">
+            <h2><i class="fa-solid fa-circle-question"></i> Preguntas Frecuentes</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        ¿Cuánto tiempo tarda la entrega de un pedido?
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Para pedidos en stock, la entrega es de 1 a 3 días hábiles en Bogotá. Para pedidos con personalización (bordados, diseños especiales) el tiempo es de 5 a 10 días hábiles. Los pedidos masivos de colegios requieren al menos 15 días de anticipación.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        ¿Puedo cambiar la talla si el uniforme no le queda a mi hijo/a?
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Sí, aceptamos cambios de talla dentro de los 15 días siguientes a la compra, siempre que la prenda esté en perfecto estado, sin uso y con su etiqueta original. El cambio no tiene costo adicional si hay disponibilidad en la talla requerida.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        ¿Hacen uniformes para colegios que no están en el catálogo?
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>¡Sí! Trabajamos con cualquier institución educativa o empresa. Puedes enviarnos los colores, diseño e insignias del colegio y nosotros confeccionamos los uniformes a medida. Contáctanos para una cotización personalizada.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        ¿Cómo puedo hacer seguimiento a mi pedido?
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Una vez confirmado tu pedido, te enviamos un número de referencia. Puedes consultar el estado de tu pedido contactándonos por WhatsApp al <a href="tel:+573213412903">+57 321 341 2903</a> con tu número de referencia. Próximamente estará disponible el seguimiento en línea conectado con nuestro sistema RALOZ.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        ¿Qué medidas necesito para pedir la talla correcta?
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Nuestras tallas están organizadas por grupos de edad y medidas corporales. Puedes consultar la guía de tallas en nuestra tabla:</p>
+                        <table class="tallas-table">
+                            <tr><th>Grupo</th><th>Edad Referencia</th><th>Talla Ropa</th></tr>
+                            <tr><td>6-8</td><td>6-8 años</td><td>XS</td></tr>
+                            <tr><td>10-12</td><td>10-12 años</td><td>S</td></tr>
+                            <tr><td>14-16</td><td>14-16 años</td><td>M</td></tr>
+                            <tr><td>S-M</td><td>Adulto pequeño</td><td>S-M</td></tr>
+                            <tr><td>L-XL</td><td>Adulto grande</td><td>L-XL</td></tr>
+                        </table>
+                        <p>Si tienes dudas, escríbenos y te asesoramos.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        ¿Qué es el Portal RALOZ y cómo se conecta con la tienda?
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>RALOZ es nuestro sistema de gestión interno que controla el inventario, ventas, facturación y reportes de uniformes. Estamos integrando este sistema con la tienda web para que puedas ver disponibilidad de tallas en tiempo real, recibir confirmaciones automáticas de pedido y consultar el estado de tu compra en línea. Esta integración estará disponible próximamente.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portal / Integración RALOZ -->
+        <section id="portal-raloz" class="portal-section">
+            <div class="portal-content">
+                <div class="portal-text">
+                    <div class="portal-badge"><i class="fa-solid fa-gear"></i> Tecnología RALOZ</div>
+                    <h2>Conectado con RALOZ COL SAS</h2>
+                    <p>Esta tienda se integra con el sistema de gestión RALOZ para ofrecerte información de inventario en tiempo real, seguimiento de pedidos y reportes automáticos de ventas.</p>
+                    <ul class="portal-features">
+                        <li><i class="fa-solid fa-check"></i> Stock actualizado en tiempo real</li>
+                        <li><i class="fa-solid fa-check"></i> Confirmación automática de pedidos</li>
+                        <li><i class="fa-solid fa-check"></i> Reportes de ventas integrados</li>
+                        <li><i class="fa-solid fa-check"></i> Gestión de colegios centralizada</li>
+                        <li><i class="fa-solid fa-circle-dot portal-soon"></i> Próximamente: seguimiento en línea</li>
+                        <li><i class="fa-solid fa-circle-dot portal-soon"></i> Próximamente: pagos en línea</li>
+                    </ul>
+                </div>
+                <div class="portal-visual">
+                    <div class="portal-card">
+                        <div class="portal-card-header">
+                            <span class="pc-dot red"></span>
+                            <span class="pc-dot yellow"></span>
+                            <span class="pc-dot green"></span>
+                            <span class="pc-title">RALOZ Dashboard</span>
+                        </div>
+                        <div class="portal-card-body">
+                            <div class="pc-stat">
+                                <i class="fa-solid fa-boxes-stacked"></i>
+                                <div>
+                                    <span class="pc-val" id="stockDisplay">—</span>
+                                    <span class="pc-lbl">Prendas en stock</span>
+                                </div>
+                            </div>
+                            <div class="pc-stat">
+                                <i class="fa-solid fa-receipt"></i>
+                                <div>
+                                    <span class="pc-val" id="ventasDisplay">—</span>
+                                    <span class="pc-lbl">Ventas este mes</span>
+                                </div>
+                            </div>
+                            <div class="pc-stat">
+                                <i class="fa-solid fa-clock"></i>
+                                <div>
+                                    <span class="pc-val" id="pendientesDisplay">—</span>
+                                    <span class="pc-lbl">Pedidos pendientes</span>
+                                </div>
+                            </div>
+                            <div class="pc-status" id="portalStatus">
+                                <span class="status-dot offline"></span>
+                                <span>Sistema offline (modo estático)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contacto -->
         <section id="contacto">
             <h2><i class="fa-solid fa-envelope"></i> Contacto</h2>
             <p>¿Tienes preguntas o necesitas más información? Completa nuestro formulario:</p>
@@ -233,8 +679,42 @@
                         <p><i class="fa-solid fa-phone"></i> Asociaciones: <a href="tel:+573106503630">+57 310 650 3630</a></p>
                         <p><i class="fa-solid fa-envelope"></i> Info: <a href="mailto:creacionesraloz@hotmail.com">creacionesraloz@hotmail.com</a></p>
                         <p><i class="fa-solid fa-envelope"></i> Reclamos: <a href="mailto:ralozcol@outlook.com">ralozcol@outlook.com</a></p>
-                        <p><i class="fa-solid fa-location-dot"></i> Avenida Calle 72 # 70-35, Bogotá, Distrito Especial 111061</p>
+                        <p><i class="fa-solid fa-location-dot"></i> <strong>CC. San Andresito de la 68</strong><br>
+                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Local M14, Segundo Piso<br>
+                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calle 72 # 70-35, Bogotá</p>
                     </address>
+                    <div class="horario-card">
+                        <h4><i class="fa-solid fa-clock"></i> Horario de Atención</h4>
+                        <p><strong>Miércoles a Domingo</strong></p>
+                        <p>10:00 – 12:00 h &nbsp;|&nbsp; 14:00 – 17:00 h</p>
+                        <p style="color:var(--yellow);font-size:0.8rem;margin-top:0.5rem;">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Lunes y martes cerrado
+                        </p>
+                    </div>
+                    <div class="pagos-card">
+                        <h4><i class="fa-solid fa-credit-card"></i> Medios de Pago</h4>
+                        <div class="pago-item">
+                            <i class="fa-solid fa-mobile-screen-button" style="color:#e91e63;"></i>
+                            <div>
+                                <strong>Nequi · Daviplata · Llave</strong>
+                                <span>320 318 2862</span>
+                            </div>
+                        </div>
+                        <div class="pago-item">
+                            <i class="fa-solid fa-building-columns" style="color:#ffcc02;"></i>
+                            <div>
+                                <strong>Bancolombia — Cta. Ahorros</strong>
+                                <span>188-000003-53 · NIT 901412505</span>
+                            </div>
+                        </div>
+                        <div class="pago-item">
+                            <i class="fa-solid fa-money-bill-wave" style="color:#4ade80;"></i>
+                            <div>
+                                <strong>Efectivo</strong>
+                                <span>En punto de venta</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -244,16 +724,22 @@
         <div class="footer-grid">
             <div>
                 <h3>RALOZ COL S.A.S</h3>
-                <p>Uniformes escolares de calidad que acompañan la formación de miles de estudiantes en Colombia.</p>
+                <p>Uniformes escolares de calidad que acompañan la formación de miles de estudiantes en Colombia. Confección, diseño y entrega garantizados.</p>
+                <div class="footer-badges">
+                    <span><i class="fa-solid fa-shield-halved"></i> Calidad Garantizada</span>
+                    <span><i class="fa-solid fa-award"></i> 5+ Años</span>
+                </div>
             </div>
             <div>
-                <h4>Enlaces Rápidos</h4>
+                <h4>Navegación</h4>
                 <ul>
-                    <li><a href="#inicio">Inicio</a></li>
-                    <li><a href="#quienes-somos">¿Quiénes Somos?</a></li>
-                    <li><a href="#productos">Productos</a></li>
-                    <li><a href="#colegios">Colegios</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
+                    <li><a href="#inicio"><i class="fa-solid fa-chevron-right"></i> Inicio</a></li>
+                    <li><a href="#quienes-somos"><i class="fa-solid fa-chevron-right"></i> Nosotros</a></li>
+                    <li><a href="#catalogo"><i class="fa-solid fa-chevron-right"></i> Catálogo</a></li>
+                    <li><a href="#cotizador"><i class="fa-solid fa-chevron-right"></i> Cotizador</a></li>
+                    <li><a href="#colegios"><i class="fa-solid fa-chevron-right"></i> Colegios</a></li>
+                    <li><a href="#faq"><i class="fa-solid fa-chevron-right"></i> FAQ</a></li>
+                    <li><a href="#contacto"><i class="fa-solid fa-chevron-right"></i> Contacto</a></li>
                 </ul>
             </div>
             <div>
@@ -263,6 +749,10 @@
                     <li><a href="https://instagram.com/ralozcol" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
                     <li><a href="https://wa.me/573213412903" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a></li>
                 </ul>
+                <div class="footer-powered">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Gestionado con <strong>RALOZ Software</strong></span>
+                </div>
             </div>
         </div>
         <div class="footer-bottom">
