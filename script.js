@@ -96,21 +96,18 @@ const PRECIOS = {
 };
 
 // ===================================================================
-// MÓDULO DE INTEGRACIÓN CON API RALOZ
+// MÓDULO DE INTEGRACIÓN CON API RALOZ — Endpoints Públicos
 // ===================================================================
 const RalozAPI = {
   baseURL: window.location.hostname === 'localhost'
     ? 'http://localhost:5000/api'
-    : 'https://tu-backend-raloz.onrender.com/api',
-  token: null,
+    : 'https://raloz-web.onrender.com/api',
   isOnline: false,
 
   async ping() {
     try {
-      const res = await fetch(`${this.baseURL}/colegios`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-        signal: AbortSignal.timeout(3000),
+      const res = await fetch(`${this.baseURL}/health`, {
+        signal: AbortSignal.timeout(4000),
       });
       this.isOnline = res.ok;
     } catch {
@@ -121,26 +118,38 @@ const RalozAPI = {
 
   async get(endpoint) {
     try {
-      const headers = { 'Content-Type': 'application/json' };
-      if (this.token) headers['Authorization'] = `Bearer ${this.token}`;
       const res = await fetch(`${this.baseURL}${endpoint}`, {
-        method: 'GET', headers,
-        signal: AbortSignal.timeout(5000),
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        signal: AbortSignal.timeout(8000),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return await res.json();
     } catch { return null; }
   },
 
-  async getColegios() { return this.get('/colegios'); },
-  async getProductos() { return this.get('/productos'); },
-  async getStock() { return this.get('/stock'); },
-  async getPrecios(colegioId, productoId) {
-    const q = colegioId ? `?colegio_id=${colegioId}${productoId ? `&producto_id=${productoId}` : ''}` : '';
-    return this.get(`/precios${q}`);
+  async post(endpoint, body) {
+    const res = await fetch(`${this.baseURL}${endpoint}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(12000),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+    return data;
   },
-  async getDashboard() { return this.get('/dashboard'); },
-  async getPendientes() { return this.get('/pendientes'); },
+
+  // Tienda online
+  async getColegiosTienda()  { return this.get('/tienda/colegios'); },
+  async getCatalogoTienda(id){ return this.get(`/tienda/catalogo/${id}`); },
+  async crearPedido(data)    { return this.post('/tienda/pedido', data); },
+  async consultarPedido(ref) { return this.get(`/tienda/pedido/${encodeURIComponent(ref)}`); },
+
+  // Compatibilidad con el resto del sitio
+  async getColegios()        { return this.getColegiosTienda(); },
+  async getCatalogo(id)      { return this.getCatalogoTienda(id); },
+  async enviarPedido(data)   { return this.crearPedido(data); },
 };
 
 // ===================================================================
@@ -291,6 +300,8 @@ function renderCotizadorItems() {
     totalDiv.style.display = 'flex';
     totalAmt.textContent = formatCOP(total);
   }
+
+  updateCotBadge();
 }
 
 /**
@@ -322,69 +333,206 @@ window.updateItemQty = function(id, delta) {
 window.removeItem = function(id) {
   cotizadorItems = cotizadorItems.filter(i => i.id !== id);
   renderCotizadorItems();
+  updateCotBadge();
 };
 
 /**
  * Limpia el cotizador
  */
 /**
- * Agregar item al cotizador desde el formulario (botón "Agregar prenda")
+ * Agregar item al cotizador desde el formulario (compatibilidad)
  */
 window.addItemForm = function() {
-  const colegioSelect = document.getElementById('cot-colegio');
-  const tipoSelect = document.getElementById('cot-tipo');
-  const colegioNombre = colegioSelect?.value || '';
-  const tipoNombre = tipoSelect?.value || '';
-
-  // Buscar escuela por nombre
-  let escuelaId = null;
-  if (colegioNombre.includes('Manyanet')) escuelaId = 3;
-  else if (colegioNombre.includes('Marillac')) escuelaId = 1;
-  else if (colegioNombre.includes('Adventista')) escuelaId = 2;
-
-  if (!escuelaId) {
+  if (!escuelaSeleccionadaCotizador) {
     showNotification('⚠️ Por favor selecciona un colegio primero', 'error');
     return;
   }
-
-  // Buscar producto que coincida con el tipo seleccionado
-  const productosEscuela = PRODUCTOS_POR_ESCUELA[escuelaId] || [];
-  let productoId = null;
-
-  for (const pid of productosEscuela) {
-    const prod = PRODUCTOS[pid];
-    if (prod && (prod.nombre.includes(tipoNombre) || prod.tipo.includes(tipoNombre))) {
-      productoId = pid;
-      break;
-    }
-  }
-
-  if (!productoId) {
-    // Si no hay match exacto, agregar el primer producto disponible
-    productoId = productosEscuela[0];
-  }
-
-  if (productoId) {
-    agregarProductoAlCotizador(productoId, escuelaId);
+  const productosEscuela = PRODUCTOS_POR_ESCUELA[escuelaSeleccionadaCotizador] || [];
+  if (productosEscuela.length > 0) {
+    agregarProductoAlCotizador(productosEscuela[0], escuelaSeleccionadaCotizador);
     showNotification('✅ Prenda agregada al cotizador', 'success');
   }
 };
 
+// ===================================================================
+// COTIZADOR V2 — Flujo tipo catálogo
+// ===================================================================
+let cotEscuelaSeleccionada = null;
+let cotTipoFiltro = null;
+
+/**
+ * Selecciona una escuela en el cotizador
+ */
+window.cotSelectSchool = function(nombreEscuela) {
+  const escuela = ESCUELAS[nombreEscuela];
+  if (!escuela) return;
+
+  cotEscuelaSeleccionada = escuela;
+  escuelaSeleccionadaCotizador = escuela.id;
+  cotTipoFiltro = null;
+
+  const selector = document.getElementById('cotSelectorEscuelas');
+  const productos = document.getElementById('cotProductosSection');
+  const tag = document.getElementById('cotEscuelaTag');
+
+  if (selector) selector.style.display = 'none';
+  if (productos) productos.style.display = 'block';
+  if (tag) tag.textContent = escuela.displayName;
+
+  cotRenderProductos();
+
+  setTimeout(() => {
+    productos?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+};
+
+/**
+ * Vuelve al selector de escuela del cotizador
+ */
+window.cotClearSchool = function() {
+  cotEscuelaSeleccionada = null;
+  cotTipoFiltro = null;
+
+  const selector = document.getElementById('cotSelectorEscuelas');
+  const productos = document.getElementById('cotProductosSection');
+
+  if (selector) selector.style.display = 'block';
+  if (productos) productos.style.display = 'none';
+};
+
+/**
+ * Filtra productos en el cotizador
+ */
+window.cotFiltrar = function(tipo) {
+  cotTipoFiltro = tipo;
+
+  const btns = document.querySelectorAll('#cotTipoFilters .tipo-btn');
+  btns.forEach(btn => btn.classList.remove('active'));
+  if (!tipo) {
+    btns[0]?.classList.add('active');
+  } else {
+    btns.forEach(btn => {
+      if (btn.textContent.trim().includes(tipo)) btn.classList.add('active');
+    });
+  }
+
+  cotRenderProductos();
+};
+
+/**
+ * Renderiza los productos en el grid del cotizador
+ */
+function cotRenderProductos() {
+  if (!cotEscuelaSeleccionada) return;
+
+  const grid = document.getElementById('cotProductosGrid');
+  if (!grid) return;
+
+  let productos = obtenerProductosEscuela(cotEscuelaSeleccionada.id);
+
+  if (cotTipoFiltro) {
+    productos = productos.filter(p => p.tipo === cotTipoFiltro);
+  }
+
+  grid.innerHTML = '';
+
+  productos.forEach(producto => {
+    const precioMinimo = obtenerPrecioMinimo(cotEscuelaSeleccionada.id, producto.id);
+    const tallas = obtenerTallas(cotEscuelaSeleccionada.id, producto.id);
+
+    const card = document.createElement('div');
+    card.className = 'producto-card producto-card-cot';
+
+    const tallaOptions = tallas.map(t =>
+      `<option value="${t}">${t} - ${formatCOP(obtenerPrecio(cotEscuelaSeleccionada.id, producto.id, t))}</option>`
+    ).join('');
+
+    card.innerHTML = `
+      <div class="producto-icon">
+        <i class="${producto.icon}"></i>
+      </div>
+      <div class="producto-info">
+        <h3 class="producto-nombre">${producto.nombre}</h3>
+        <span class="producto-tipo">${producto.tipo}</span>
+      </div>
+      <div class="producto-precio">
+        <span class="precio-desde">Desde ${formatCOP(precioMinimo)}</span>
+      </div>
+      <div class="producto-talla-select">
+        <select id="cot-talla-${producto.id}" class="cot-talla-dropdown">
+          ${tallaOptions}
+        </select>
+      </div>
+      <button class="btn btn-agregar-cot" onclick="cotAgregarProducto(${producto.id})">
+        <i class="fa-solid fa-plus"></i> Agregar
+      </button>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+/**
+ * Agrega un producto desde el grid del cotizador
+ */
+window.cotAgregarProducto = function(productoId) {
+  if (!cotEscuelaSeleccionada) return;
+
+  const tallaSelect = document.getElementById(`cot-talla-${productoId}`);
+  const talla = tallaSelect?.value;
+
+  if (!talla) {
+    agregarProductoAlCotizador(productoId, cotEscuelaSeleccionada.id);
+  } else {
+    const producto = PRODUCTOS[productoId];
+    const precio = obtenerPrecio(cotEscuelaSeleccionada.id, productoId, talla);
+
+    itemCounter++;
+    const id = `item-${itemCounter}`;
+    const item = {
+      id,
+      productoId,
+      escuelaId: cotEscuelaSeleccionada.id,
+      nombre: producto.nombre,
+      tipo: producto.tipo,
+      talla,
+      cantidad: 1,
+      precio
+    };
+
+    cotizadorItems.push(item);
+    renderCotizadorItems();
+    updateCotBadge();
+  }
+
+  showNotification('✅ Prenda agregada a la cotización', 'success');
+
+  // Scroll al carrito
+  setTimeout(() => {
+    const carrito = document.getElementById('cotCarrito');
+    if (carrito) carrito.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 200);
+};
+
+/**
+ * Actualiza el badge del carrito
+ */
+function updateCotBadge() {
+  const badge = document.getElementById('cotBadge');
+  if (badge) {
+    badge.textContent = cotizadorItems.length;
+    badge.style.display = cotizadorItems.length > 0 ? 'inline-flex' : 'none';
+  }
+}
+
 window.limpiarCotizador = function() {
   cotizadorItems = [];
   renderCotizadorItems();
+  updateCotBadge();
 
-  const form = document.getElementById('cotizadorForm');
-  if (form) {
-    ['cot-nombre', 'cot-telefono', 'cot-notas'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.value = '';
-    });
-    ['cot-colegio', 'cot-tipo'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.selectedIndex = 0;
-    });
-  }
+  ['cot-nombre', 'cot-telefono', 'cot-notas'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
 
   showNotification('🗑️ Cotización limpiada', 'info');
 };
@@ -976,4 +1124,447 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // API integration (async, no bloquea)
   initRalozIntegration().catch(() => {});
+
+  // Tienda online
+  initTiendaOnline().catch(() => {});
 });
+
+// ===================================================================
+// TIENDA ONLINE — Catálogo + Carrito + Checkout + Wompi
+// ===================================================================
+
+// Estado global del carrito
+const Carrito = {
+  items: [],          // [{id_producto, nombre, talla, cantidad, precio, colegio_id}]
+  colegio_id: null,
+  colegio_nombre: '',
+
+  agregar(item) {
+    const key = `${item.id_producto}-${item.talla}`;
+    const existe = this.items.find(i => `${i.id_producto}-${i.talla}` === key);
+    if (existe) {
+      existe.cantidad += item.cantidad;
+    } else {
+      this.items.push({ ...item });
+    }
+    this.renderBadge();
+    this.guardar();
+  },
+
+  quitar(id_producto, talla) {
+    this.items = this.items.filter(i => !(i.id_producto === id_producto && i.talla === talla));
+    this.renderBadge();
+    this.guardar();
+  },
+
+  vaciar() {
+    this.items = [];
+    this.colegio_id = null;
+    this.colegio_nombre = '';
+    this.renderBadge();
+    this.guardar();
+  },
+
+  total() {
+    return this.items.reduce((s, i) => s + i.precio * i.cantidad, 0);
+  },
+
+  count() {
+    return this.items.reduce((s, i) => s + i.cantidad, 0);
+  },
+
+  renderBadge() {
+    const badge = document.getElementById('carritoBadge');
+    const float = document.getElementById('carritoFloat');
+    if (!badge || !float) return;
+    const n = this.count();
+    badge.textContent = n;
+    float.style.display = n > 0 ? 'block' : 'none';
+  },
+
+  guardar() {
+    try {
+      sessionStorage.setItem('raloz_carrito', JSON.stringify({
+        items: this.items,
+        colegio_id: this.colegio_id,
+        colegio_nombre: this.colegio_nombre,
+      }));
+    } catch {}
+  },
+
+  cargar() {
+    try {
+      const d = JSON.parse(sessionStorage.getItem('raloz_carrito') || 'null');
+      if (d) {
+        this.items = d.items || [];
+        this.colegio_id = d.colegio_id;
+        this.colegio_nombre = d.colegio_nombre || '';
+      }
+    } catch {}
+    this.renderBadge();
+  },
+};
+
+function formatCOP(v) {
+  return '$' + Math.round(v).toLocaleString('es-CO');
+}
+
+async function initTiendaOnline() {
+  Carrito.cargar();
+
+  const loading  = document.getElementById('tiendaLoading');
+  const error    = document.getElementById('tiendaError');
+  const contenido = document.getElementById('tiendaContenido');
+
+  if (!loading) return;
+
+  // Cargar colegios de la API
+  const data = await RalozAPI.getColegiosTienda();
+
+  if (!data || !data.colegios) {
+    loading.style.display = 'none';
+    error.style.display   = 'flex';
+    return;
+  }
+
+  renderTiendaColegios(data.colegios);
+  loading.style.display  = 'none';
+  contenido.style.display = 'block';
+
+  // Eventos del carrito flotante
+  document.getElementById('carritoBtn')?.addEventListener('click', abrirCarritoPanel);
+  document.getElementById('carritoCerrar')?.addEventListener('click', cerrarCarritoPanel);
+  document.getElementById('tiendaVolverColegios')?.addEventListener('click', () => {
+    document.getElementById('tiendaPaso2').style.display = 'none';
+    document.getElementById('tiendaPaso1').style.display = 'block';
+  });
+
+  // Checkout
+  document.getElementById('checkoutCerrar')?.addEventListener('click', cerrarCheckout);
+  document.getElementById('checkoutOverlay')?.addEventListener('click', cerrarCheckout);
+  document.getElementById('carritoCheckout')?.addEventListener('click', abrirCheckout);
+  document.getElementById('checkoutForm')?.addEventListener('submit', procesarCheckout);
+
+  // Modal de tallas
+  document.getElementById('tallaCerrar')?.addEventListener('click', cerrarTallaModal);
+  document.getElementById('tallaOverlay')?.addEventListener('click', cerrarTallaModal);
+}
+
+function renderTiendaColegios(colegios) {
+  const grid = document.getElementById('tiendaColegiosGrid');
+  if (!grid) return;
+
+  grid.innerHTML = colegios.map(c => `
+    <button class="tienda-colegio-card" data-id="${c.id_colegio}" data-nombre="${c.nombre}">
+      <i class="fa-solid fa-school"></i>
+      <span class="tc-nombre">${c.nombre}</span>
+      ${c.ciudad ? `<span class="tc-ciudad">${c.ciudad}</span>` : ''}
+    </button>
+  `).join('');
+
+  grid.querySelectorAll('.tienda-colegio-card').forEach(btn => {
+    btn.addEventListener('click', () => cargarCatalogoColegio(
+      parseInt(btn.dataset.id),
+      btn.dataset.nombre
+    ));
+  });
+}
+
+async function cargarCatalogoColegio(id, nombre) {
+  const paso1 = document.getElementById('tiendaPaso1');
+  const paso2 = document.getElementById('tiendaPaso2');
+  const nombreEl = document.getElementById('tiendaColegioNombre');
+  const grid = document.getElementById('tiendaProductosGrid');
+  const filtros = document.getElementById('tiendaTipoFiltros');
+
+  paso1.style.display = 'none';
+  paso2.style.display = 'block';
+  nombreEl.textContent = nombre;
+  grid.innerHTML = '<div class="tienda-loading-cat"><div class="tienda-spinner"></div><p>Cargando uniformes...</p></div>';
+  filtros.innerHTML = '';
+
+  Carrito.colegio_id = id;
+  Carrito.colegio_nombre = nombre;
+  Carrito.guardar();
+
+  const data = await RalozAPI.getCatalogoTienda(id);
+
+  if (!data || !data.productos || !data.productos.length) {
+    grid.innerHTML = '<p class="tienda-empty">No hay productos disponibles para este colegio por el momento.</p>';
+    return;
+  }
+
+  // Filtros por tipo
+  const tipos = [...new Set(data.productos.map(p => p.tipo || 'Otros'))];
+  filtros.innerHTML = `
+    <button class="tienda-filtro active" data-tipo="todos">Todos</button>
+    ${tipos.map(t => `<button class="tienda-filtro" data-tipo="${t}">${t}</button>`).join('')}
+  `;
+
+  filtros.querySelectorAll('.tienda-filtro').forEach(btn => {
+    btn.addEventListener('click', () => {
+      filtros.querySelectorAll('.tienda-filtro').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filtrarProductos(btn.dataset.tipo, data.productos);
+    });
+  });
+
+  renderProductos(data.productos);
+  document.getElementById('tienda-online')?.scrollIntoView({ behavior: 'smooth' });
+}
+
+function filtrarProductos(tipo, productos) {
+  const filtrados = tipo === 'todos' ? productos : productos.filter(p => (p.tipo || 'Otros') === tipo);
+  renderProductos(filtrados);
+}
+
+function renderProductos(productos) {
+  const grid = document.getElementById('tiendaProductosGrid');
+  if (!grid) return;
+
+  if (!productos.length) {
+    grid.innerHTML = '<p class="tienda-empty">Sin productos en esta categoría.</p>';
+    return;
+  }
+
+  grid.innerHTML = productos.map(p => {
+    const precioMin = Math.min(...p.tallas.map(t => t.precio));
+    const stockTotal = p.tallas.reduce((s, t) => s + t.stock, 0);
+    return `
+      <div class="tienda-producto-card">
+        <div class="tpc-imagen">
+          <i class="fa-solid fa-shirt tpc-icon"></i>
+          ${stockTotal < 5 ? '<span class="tpc-badge-poco">¡Pocas unidades!</span>' : ''}
+        </div>
+        <div class="tpc-info">
+          <h4 class="tpc-nombre">${p.nombre}</h4>
+          <p class="tpc-tipo">${p.tipo || ''}</p>
+          <p class="tpc-precio">Desde <strong>${formatCOP(precioMin)}</strong></p>
+          <p class="tpc-stock">${stockTotal} unidades disponibles</p>
+        </div>
+        <button class="btn-agregar-carrito" data-id="${p.id_producto}" data-nombre="${p.nombre}">
+          <i class="fa-solid fa-cart-plus"></i> Agregar al carrito
+        </button>
+      </div>
+    `;
+  }).join('');
+
+  // Guardar productos para el modal de tallas
+  window._tiendaProductos = productos;
+
+  grid.querySelectorAll('.btn-agregar-carrito').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = parseInt(btn.dataset.id);
+      const producto = window._tiendaProductos?.find(p => p.id_producto === id);
+      if (producto) abrirTallaModal(producto);
+    });
+  });
+}
+
+// ─── Modal de selección de talla ───────────────────────────────────
+function abrirTallaModal(producto) {
+  document.getElementById('tallaNombreProducto').textContent = producto.nombre;
+  const opciones = document.getElementById('tallaOpciones');
+
+  opciones.innerHTML = producto.tallas.map(t => `
+    <div class="talla-opcion">
+      <div class="talla-info">
+        <span class="talla-tag">Talla ${t.talla}</span>
+        <span class="talla-precio">${formatCOP(t.precio)}</span>
+        <span class="talla-stock-info">${t.stock} disponibles</span>
+      </div>
+      <div class="talla-cantidad">
+        <button class="talla-menos" data-talla="${t.talla}">−</button>
+        <span class="talla-cant-val" data-talla="${t.talla}">1</span>
+        <button class="talla-mas" data-talla="${t.talla}" data-max="${t.stock}">+</button>
+      </div>
+      <button class="btn-talla-add" data-talla="${t.talla}" data-precio="${t.precio}" data-max="${t.stock}">
+        <i class="fa-solid fa-cart-plus"></i> Agregar
+      </button>
+    </div>
+  `).join('');
+
+  // Eventos de cantidad
+  opciones.querySelectorAll('.talla-menos').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const el = opciones.querySelector(`.talla-cant-val[data-talla="${btn.dataset.talla}"]`);
+      const v = parseInt(el.textContent);
+      if (v > 1) el.textContent = v - 1;
+    });
+  });
+  opciones.querySelectorAll('.talla-mas').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const el = opciones.querySelector(`.talla-cant-val[data-talla="${btn.dataset.talla}"]`);
+      const v = parseInt(el.textContent);
+      if (v < parseInt(btn.dataset.max)) el.textContent = v + 1;
+    });
+  });
+
+  // Agregar al carrito desde el modal
+  opciones.querySelectorAll('.btn-talla-add').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const talla = btn.dataset.talla;
+      const cant = parseInt(opciones.querySelector(`.talla-cant-val[data-talla="${talla}"]`).textContent);
+      Carrito.agregar({
+        id_producto: producto.id_producto,
+        nombre: producto.nombre,
+        talla,
+        cantidad: cant,
+        precio: parseFloat(btn.dataset.precio),
+      });
+      cerrarTallaModal();
+      mostrarToast(`${producto.nombre} talla ${talla} agregado al carrito`);
+    });
+  });
+
+  document.getElementById('tallaModal').style.display = 'flex';
+  document.getElementById('tallaOverlay').style.display = 'block';
+}
+
+function cerrarTallaModal() {
+  document.getElementById('tallaModal').style.display = 'none';
+  document.getElementById('tallaOverlay').style.display = 'none';
+}
+
+// ─── Panel del carrito ──────────────────────────────────────────────
+function abrirCarritoPanel() {
+  renderCarritoPanel();
+  document.getElementById('carritoPanel').style.display = 'flex';
+}
+
+function cerrarCarritoPanel() {
+  document.getElementById('carritoPanel').style.display = 'none';
+}
+
+function renderCarritoPanel() {
+  const items = document.getElementById('carritoItems');
+  const footer = document.getElementById('carritoPanelFooter');
+  const total = document.getElementById('carritoTotal');
+
+  if (!Carrito.items.length) {
+    items.innerHTML = '<p class="carrito-empty"><i class="fa-solid fa-cart-shopping"></i><br>Tu carrito está vacío</p>';
+    footer.style.display = 'none';
+    return;
+  }
+
+  items.innerHTML = Carrito.items.map(i => `
+    <div class="carrito-item">
+      <div class="ci-info">
+        <span class="ci-nombre">${i.nombre}</span>
+        <span class="ci-detalle">Talla ${i.talla} · ${formatCOP(i.precio)} c/u</span>
+      </div>
+      <div class="ci-acciones">
+        <span class="ci-cantidad">×${i.cantidad}</span>
+        <span class="ci-subtotal">${formatCOP(i.precio * i.cantidad)}</span>
+        <button class="ci-quitar" data-id="${i.id_producto}" data-talla="${i.talla}" aria-label="Quitar">×</button>
+      </div>
+    </div>
+  `).join('');
+
+  items.querySelectorAll('.ci-quitar').forEach(btn => {
+    btn.addEventListener('click', () => {
+      Carrito.quitar(parseInt(btn.dataset.id), btn.dataset.talla);
+      renderCarritoPanel();
+    });
+  });
+
+  total.textContent = formatCOP(Carrito.total());
+  footer.style.display = 'block';
+}
+
+// ─── Checkout ──────────────────────────────────────────────────────
+function abrirCheckout() {
+  cerrarCarritoPanel();
+
+  // Resumen
+  const resumen = document.getElementById('checkoutResumenItems');
+  resumen.innerHTML = Carrito.items.map(i => `
+    <div class="checkout-item">
+      <span>${i.nombre} T.${i.talla} ×${i.cantidad}</span>
+      <span>${formatCOP(i.precio * i.cantidad)}</span>
+    </div>
+  `).join('');
+  document.getElementById('checkoutTotalDisplay').textContent = formatCOP(Carrito.total());
+
+  document.getElementById('checkoutModal').style.display = 'flex';
+  document.getElementById('checkoutOverlay').style.display = 'block';
+  document.getElementById('checkoutError').style.display = 'none';
+}
+
+function cerrarCheckout() {
+  document.getElementById('checkoutModal').style.display = 'none';
+  document.getElementById('checkoutOverlay').style.display = 'none';
+}
+
+async function procesarCheckout(e) {
+  e.preventDefault();
+  const btn = document.getElementById('checkoutPagarBtn');
+  const errorEl = document.getElementById('checkoutError');
+
+  const nombre   = document.getElementById('ck-nombre').value.trim();
+  const email    = document.getElementById('ck-email').value.trim();
+  const telefono = document.getElementById('ck-telefono').value.trim();
+  const documento= document.getElementById('ck-documento').value.trim();
+
+  if (!nombre || !email || !telefono) {
+    errorEl.textContent = 'Por favor completa todos los campos requeridos.';
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Procesando...';
+  errorEl.style.display = 'none';
+
+  try {
+    const payload = {
+      nombre_cliente:   nombre,
+      email_cliente:    email,
+      telefono_cliente: telefono,
+      documento_cliente: documento,
+      id_colegio:       Carrito.colegio_id,
+      items: Carrito.items.map(i => ({
+        id_producto: i.id_producto,
+        nombre:      i.nombre,
+        talla:       i.talla,
+        cantidad:    i.cantidad,
+      })),
+    };
+
+    const resp = await RalozAPI.crearPedido(payload);
+
+    Carrito.vaciar();
+
+    // Redirigir al checkout de MercadoPago
+    if (resp.pago_url) {
+      window.location.href = resp.pago_url;
+    } else {
+      // Si MP no está configurado aún, mostrar referencia
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> Pedido creado';
+      errorEl.style.background = '#e8f5e9';
+      errorEl.style.color = '#2e7d32';
+      errorEl.textContent = `Pedido #${resp.pedido.referencia} registrado. Nos contactaremos contigo para coordinar el pago.`;
+      errorEl.style.display = 'block';
+    }
+
+  } catch (err) {
+    errorEl.textContent = err.message || 'Error al procesar el pedido. Intenta de nuevo.';
+    errorEl.style.display = 'block';
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-lock"></i> Pagar ahora';
+  }
+}
+
+// ─── Toast de confirmación ─────────────────────────────────────────
+function mostrarToast(msg) {
+  let toast = document.getElementById('ralozToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'ralozToast';
+    toast.className = 'raloz-toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}

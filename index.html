@@ -43,15 +43,26 @@
         <div class="hero-content">
             <div class="hero-badge"><i class="fa-solid fa-certificate"></i> Calidad certificada · Bogotá, Colombia</div>
             <div class="hero-logo-wrap">
-                <picture>
-                    <source srcset="banner.webp" type="image/webp">
-                    <img src="banner.png"
-                         alt="Logo RALOZ COL S.A.S"
-                         loading="eager"
-                         class="hero-logo-img"
-                         onerror="this.style.display='none';">
-                </picture>
+                <div class="logo-frame">
+                    <div class="logo-frame-ring logo-ring-outer"></div>
+                    <div class="logo-frame-ring logo-ring-inner"></div>
+                    <div class="logo-frame-shine"></div>
+                    <picture>
+                        <source srcset="banner.webp" type="image/webp">
+                        <img src="banner.png"
+                             alt="Logo RALOZ COL S.A.S"
+                             loading="eager"
+                             class="hero-logo-img"
+                             onerror="this.style.display='none';">
+                    </picture>
+                </div>
                 <div class="hero-logo-glow"></div>
+                <div class="logo-sparkles">
+                    <span class="sparkle s1"></span>
+                    <span class="sparkle s2"></span>
+                    <span class="sparkle s3"></span>
+                    <span class="sparkle s4"></span>
+                </div>
             </div>
             <h1>RALOZ COL <span>S.A.S</span></h1>
             <p>Uniformes escolares de calidad · Confección a medida · Temporada 2026</p>
@@ -87,6 +98,11 @@
             <li><a href="#productos"><i class="fa-solid fa-shirt"></i> Servicios</a></li>
             <li><a href="#colegios"><i class="fa-solid fa-school"></i> Colegios</a></li>
             <li><a href="#cotizador"><i class="fa-solid fa-calculator"></i> Cotizador</a></li>
+            <li>
+                <a href="#tienda-online" class="nav-tienda-btn">
+                    <i class="fa-solid fa-bag-shopping"></i> Tienda Online
+                </a>
+            </li>
             <li><a href="#contacto"><i class="fa-solid fa-envelope"></i> Contacto</a></li>
             <li>
                 <a href="#portal-raloz" class="nav-portal-btn">
@@ -368,111 +384,117 @@
             <p class="colegio-cta"><strong>¿Tu colegio está interesado?</strong> <a href="#contacto">Contáctanos</a> para conocer nuestras soluciones personalizadas para instituciones.</p>
         </section>
 
-        <!-- Cotizador Interactivo -->
+        <!-- Cotizador Interactivo — Estilo Catálogo -->
         <section id="cotizador">
             <h2><i class="fa-solid fa-calculator"></i> Cotizador en Línea</h2>
-            <p class="section-subtitle">Calcula el costo estimado de tus uniformes y envíanos tu cotización directamente por WhatsApp.</p>
+            <p class="section-subtitle">Elige tu colegio, selecciona las prendas que necesitas y envía tu cotización por WhatsApp.</p>
 
-            <div class="cotizador-container">
-                <div class="cotizador-form-wrap">
-                    <form id="cotizadorForm" class="cotizador-form" novalidate>
-
-                        <div class="cot-row">
-                            <div class="cot-field">
-                                <label for="cot-nombre">Nombre completo <span class="req">*</span></label>
-                                <input type="text" id="cot-nombre" name="nombre" placeholder="Tu nombre" required>
-                            </div>
-                            <div class="cot-field">
-                                <label for="cot-telefono">Teléfono / WhatsApp <span class="req">*</span></label>
-                                <input type="tel" id="cot-telefono" name="telefono" placeholder="+57 300 000 0000" required>
-                            </div>
+            <div class="cotizador-v2">
+                <!-- PASO 1: Datos del cliente -->
+                <div class="cot-datos-cliente">
+                    <div class="cot-row">
+                        <div class="cot-field">
+                            <label for="cot-nombre">Nombre completo <span class="req">*</span></label>
+                            <input type="text" id="cot-nombre" name="nombre" placeholder="Tu nombre" required>
                         </div>
-
-                        <div class="cot-row">
-                            <div class="cot-field">
-                                <label for="cot-colegio">Colegio <span class="req">*</span></label>
-                                <select id="cot-colegio" name="colegio" required>
-                                    <option value="">-- Selecciona un colegio --</option>
-                                    <option value="Colegio Manyanet">Colegio Manyanet</option>
-                                    <option value="Colegio Marillac">Colegio Marillac</option>
-                                    <option value="Otro colegio">Otro colegio / Empresa</option>
-                                </select>
-                            </div>
-                            <div class="cot-field">
-                                <label for="cot-tipo">Tipo de uniforme <span class="req">*</span></label>
-                                <select id="cot-tipo" name="tipo" required>
-                                    <option value="">-- Selecciona tipo --</option>
-                                    <option value="Uniforme Diario Niño">Uniforme Diario Niño</option>
-                                    <option value="Uniforme Diario Niña">Uniforme Diario Niña</option>
-                                    <option value="Uniforme Ed. Física">Uniforme Ed. Física</option>
-                                    <option value="Uniforme Gala">Uniforme de Gala</option>
-                                    <option value="Chaqueta Prom">Chaqueta Prom</option>
-                                    <option value="Chaleco Institucional">Chaleco Institucional</option>
-                                    <option value="Dotación Empresarial">Dotación / SENA</option>
-                                    <option value="Otro">Otro (especificar en notas)</option>
-                                </select>
-                            </div>
+                        <div class="cot-field">
+                            <label for="cot-telefono">Teléfono / WhatsApp <span class="req">*</span></label>
+                            <input type="tel" id="cot-telefono" name="telefono" placeholder="+57 300 000 0000" required>
                         </div>
-
-                        <div id="cotizador-items" class="cotizador-items">
-                            <!-- Items de la cotización se agregan aquí -->
-                            <div class="cot-item-empty">
-                                <i class="fa-solid fa-cart-shopping"></i>
-                                <p>Agrega prendas a tu cotización desde el catálogo o usando el botón de abajo.</p>
-                            </div>
-                        </div>
-
-                        <button type="button" class="btn-add-item" onclick="addItemForm()">
-                            <i class="fa-solid fa-plus"></i> Agregar prenda
-                        </button>
-
-                        <div class="cot-field" style="margin-top: 1rem;">
-                            <label for="cot-notas">Notas adicionales</label>
-                            <textarea id="cot-notas" name="notas" rows="3" placeholder="Ej: Necesito 2 conjuntos completos talla 10, colores específicos, entrega urgente, etc."></textarea>
-                        </div>
-
-                        <div class="cotizador-total" id="cotizadorTotal" style="display:none;">
-                            <span>Total estimado:</span>
-                            <strong id="totalAmount">$0</strong>
-                        </div>
-
-                        <div class="cotizador-actions">
-                            <button type="button" class="btn-whatsapp-cot" onclick="enviarCotizacionWhatsApp()">
-                                <i class="fa-brands fa-whatsapp"></i> Enviar por WhatsApp
-                            </button>
-                            <button type="button" class="btn-secondary-cot" onclick="limpiarCotizador()">
-                                <i class="fa-solid fa-trash"></i> Limpiar
-                            </button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
 
-                <div class="cotizador-info">
-                    <div class="cot-info-card">
-                        <h3><i class="fa-solid fa-circle-info"></i> Información de Precios</h3>
-                        <p>Los precios mostrados son <strong>referenciales</strong>. El precio final depende de:</p>
-                        <ul>
-                            <li>Talla y diseño específico del colegio</li>
-                            <li>Cantidad del pedido</li>
-                            <li>Personalizaciones (bordados, estampados)</li>
-                            <li>Temporada y disponibilidad de tela</li>
-                        </ul>
+                <!-- PASO 2: Selector de colegio (igual al catálogo) -->
+                <div class="cot-school-selector" id="cotSelectorEscuelas">
+                    <p class="cot-step-label"><i class="fa-solid fa-hand-pointer"></i> Paso 1 — Selecciona tu colegio</p>
+                    <div class="school-cards">
+                        <button class="school-card" onclick="cotSelectSchool('MARILLAC')">
+                            <div class="sc-icon sc-marillac"><i class="fa-solid fa-school-flag"></i></div>
+                            <div class="sc-info">
+                                <span class="sc-name">Colegio Marillac</span>
+                                <span class="sc-count">15 productos</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right sc-arrow"></i>
+                        </button>
+                        <button class="school-card" onclick="cotSelectSchool('ADVENTISTA')">
+                            <div class="sc-icon sc-adventista"><i class="fa-solid fa-school-flag"></i></div>
+                            <div class="sc-info">
+                                <span class="sc-name">Colegio Adventista</span>
+                                <span class="sc-count">13 productos</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right sc-arrow"></i>
+                        </button>
+                        <button class="school-card" onclick="cotSelectSchool('MANYANET')">
+                            <div class="sc-icon sc-manyanet"><i class="fa-solid fa-school-flag"></i></div>
+                            <div class="sc-info">
+                                <span class="sc-name">Colegio Manyanet</span>
+                                <span class="sc-count">13 productos</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right sc-arrow"></i>
+                        </button>
                     </div>
-                    <div class="cot-info-card">
-                        <h3><i class="fa-solid fa-truck"></i> Entrega</h3>
-                        <ul>
-                            <li>Recogida en punto de venta (Cll 72 # 70-35)</li>
-                            <li>Envío a domicilio en Bogotá</li>
-                            <li>Envío nacional por transportadora</li>
-                        </ul>
+                </div>
+
+                <!-- PASO 3: Productos del colegio (igual al catálogo) -->
+                <div class="cot-productos-section" id="cotProductosSection" style="display:none;">
+                    <div class="productos-header">
+                        <button class="btn-back-school" onclick="cotClearSchool()">
+                            <i class="fa-solid fa-arrow-left"></i> Cambiar colegio
+                        </button>
+                        <div class="productos-colegio-tag" id="cotEscuelaTag"></div>
                     </div>
-                    <div class="cot-info-card">
-                        <h3><i class="fa-solid fa-credit-card"></i> Medios de Pago</h3>
-                        <ul>
-                            <li>Nequi / Daviplata / Llave: <strong>320 318 2862</strong></li>
-                            <li>Bancolombia Cta. Ahorros: <strong>188-000003-53</strong></li>
-                            <li>Efectivo en punto de venta</li>
-                        </ul>
+                    <p class="cot-step-label"><i class="fa-solid fa-shirt"></i> Paso 2 — Toca una prenda para agregarla a tu cotización</p>
+
+                    <!-- Filtros por tipo -->
+                    <div class="tipo-filters" id="cotTipoFilters" role="tablist">
+                        <button class="tipo-btn active" onclick="cotFiltrar(null)" role="tab">
+                            <i class="fa-solid fa-layer-group"></i> Todos
+                        </button>
+                        <button class="tipo-btn" onclick="cotFiltrar('Completo')" role="tab">
+                            <i class="fa-solid fa-box-open"></i> Completos
+                        </button>
+                        <button class="tipo-btn" onclick="cotFiltrar('Diario Niño')" role="tab">
+                            <i class="fa-solid fa-person"></i> Diario Niño
+                        </button>
+                        <button class="tipo-btn" onclick="cotFiltrar('Diario Niña')" role="tab">
+                            <i class="fa-solid fa-person-dress"></i> Diario Niña
+                        </button>
+                        <button class="tipo-btn" onclick="cotFiltrar('Ed. Física')" role="tab">
+                            <i class="fa-solid fa-person-running"></i> Ed. Física
+                        </button>
+                    </div>
+
+                    <!-- Grid de productos dinámico -->
+                    <div class="productos-grid" id="cotProductosGrid"></div>
+                </div>
+
+                <!-- CARRITO / Resumen -->
+                <div class="cot-carrito" id="cotCarrito">
+                    <h3><i class="fa-solid fa-cart-shopping"></i> Tu Cotización <span class="cot-badge" id="cotBadge">0</span></h3>
+                    <div id="cotizador-items" class="cotizador-items">
+                        <div class="cot-item-empty">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <p>Selecciona un colegio arriba y toca las prendas que necesitas.</p>
+                        </div>
+                    </div>
+
+                    <div class="cot-field" style="margin-top: 1rem;">
+                        <label for="cot-notas">Notas adicionales</label>
+                        <textarea id="cot-notas" name="notas" rows="3" placeholder="Ej: Necesito 2 conjuntos completos talla 10, colores específicos, entrega urgente, etc."></textarea>
+                    </div>
+
+                    <div class="cotizador-total" id="cotizadorTotal" style="display:none;">
+                        <span>Total estimado:</span>
+                        <strong id="totalAmount">$0</strong>
+                    </div>
+
+                    <div class="cotizador-actions">
+                        <button type="button" class="btn-whatsapp-cot" onclick="enviarCotizacionWhatsApp()">
+                            <i class="fa-brands fa-whatsapp"></i> Enviar por WhatsApp
+                        </button>
+                        <button type="button" class="btn-secondary-cot" onclick="limpiarCotizador()">
+                            <i class="fa-solid fa-trash"></i> Limpiar
+                        </button>
                     </div>
                 </div>
             </div>
@@ -515,6 +537,128 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Información para tu Pedido -->
+        <section id="info-pedidos" class="info-pedidos-section">
+            <h2><i class="fa-solid fa-clipboard-list"></i> Información para tu Pedido</h2>
+            <p class="section-subtitle">Todo lo que necesitas saber antes de realizar tu pedido de uniformes.</p>
+            <div class="info-pedidos-grid">
+
+                <!-- Datos Requeridos -->
+                <div class="info-card info-card-1">
+                    <div class="info-card-icon"><i class="fa-solid fa-id-card"></i></div>
+                    <h3>Datos Requeridos</h3>
+                    <p>Para procesar tu pedido necesitamos:</p>
+                    <div class="datos-list">
+                        <div class="dato-item"><i class="fa-solid fa-school"></i> Colegio</div>
+                        <div class="dato-item"><i class="fa-solid fa-user"></i> Nombre completo</div>
+                        <div class="dato-item"><i class="fa-solid fa-mobile-screen"></i> Celular</div>
+                        <div class="dato-item"><i class="fa-solid fa-credit-card"></i> Medio de pago</div>
+                        <div class="dato-item"><i class="fa-solid fa-id-badge"></i> Cédula</div>
+                        <div class="dato-item"><i class="fa-solid fa-envelope"></i> Correo electrónico</div>
+                        <div class="dato-item"><i class="fa-solid fa-location-dot"></i> Dirección</div>
+                        <div class="dato-item"><i class="fa-solid fa-ruler"></i> Género, prenda y talla</div>
+                    </div>
+                </div>
+
+                <!-- Disponibilidad y Entregas -->
+                <div class="info-card info-card-2">
+                    <div class="info-card-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
+                    <h3>Disponibilidad y Entregas</h3>
+                    <div class="disponibilidad-items">
+                        <div class="disp-item disp-inmediato">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <div>
+                                <strong>Entrega inmediata</strong>
+                                <p>Si hay disponibilidad en stock, la prenda se entrega de inmediato. Puedes pasar al local para medir al estudiante.</p>
+                            </div>
+                        </div>
+                        <div class="disp-item disp-pedido">
+                            <i class="fa-solid fa-clock"></i>
+                            <div>
+                                <strong>Sin stock: 1 a 2 meses</strong>
+                                <p>Si alguna prenda no está disponible, se entrega lo que haya y lo restante tiene una demora de 1 a 2 meses aproximadamente.</p>
+                            </div>
+                        </div>
+                        <div class="disp-item disp-domicilio">
+                            <i class="fa-solid fa-truck"></i>
+                            <div>
+                                <strong>Domicilio disponible</strong>
+                                <p>Puedes recoger en punto de venta o adquirir servicio de domicilio (valor según distancia desde el local).</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="disp-nota"><i class="fa-solid fa-triangle-exclamation"></i> Pueden presentarse atrasos por fallas en la tela. En ese caso, informaremos oportunamente cuando su pedido esté listo.</p>
+                </div>
+
+                <!-- Horario -->
+                <div class="info-card info-card-3">
+                    <div class="info-card-icon"><i class="fa-solid fa-clock"></i></div>
+                    <h3>Visítanos</h3>
+                    <div class="horario-visual">
+                        <div class="horario-dias">
+                            <span class="dia cerrado">L</span>
+                            <span class="dia cerrado">M</span>
+                            <span class="dia abierto">Mi</span>
+                            <span class="dia abierto">J</span>
+                            <span class="dia abierto">V</span>
+                            <span class="dia abierto">S</span>
+                            <span class="dia abierto">D</span>
+                        </div>
+                        <div class="horario-horas">
+                            <span><i class="fa-solid fa-sun"></i> 10:00 — 12:00 h</span>
+                            <span><i class="fa-solid fa-cloud-sun"></i> 14:00 — 17:00 h</span>
+                        </div>
+                    </div>
+                    <div class="horario-ubicacion">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <div>
+                            <strong>Calle 72 # 70-35</strong>
+                            <p>CC. San Andresito de la 68, Local M14, Segundo piso</p>
+                        </div>
+                    </div>
+                    <div class="contacto-rapido">
+                        <a href="https://wa.me/573213412903" target="_blank" rel="noopener" class="btn-contacto-wa">
+                            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                        </a>
+                        <a href="tel:+573213412903" class="btn-contacto-tel">
+                            <i class="fa-solid fa-phone"></i> Llamar
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Medios de Pago -->
+                <div class="info-card info-card-4">
+                    <div class="info-card-icon"><i class="fa-solid fa-wallet"></i></div>
+                    <h3>Medios de Pago</h3>
+                    <div class="pagos-grid-mini">
+                        <div class="pago-mini">
+                            <i class="fa-solid fa-mobile-screen-button" style="color:#e91e63;"></i>
+                            <div>
+                                <strong>Nequi / Daviplata / Llave</strong>
+                                <span>320 318 2862</span>
+                            </div>
+                        </div>
+                        <div class="pago-mini">
+                            <i class="fa-solid fa-building-columns" style="color:#ffcc02;"></i>
+                            <div>
+                                <strong>Bancolombia — Cta. Ahorros</strong>
+                                <span>188-000003-53</span>
+                                <span>NIT 901412505</span>
+                            </div>
+                        </div>
+                        <div class="pago-mini">
+                            <i class="fa-solid fa-money-bill-wave" style="color:#4ade80;"></i>
+                            <div>
+                                <strong>Efectivo</strong>
+                                <span>En punto de venta</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -587,6 +731,152 @@
                 </div>
             </div>
         </section>
+
+        <!-- ════════════════════════════════════════════════════ -->
+        <!-- TIENDA ONLINE                                       -->
+        <!-- ════════════════════════════════════════════════════ -->
+        <section id="tienda-online" class="tienda-section">
+            <div class="section-header">
+                <h2><i class="fa-solid fa-bag-shopping"></i> Tienda Online</h2>
+                <p class="section-subtitle">Selecciona tu colegio, elige los uniformes y paga de forma segura.</p>
+            </div>
+
+            <!-- Cargando -->
+            <div id="tiendaLoading" class="tienda-loading">
+                <div class="tienda-spinner"></div>
+                <p>Cargando tienda...</p>
+            </div>
+
+            <!-- Error de conexión -->
+            <div id="tiendaError" class="tienda-error" style="display:none;">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <h3>Tienda no disponible</h3>
+                <p>No se pudo conectar con el servidor. Por favor intenta más tarde o contáctanos por WhatsApp.</p>
+                <a href="https://wa.me/573001234567" class="btn-whatsapp-tienda" target="_blank">
+                    <i class="fa-brands fa-whatsapp"></i> Pedir por WhatsApp
+                </a>
+            </div>
+
+            <!-- Contenido de la tienda -->
+            <div id="tiendaContenido" style="display:none;">
+
+                <!-- Paso 1: Seleccionar colegio -->
+                <div id="tiendaPaso1" class="tienda-paso">
+                    <h3 class="tienda-paso-titulo"><span class="tienda-step-num">1</span> Selecciona tu colegio</h3>
+                    <div id="tiendaColegiosGrid" class="tienda-colegios-grid"></div>
+                </div>
+
+                <!-- Paso 2: Catálogo -->
+                <div id="tiendaPaso2" class="tienda-paso" style="display:none;">
+                    <div class="tienda-paso2-header">
+                        <button id="tiendaVolverColegios" class="btn-volver">
+                            <i class="fa-solid fa-arrow-left"></i> Cambiar colegio
+                        </button>
+                        <h3 class="tienda-paso-titulo"><span class="tienda-step-num">2</span> Elige tus uniformes — <span id="tiendaColegioNombre"></span></h3>
+                    </div>
+
+                    <!-- Filtros por tipo -->
+                    <div id="tiendaTipoFiltros" class="tienda-tipo-filtros"></div>
+
+                    <!-- Grid de productos -->
+                    <div id="tiendaProductosGrid" class="tienda-productos-grid"></div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ════ CARRITO FLOTANTE ════ -->
+        <div id="carritoFloat" class="carrito-float" style="display:none;">
+            <button id="carritoBtn" class="carrito-btn" aria-label="Ver carrito">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span id="carritoBadge" class="carrito-badge">0</span>
+            </button>
+        </div>
+
+        <!-- ════ PANEL DEL CARRITO ════ -->
+        <div id="carritoPanel" class="carrito-panel" role="dialog" aria-modal="true" aria-label="Carrito de compras" style="display:none;">
+            <div class="carrito-panel-header">
+                <h3><i class="fa-solid fa-cart-shopping"></i> Tu Carrito</h3>
+                <button id="carritoCerrar" class="carrito-cerrar" aria-label="Cerrar carrito">&times;</button>
+            </div>
+            <div id="carritoItems" class="carrito-items"></div>
+            <div class="carrito-panel-footer" id="carritoPanelFooter" style="display:none;">
+                <div class="carrito-total-row">
+                    <span>Total:</span>
+                    <strong id="carritoTotal" class="carrito-total-num">$0</strong>
+                </div>
+                <button id="carritoCheckout" class="btn-checkout">
+                    <i class="fa-solid fa-credit-card"></i> Proceder al pago
+                </button>
+            </div>
+        </div>
+
+        <!-- ════ MODAL DE CHECKOUT ════ -->
+        <div id="checkoutModal" class="checkout-modal" role="dialog" aria-modal="true" style="display:none;">
+            <div class="checkout-modal-inner">
+                <button id="checkoutCerrar" class="checkout-cerrar" aria-label="Cerrar">&times;</button>
+                <h2><i class="fa-solid fa-shield-halved"></i> Pago Seguro</h2>
+
+                <!-- Resumen del pedido -->
+                <div class="checkout-resumen">
+                    <h4>Resumen del pedido</h4>
+                    <div id="checkoutResumenItems"></div>
+                    <div class="checkout-total-row">
+                        <span>Total a pagar:</span>
+                        <strong id="checkoutTotalDisplay"></strong>
+                    </div>
+                </div>
+
+                <!-- Formulario datos del cliente -->
+                <form id="checkoutForm" class="checkout-form" novalidate>
+                    <h4>Tus datos</h4>
+                    <div class="checkout-campos">
+                        <div class="checkout-campo">
+                            <label for="ck-nombre">Nombre completo *</label>
+                            <input type="text" id="ck-nombre" placeholder="Tu nombre" required>
+                        </div>
+                        <div class="checkout-campo">
+                            <label for="ck-email">Correo electrónico *</label>
+                            <input type="email" id="ck-email" placeholder="correo@ejemplo.com" required>
+                        </div>
+                        <div class="checkout-campo">
+                            <label for="ck-telefono">Teléfono *</label>
+                            <input type="tel" id="ck-telefono" placeholder="+57 300 000 0000" required>
+                        </div>
+                        <div class="checkout-campo">
+                            <label for="ck-documento">Cédula / NIT (opcional)</label>
+                            <input type="text" id="ck-documento" placeholder="123456789">
+                        </div>
+                    </div>
+
+                    <div class="checkout-pagos-info">
+                        <p><i class="fa-solid fa-lock"></i> Pago seguro con <strong>MercadoPago</strong></p>
+                        <div class="checkout-metodos">
+                            <span><i class="fa-solid fa-credit-card"></i> Tarjeta</span>
+                            <span>PSE</span>
+                            <span>Nequi</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="checkoutPagarBtn" class="btn-pagar">
+                        <i class="fa-solid fa-lock"></i> Pagar ahora
+                    </button>
+                    <p id="checkoutError" class="checkout-error-msg" style="display:none;"></p>
+                </form>
+            </div>
+        </div>
+        <div id="checkoutOverlay" class="checkout-overlay" style="display:none;"></div>
+
+        <!-- Modal de selección de talla -->
+        <div id="tallaModal" class="talla-modal" role="dialog" aria-modal="true" style="display:none;">
+            <div class="talla-modal-inner">
+                <button id="tallaCerrar" class="talla-cerrar" aria-label="Cerrar">&times;</button>
+                <h3 id="tallaNombreProducto"></h3>
+                <p class="talla-instruccion">Selecciona la talla y cantidad:</p>
+                <div id="tallaOpciones" class="talla-opciones"></div>
+            </div>
+        </div>
+        <div id="tallaOverlay" class="talla-overlay" style="display:none;"></div>
 
         <!-- Portal / Integración RALOZ -->
         <section id="portal-raloz" class="portal-section">
