@@ -1212,14 +1212,41 @@ function formatCOP(v) {
 async function initTiendaOnline() {
   Carrito.cargar();
 
-  const loading  = document.getElementById('tiendaLoading');
-  const error    = document.getElementById('tiendaError');
+  const loading   = document.getElementById('tiendaLoading');
+  const error     = document.getElementById('tiendaError');
   const contenido = document.getElementById('tiendaContenido');
 
   if (!loading) return;
 
-  // Cargar colegios de la API
-  const data = await RalozAPI.getColegiosTienda();
+  // Mensaje dinámico mientras espera (el servidor gratis tarda hasta 50s en despertar)
+  const loadingMsg = loading.querySelector('p');
+  let seg = 0;
+  const mensajes = [
+    'Cargando tienda...',
+    'Conectando con el servidor...',
+    'El servidor está despertando, espera un momento...',
+    'Ya casi está listo...',
+    'Un momento más...',
+  ];
+  const intervalo = setInterval(() => {
+    seg += 4;
+    const idx = Math.min(Math.floor(seg / 8), mensajes.length - 1);
+    if (loadingMsg) loadingMsg.textContent = mensajes[idx];
+  }, 4000);
+
+  // Intentar hasta 3 veces con timeout largo (60s) para aguantar el cold start de Render
+  let data = null;
+  for (let intento = 0; intento < 3; intento++) {
+    try {
+      const res = await fetch(`${RalozAPI.baseURL}/tienda/colegios`, {
+        signal: AbortSignal.timeout(65000),
+      });
+      if (res.ok) { data = await res.json(); break; }
+    } catch { /* reintentar */ }
+    if (intento < 2 && loadingMsg) loadingMsg.textContent = 'Reconectando...';
+  }
+
+  clearInterval(intervalo);
 
   if (!data || !data.colegios) {
     loading.style.display = 'none';
