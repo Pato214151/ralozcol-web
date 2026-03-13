@@ -1243,7 +1243,7 @@ async function initTiendaOnline() {
       });
       if (res.ok) { data = await res.json(); break; }
     } catch { /* reintentar */ }
-    if (intento < 2 && loadingMsg) loadingMsg.textContent = 'Reconectando...';
+    if (intento < 2) { if (loadingMsg) loadingMsg.textContent = 'Despertando servidor... aguarda 20s'; await new Promise(r => setTimeout(r, 20000)); }
   }
 
   clearInterval(intervalo);
@@ -1595,3 +1595,4 @@ function mostrarToast(msg) {
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 3000);
 }
+
