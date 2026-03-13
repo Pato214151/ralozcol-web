@@ -1234,16 +1234,18 @@ async function initTiendaOnline() {
     if (loadingMsg) loadingMsg.textContent = mensajes[idx];
   }, 4000);
 
-  // Intentar hasta 3 veces con timeout largo (60s) para aguantar el cold start de Render
+  // Reintentar hasta 70s para aguantar el cold start de Render (plan gratuito)
   let data = null;
-  for (let intento = 0; intento < 3; intento++) {
+  const inicio = Date.now();
+  while (Date.now() - inicio < 70000) {
     try {
       const res = await fetch(`${RalozAPI.baseURL}/tienda/colegios`, {
-        signal: AbortSignal.timeout(65000),
+        signal: AbortSignal.timeout(10000),
       });
       if (res.ok) { data = await res.json(); break; }
-    } catch { /* reintentar */ }
-    if (intento < 2 && loadingMsg) loadingMsg.textContent = 'Reconectando...';
+      if (res.status !== 503) break; // error real, no reintentar
+    } catch { /* timeout de red, reintentar */ }
+    await new Promise(r => setTimeout(r, 3000));
   }
 
   clearInterval(intervalo);
