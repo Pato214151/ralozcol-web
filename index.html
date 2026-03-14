@@ -25,7 +25,7 @@
     <!-- Barra de anuncio temporada -->
     <div class="announcement-bar" id="announcementBar">
         <span><i class="fa-solid fa-graduation-cap"></i> 🎒 Temporada Escolar 2026 — ¡Haz tu pedido con anticipación y asegura tu talla!</span>
-        <a href="#cotizador" class="ann-cta">Cotizar ahora →</a>
+        <a href="#tienda-online" class="ann-cta">Comprar ahora →</a>
         <button class="ann-close" aria-label="Cerrar anuncio" onclick="this.parentElement.style.display='none'">✕</button>
     </div>
 
@@ -46,8 +46,8 @@
                 <h1>Viste el <span>futuro</span><br>con orgullo</h1>
                 <p>Uniformes escolares de calidad superior para colegios en Colombia. Más de 5 años vistiendo con excelencia.</p>
                 <div class="hero-actions">
-                    <a href="#cotizador" class="btn-primary">
-                        <i class="fa-solid fa-calculator"></i> Cotizar Ahora →
+                    <a href="#tienda-online" class="btn-primary">
+                        <i class="fa-solid fa-bag-shopping"></i> Comprar Ahora →
                     </a>
                     <a href="#catalogo" class="btn-secondary">
                         <i class="fa-solid fa-shirt"></i> Ver Catálogo ▷
@@ -95,7 +95,6 @@
             <li><a href="#catalogo"><i class="fa-solid fa-grid-2"></i> Catálogo</a></li>
             <li><a href="#productos"><i class="fa-solid fa-shirt"></i> Servicios</a></li>
             <li><a href="#colegios"><i class="fa-solid fa-school"></i> Colegios</a></li>
-            <li><a href="#cotizador"><i class="fa-solid fa-calculator"></i> Cotizador</a></li>
             <li>
                 <a href="#tienda-online" class="nav-tienda-btn">
                     <i class="fa-solid fa-bag-shopping"></i> Tienda Online
@@ -458,122 +457,6 @@
             <p class="colegio-cta"><strong>¿Tu colegio está interesado?</strong> <a href="#contacto">Contáctanos</a> para conocer nuestras soluciones personalizadas para instituciones.</p>
         </section>
 
-        <!-- Cotizador Interactivo — Estilo Catálogo -->
-        <section id="cotizador">
-            <h2><i class="fa-solid fa-calculator"></i> Cotizador en Línea</h2>
-            <p class="section-subtitle">Elige tu colegio, selecciona las prendas que necesitas y envía tu cotización por WhatsApp.</p>
-
-            <div class="cotizador-v2">
-                <!-- PASO 1: Datos del cliente -->
-                <div class="cot-datos-cliente">
-                    <div class="cot-row">
-                        <div class="cot-field">
-                            <label for="cot-nombre">Nombre completo <span class="req">*</span></label>
-                            <input type="text" id="cot-nombre" name="nombre" placeholder="Tu nombre" required>
-                        </div>
-                        <div class="cot-field">
-                            <label for="cot-telefono">Teléfono / WhatsApp <span class="req">*</span></label>
-                            <input type="tel" id="cot-telefono" name="telefono" placeholder="+57 300 000 0000" required>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- PASO 2: Selector de colegio (igual al catálogo) -->
-                <div class="cot-school-selector" id="cotSelectorEscuelas">
-                    <p class="cot-step-label"><i class="fa-solid fa-hand-pointer"></i> Paso 1 — Selecciona tu colegio</p>
-                    <div class="school-cards">
-                        <button class="school-card" onclick="cotSelectSchool('MARILLAC')">
-                            <div class="sc-icon sc-marillac"><i class="fa-solid fa-school-flag"></i></div>
-                            <div class="sc-info">
-                                <span class="sc-name">Colegio Marillac</span>
-                                <span class="sc-count">15 productos</span>
-                            </div>
-                            <i class="fa-solid fa-chevron-right sc-arrow"></i>
-                        </button>
-                        <button class="school-card" onclick="cotSelectSchool('ADVENTISTA')">
-                            <div class="sc-icon sc-adventista"><i class="fa-solid fa-school-flag"></i></div>
-                            <div class="sc-info">
-                                <span class="sc-name">Colegio Adventista</span>
-                                <span class="sc-count">13 productos</span>
-                            </div>
-                            <i class="fa-solid fa-chevron-right sc-arrow"></i>
-                        </button>
-                        <button class="school-card" onclick="cotSelectSchool('MANYANET')">
-                            <div class="sc-icon sc-manyanet"><i class="fa-solid fa-school-flag"></i></div>
-                            <div class="sc-info">
-                                <span class="sc-name">Colegio Manyanet</span>
-                                <span class="sc-count">13 productos</span>
-                            </div>
-                            <i class="fa-solid fa-chevron-right sc-arrow"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- PASO 3: Productos del colegio (igual al catálogo) -->
-                <div class="cot-productos-section" id="cotProductosSection" style="display:none;">
-                    <div class="productos-header">
-                        <button class="btn-back-school" onclick="cotClearSchool()">
-                            <i class="fa-solid fa-arrow-left"></i> Cambiar colegio
-                        </button>
-                        <div class="productos-colegio-tag" id="cotEscuelaTag"></div>
-                    </div>
-                    <p class="cot-step-label"><i class="fa-solid fa-shirt"></i> Paso 2 — Toca una prenda para agregarla a tu cotización</p>
-
-                    <!-- Filtros por tipo -->
-                    <div class="tipo-filters" id="cotTipoFilters" role="tablist">
-                        <button class="tipo-btn active" onclick="cotFiltrar(null)" role="tab">
-                            <i class="fa-solid fa-layer-group"></i> Todos
-                        </button>
-                        <button class="tipo-btn" onclick="cotFiltrar('Completo')" role="tab">
-                            <i class="fa-solid fa-box-open"></i> Completos
-                        </button>
-                        <button class="tipo-btn" onclick="cotFiltrar('Diario Niño')" role="tab">
-                            <i class="fa-solid fa-person"></i> Diario Niño
-                        </button>
-                        <button class="tipo-btn" onclick="cotFiltrar('Diario Niña')" role="tab">
-                            <i class="fa-solid fa-person-dress"></i> Diario Niña
-                        </button>
-                        <button class="tipo-btn" onclick="cotFiltrar('Ed. Física')" role="tab">
-                            <i class="fa-solid fa-person-running"></i> Ed. Física
-                        </button>
-                    </div>
-
-                    <!-- Grid de productos dinámico -->
-                    <div class="productos-grid" id="cotProductosGrid"></div>
-                </div>
-
-                <!-- CARRITO / Resumen -->
-                <div class="cot-carrito" id="cotCarrito">
-                    <h3><i class="fa-solid fa-cart-shopping"></i> Tu Cotización <span class="cot-badge" id="cotBadge">0</span></h3>
-                    <div id="cotizador-items" class="cotizador-items">
-                        <div class="cot-item-empty">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                            <p>Selecciona un colegio arriba y toca las prendas que necesitas.</p>
-                        </div>
-                    </div>
-
-                    <div class="cot-field" style="margin-top: 1rem;">
-                        <label for="cot-notas">Notas adicionales</label>
-                        <textarea id="cot-notas" name="notas" rows="3" placeholder="Ej: Necesito 2 conjuntos completos talla 10, colores específicos, entrega urgente, etc."></textarea>
-                    </div>
-
-                    <div class="cotizador-total" id="cotizadorTotal" style="display:none;">
-                        <span>Total estimado:</span>
-                        <strong id="totalAmount">$0</strong>
-                    </div>
-
-                    <div class="cotizador-actions">
-                        <button type="button" class="btn-whatsapp-cot" onclick="enviarCotizacionWhatsApp()">
-                            <i class="fa-brands fa-whatsapp"></i> Enviar por WhatsApp
-                        </button>
-                        <button type="button" class="btn-secondary-cot" onclick="limpiarCotizador()">
-                            <i class="fa-solid fa-trash"></i> Limpiar
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- Testimonios -->
         <section id="testimonios">
             <h2><i class="fa-solid fa-comments"></i> Lo que Dicen Nuestros Clientes</h2>
@@ -924,15 +807,7 @@
                     </div>
 
                     <div class="checkout-pagos-info">
-                        <p><i class="fa-solid fa-lock"></i> Al hacer clic serás redirigido a <strong>MercadoPago</strong> para pagar de forma segura</p>
-                        <div class="checkout-metodos">
-                            <span><i class="fa-solid fa-credit-card"></i> Tarjeta crédito/débito</span>
-                            <span>PSE</span>
-                            <span>Nequi</span>
-                            <span>Daviplata</span>
-                            <span>Efecty</span>
-                            <span>Baloto</span>
-                        </div>
+                        <p><i class="fa-solid fa-lock"></i> Serás redirigido a <strong>MercadoPago</strong> para pagar de forma segura con tarjeta, PSE, Nequi, Daviplata o efectivo.</p>
                     </div>
 
                     <button type="submit" id="checkoutPagarBtn" class="btn-pagar">

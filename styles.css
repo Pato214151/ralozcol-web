@@ -1085,26 +1085,26 @@ section a:hover, section a:focus { color: var(--blue-light); text-decoration: un
     gap: 0.5rem;
 }
 .producto-card:hover {
-    border-color: rgba(255,193,7,0.35);
-    transform: translateY(-5px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,193,7,0.15);
+    border-color: var(--blue);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,61,165,0.12);
 }
 .producto-icon {
     font-size: 2.5rem;
-    color: var(--blue-xlight);
-    transition: transform 0.3s;
+    color: var(--blue);
+    transition: transform 0.3s, color 0.3s;
     width: 64px;
     height: 64px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0,61,165,0.15);
+    background: #eff6ff;
     border-radius: 50%;
 }
 .producto-card:hover .producto-icon {
-    transform: scale(1.12);
-    color: var(--yellow);
-    background: rgba(255,193,7,0.12);
+    transform: scale(1.1);
+    color: var(--yellow-dark);
+    background: rgba(212,160,23,0.1);
 }
 .producto-info {
     display: flex;
@@ -1112,8 +1112,8 @@ section a:hover, section a:focus { color: var(--blue-light); text-decoration: un
     gap: 0.3rem;
 }
 .producto-nombre {
-    color: white;
-    font-size: 0.88rem;
+    color: var(--text-dark);
+    font-size: 0.9rem;
     font-weight: 600;
     line-height: 1.3;
 }
@@ -1122,16 +1122,16 @@ section a:hover, section a:focus { color: var(--blue-light); text-decoration: un
     font-weight: 600;
     padding: 0.15rem 0.6rem;
     border-radius: 10px;
-    background: rgba(0,86,214,0.2);
-    color: #7eb3ff;
-    border: 1px solid rgba(0,86,214,0.3);
+    background: #eff6ff;
+    color: var(--blue);
+    border: 1px solid #bfdbfe;
     display: inline-block;
 }
 .producto-precio {
     margin-top: auto;
 }
 .precio-desde {
-    color: var(--yellow);
+    color: var(--blue);
     font-size: 1rem;
     font-weight: 800;
 }
@@ -1140,9 +1140,9 @@ section a:hover, section a:focus { color: var(--blue-light); text-decoration: un
     align-items: center;
     justify-content: center;
     gap: 0.35rem;
-    background: rgba(0,61,165,0.25);
-    border: 1px solid rgba(0,86,214,0.4);
-    color: var(--text-light);
+    background: var(--blue);
+    border: 1px solid var(--blue);
+    color: #fff;
     padding: 0.5rem 1.2rem;
     border-radius: var(--radius-sm);
     cursor: pointer;
@@ -2577,40 +2577,59 @@ nav.scrolled .nav-tienda-btn { background: var(--ml-yellow) !important; border: 
     background: none; border: none; font-size: 1.5rem;
     cursor: pointer; color: #666; line-height: 1;
 }
-.talla-instruccion { color: var(--ml-muted); margin: 8px 0 16px; font-size: 0.92rem; }
-.talla-opciones { display: flex; flex-direction: column; gap: 10px; }
-.talla-opcion {
-    display: flex; align-items: center; gap: 12px;
-    padding: 12px 14px; border: 1.5px solid var(--ml-border); border-radius: 8px;
-    flex-wrap: wrap; transition: border-color 0.15s;
+.talla-instruccion { color: var(--ml-muted); margin: 0 0 12px; font-size: 0.88rem; font-weight: 600; }
+
+/* Pills de talla */
+.talla-pills {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 20px;
 }
-.talla-opcion:hover { border-color: var(--ml-blue); }
-.talla-info { display: flex; flex-direction: column; gap: 2px; flex: 1; }
-.talla-tag { font-weight: 700; color: var(--ml-text); font-size: 0.95rem; }
-.talla-precio { color: var(--ml-green); font-weight: 700; font-size: 1rem; }
-.talla-stock-info { font-size: 0.75rem; color: var(--ml-muted); }
-.talla-cantidad { display: flex; align-items: center; gap: 8px; }
+.talla-pill {
+    min-width: 52px; padding: 8px 12px;
+    border: 1.5px solid var(--ml-border); border-radius: 8px;
+    background: #fff; color: var(--ml-text);
+    font-size: 0.88rem; font-weight: 600; cursor: pointer;
+    text-align: center; line-height: 1.3;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+.talla-pill:hover:not([disabled]) { border-color: var(--ml-blue); color: var(--ml-blue); }
+.talla-pill.selected { background: var(--ml-blue); color: #fff; border-color: var(--ml-blue); }
+.talla-pill.agotado { opacity: 0.4; cursor: not-allowed; font-size: 0.72rem; }
+.talla-pill small { display: block; font-size: 0.65rem; color: inherit; opacity: 0.8; }
+
+/* Detalle de selección */
+.talla-seleccion-detalle {
+    display: flex; flex-direction: column; gap: 14px;
+    background: var(--ml-light); border-radius: 8px;
+    padding: 14px 16px; margin-bottom: 16px;
+}
+.tsd-precio-wrap, .tsd-cantidad-wrap { display: flex; align-items: center; gap: 12px; }
+.tsd-label { font-size: 0.82rem; color: var(--ml-muted); font-weight: 500; min-width: 60px; }
+.tsd-precio { font-size: 1.3rem; font-weight: 700; color: var(--ml-text); }
+.tsd-cantidad { display: flex; align-items: center; gap: 10px; }
+
 .talla-menos, .talla-mas {
-    width: 28px; height: 28px; border-radius: 50%;
-    border: 1.5px solid var(--ml-blue); background: none; color: var(--ml-blue);
-    font-size: 1rem; cursor: pointer; font-weight: 700;
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 1.5px solid var(--ml-blue); background: #fff; color: var(--ml-blue);
+    font-size: 1.1rem; cursor: pointer; font-weight: 700;
     display: flex; align-items: center; justify-content: center;
     transition: background 0.15s, color 0.15s;
 }
 .talla-menos:hover, .talla-mas:hover { background: var(--ml-blue); color: #fff; }
-.talla-cant-val { min-width: 24px; text-align: center; font-weight: 700; }
+.talla-cant-val { min-width: 32px; text-align: center; font-weight: 700; font-size: 1.1rem; }
+
 .btn-talla-add {
-    background: var(--ml-blue); color: #fff; border: none;
-    padding: 9px 16px; border-radius: 6px; cursor: pointer;
-    font-weight: 700; font-size: 0.85rem;
-    display: flex; align-items: center; gap: 6px;
+    width: 100%; background: var(--ml-blue); color: #fff; border: none;
+    padding: 13px; border-radius: 6px; cursor: pointer;
+    font-weight: 700; font-size: 0.95rem;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
     transition: background 0.15s;
 }
 .btn-talla-add:hover { background: var(--ml-blue-dark); }
 
 /* ─── Carrito flotante ────────────────────────────────────────── */
 .carrito-float {
-    position: fixed; bottom: 90px; right: 24px; z-index: 900;
+    position: fixed; bottom: 148px; right: 24px; z-index: 900;
 }
 .carrito-btn {
     background: var(--ml-blue);

@@ -1283,6 +1283,35 @@ async function initTiendaOnline() {
   });
 }
 
+// ─── Mapeo nombre colegio → ID estático ──────────────────────────
+function getEscuelaStaticId(nombre) {
+  const n = (nombre || '').toUpperCase();
+  if (n.includes('MARILLAC'))   return 1;
+  if (n.includes('ADVENTISTA')) return 2;
+  if (n.includes('MANYANET'))   return 3;
+  return null;
+}
+
+// Construye lista completa de productos desde datos estáticos
+function buildStaticProductos(escuelaStaticId) {
+  const ids = PRODUCTOS_POR_ESCUELA[escuelaStaticId] || [];
+  return ids.map(id => {
+    const p = PRODUCTOS[id];
+    if (!p) return null;
+    const preciosEscuela = (PRECIOS[escuelaStaticId] || {})[id] || {};
+    const tallas = Object.entries(preciosEscuela).map(([talla, precio]) => ({
+      talla, precio, stock: 999,
+    }));
+    return {
+      id_producto: id,
+      nombre: p.nombre,
+      tipo: p.tipo === 'accesorio' ? 'Accesorios' : p.tipo,
+      tallas,
+      _static: true,
+    };
+  }).filter(Boolean);
+}
+
 function renderTiendaColegios(colegios) {
   const grid = document.getElementById('tiendaColegiosGrid');
   if (!grid) return;
@@ -1323,20 +1352,37 @@ async function cargarCatalogoColegio(id, nombre) {
   Carrito.colegio_nombre = nombre;
   Carrito.guardar();
 
-  const data = await RalozAPI.getCatalogoTienda(id);
+  // Cargar productos estáticos como base (siempre completos)
+  const escuelaId = getEscuelaStaticId(nombre);
+  let productos = escuelaId ? buildStaticProductos(escuelaId) : [];
 
-  if (!data || !data.productos || !data.productos.length) {
+  // Mezclar con datos del API (actualiza precios/stock reales)
+  const data = await RalozAPI.getCatalogoTienda(id);
+  if (data?.productos?.length) {
+    data.productos.forEach(apiP => {
+      const idx = productos.findIndex(p =>
+        p.nombre.toLowerCase().trim() === apiP.nombre.toLowerCase().trim()
+      );
+      if (idx >= 0) {
+        productos[idx] = { ...apiP, _static: false };
+      } else {
+        productos.push(apiP);
+      }
+    });
+  }
+
+  if (!productos.length) {
     grid.innerHTML = '<p class="tienda-empty">No hay productos disponibles para este colegio por el momento.</p>';
     return;
   }
 
   // Filtros por tipo (deduplicados y ordenados)
-  const tiposRaw = data.productos.map(p => (p.tipo || 'Otros').trim());
+  const tiposRaw = productos.map(p => (p.tipo || 'Otros').trim());
   const tipos = [...new Map(tiposRaw.map(t => [t.toLowerCase(), t])).values()].sort();
   filtros.innerHTML = `
-    <button class="tienda-filtro active" data-tipo="todos">Todos (${data.productos.length})</button>
+    <button class="tienda-filtro active" data-tipo="todos">Todos (${productos.length})</button>
     ${tipos.map(t => {
-      const count = data.productos.filter(p => (p.tipo || 'Otros').trim().toLowerCase() === t.toLowerCase()).length;
+      const count = productos.filter(p => (p.tipo || 'Otros').trim().toLowerCase() === t.toLowerCase()).length;
       return `<button class="tienda-filtro" data-tipo="${t}">${t} (${count})</button>`;
     }).join('')}
   `;
@@ -1345,11 +1391,11 @@ async function cargarCatalogoColegio(id, nombre) {
     btn.addEventListener('click', () => {
       filtros.querySelectorAll('.tienda-filtro').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      filtrarProductos(btn.dataset.tipo, data.productos);
+      filtrarProductos(btn.dataset.tipo, productos);
     });
   });
 
-  renderProductos(data.productos);
+  renderProductos(productos);
   scrollToSection(document.getElementById('tienda-online'));
 }
 
@@ -1390,7 +1436,9 @@ function renderProductos(productos) {
           <span class="tpc-envio"><i class="fa-solid fa-truck"></i> Envío a domicilio</span>
           ${sinStock
             ? '<span class="tpc-sin-stock">Sin stock</span>'
-            : `<span class="tpc-stock-ok"><i class="fa-solid fa-check"></i> ${stockTotal} disponibles</span>`}
+            : p._static
+              ? '<span class="tpc-stock-ok"><i class="fa-solid fa-check"></i> Disponible</span>'
+              : `<span class="tpc-stock-ok"><i class="fa-solid fa-check"></i> ${stockTotal} disponibles</span>`}
         </div>
         <button class="btn-agregar-carrito" data-id="${p.id_producto}" data-nombre="${p.nombre}" ${sinStock ? 'disabled' : ''}>
           <i class="fa-solid fa-cart-plus"></i> Agregar al carrito
@@ -1416,58 +1464,86 @@ function abrirTallaModal(producto) {
   document.getElementById('tallaNombreProducto').textContent = producto.nombre;
   const opciones = document.getElementById('tallaOpciones');
 
-  opciones.innerHTML = producto.tallas.map(t => `
-    <div class="talla-opcion">
-      <div class="talla-info">
-        <span class="talla-tag">Talla ${t.talla}</span>
-        <span class="talla-precio">${formatCOP(t.precio)}</span>
-        <span class="talla-stock-info">${t.stock} disponibles</span>
-      </div>
-      <div class="talla-cantidad">
-        <button class="talla-menos" data-talla="${t.talla}">−</button>
-        <span class="talla-cant-val" data-talla="${t.talla}">1</span>
-        <button class="talla-mas" data-talla="${t.talla}" data-max="${t.stock}">+</button>
-      </div>
-      <button class="btn-talla-add" data-talla="${t.talla}" data-precio="${t.precio}" data-max="${t.stock}">
-        <i class="fa-solid fa-cart-plus"></i> Agregar
-      </button>
+  let selectedTalla = null;
+  let selectedPrecio = null;
+  let selectedMax = 0;
+
+  opciones.innerHTML = `
+    <p class="talla-instruccion">Elige la talla:</p>
+    <div class="talla-pills" id="tallaPills">
+      ${producto.tallas.map(t => `
+        <button class="talla-pill${t.stock === 0 ? ' agotado' : ''}"
+          data-talla="${t.talla}" data-precio="${t.precio}" data-max="${t.stock}"
+          ${t.stock === 0 ? 'disabled' : ''}>
+          ${t.talla}${t.stock === 0 ? '<br><small>Agotado</small>' : ''}
+        </button>
+      `).join('')}
     </div>
-  `).join('');
 
-  // Eventos de cantidad
-  opciones.querySelectorAll('.talla-menos').forEach(btn => {
+    <div class="talla-seleccion-detalle" id="tallaDetalle" style="display:none;">
+      <div class="tsd-precio-wrap">
+        <span class="tsd-label">Precio:</span>
+        <span class="tsd-precio" id="tallaPrecioDisplay"></span>
+      </div>
+      <div class="tsd-cantidad-wrap">
+        <span class="tsd-label">Cantidad:</span>
+        <div class="tsd-cantidad">
+          <button class="talla-menos" id="tallaMenos">−</button>
+          <span class="talla-cant-val" id="tallaCantVal">1</span>
+          <button class="talla-mas" id="tallaMas">+</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-talla-add" id="btnTallaAdd" style="display:none;">
+      <i class="fa-solid fa-cart-plus"></i> Agregar al carrito
+    </button>
+  `;
+
+  // Selección de talla
+  opciones.querySelectorAll('.talla-pill:not([disabled])').forEach(btn => {
     btn.addEventListener('click', () => {
-      const el = opciones.querySelector(`.talla-cant-val[data-talla="${btn.dataset.talla}"]`);
-      const v = parseInt(el.textContent);
-      if (v > 1) el.textContent = v - 1;
+      opciones.querySelectorAll('.talla-pill').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedTalla  = btn.dataset.talla;
+      selectedPrecio = parseFloat(btn.dataset.precio);
+      selectedMax    = parseInt(btn.dataset.max);
+
+      document.getElementById('tallaPrecioDisplay').textContent = formatCOP(selectedPrecio);
+      document.getElementById('tallaCantVal').textContent = '1';
+      document.getElementById('tallaDetalle').style.display = 'flex';
+      document.getElementById('btnTallaAdd').style.display  = 'flex';
     });
   });
-  opciones.querySelectorAll('.talla-mas').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const el = opciones.querySelector(`.talla-cant-val[data-talla="${btn.dataset.talla}"]`);
-      const v = parseInt(el.textContent);
-      if (v < parseInt(btn.dataset.max)) el.textContent = v + 1;
-    });
+
+  // Cantidad
+  document.getElementById('tallaMenos').addEventListener('click', () => {
+    const el = document.getElementById('tallaCantVal');
+    const v = parseInt(el.textContent);
+    if (v > 1) el.textContent = v - 1;
+  });
+  document.getElementById('tallaMas').addEventListener('click', () => {
+    const el = document.getElementById('tallaCantVal');
+    const v = parseInt(el.textContent);
+    if (v < selectedMax) el.textContent = v + 1;
   });
 
-  // Agregar al carrito desde el modal
-  opciones.querySelectorAll('.btn-talla-add').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const talla = btn.dataset.talla;
-      const cant = parseInt(opciones.querySelector(`.talla-cant-val[data-talla="${talla}"]`).textContent);
-      Carrito.agregar({
-        id_producto: producto.id_producto,
-        nombre: producto.nombre,
-        talla,
-        cantidad: cant,
-        precio: parseFloat(btn.dataset.precio),
-      });
-      cerrarTallaModal();
-      mostrarToast(`${producto.nombre} talla ${talla} agregado al carrito`);
+  // Agregar
+  document.getElementById('btnTallaAdd').addEventListener('click', () => {
+    if (!selectedTalla) return;
+    const cant = parseInt(document.getElementById('tallaCantVal').textContent);
+    Carrito.agregar({
+      id_producto: producto.id_producto,
+      nombre:      producto.nombre,
+      talla:       selectedTalla,
+      cantidad:    cant,
+      precio:      selectedPrecio,
     });
+    cerrarTallaModal();
+    mostrarToast(`${producto.nombre} — Talla ${selectedTalla} agregado ✓`);
   });
 
-  document.getElementById('tallaModal').style.display = 'flex';
+  document.getElementById('tallaModal').style.display  = 'flex';
   document.getElementById('tallaOverlay').style.display = 'block';
 }
 
