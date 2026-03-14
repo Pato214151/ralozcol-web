@@ -1598,3 +1598,36 @@ function mostrarToast(msg) {
   setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
+
+// ─── LOOKBOOK CAROUSEL FUNCTIONS ──────────────────────────────────
+let lbCurrentIndex = 0;
+const lbSlideCount = 4;
+const lbSlideWidth = 33.333;
+
+function updateLookbookPosition() {
+  const track = document.getElementById('lookbookTrack');
+  const offset = -lbCurrentIndex * (lbSlideWidth + 0.667);
+  track.style.transform = `translateX(calc(${offset}% + ${-lbCurrentIndex * 1}rem))`;
+  
+  const dots = document.querySelectorAll('.lb-dot');
+  dots.forEach((dot, idx) => {
+    dot.classList.toggle('active', idx === lbCurrentIndex);
+  });
+}
+
+function lbNext() {
+  lbCurrentIndex = (lbCurrentIndex + 1) % lbSlideCount;
+  updateLookbookPosition();
+}
+
+function lbPrev() {
+  lbCurrentIndex = (lbCurrentIndex - 1 + lbSlideCount) % lbSlideCount;
+  updateLookbookPosition();
+}
+
+function lbGoTo(index) {
+  if (index >= 0 && index < lbSlideCount) {
+    lbCurrentIndex = index;
+    updateLookbookPosition();
+  }
+}

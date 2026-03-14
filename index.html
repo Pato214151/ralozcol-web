@@ -40,44 +40,41 @@
 
     <!-- Hero / Header -->
     <header id="inicio">
-        <div class="hero-content">
-            <div class="hero-badge"><i class="fa-solid fa-certificate"></i> Calidad certificada · Bogotá, Colombia</div>
-            <div class="hero-logo-wrap">
-                <div class="logo-frame">
-                    <div class="logo-frame-ring logo-ring-outer"></div>
-                    <div class="logo-frame-ring logo-ring-inner"></div>
-                    <div class="logo-frame-shine"></div>
-                    <picture>
-                        <source srcset="banner.webp" type="image/webp">
-                        <img src="banner.png"
-                             alt="Logo RALOZ COL S.A.S"
-                             loading="eager"
-                             class="hero-logo-img"
-                             onerror="this.style.display='none';">
-                    </picture>
+        <div class="hero-split">
+            <div class="hero-left">
+                <div class="hero-badge"><span class="hero-badge-dot"></span> Temporada Escolar 2026</div>
+                <h1>Viste el <span>futuro</span><br>con orgullo</h1>
+                <p>Uniformes escolares de calidad superior para colegios en Colombia. Más de 5 años vistiendo con excelencia.</p>
+                <div class="hero-actions">
+                    <a href="#cotizador" class="btn-primary">
+                        <i class="fa-solid fa-calculator"></i> Cotizar Ahora →
+                    </a>
+                    <a href="#catalogo" class="btn-secondary">
+                        <i class="fa-solid fa-shirt"></i> Ver Catálogo ▷
+                    </a>
                 </div>
-                <div class="hero-logo-glow"></div>
-                <div class="logo-sparkles">
-                    <span class="sparkle s1"></span>
-                    <span class="sparkle s2"></span>
-                    <span class="sparkle s3"></span>
-                    <span class="sparkle s4"></span>
+                <div class="hero-stats-strip">
+                    <div class="hero-stat"><strong>5<span>+</span></strong><span>Años</span></div>
+                    <div class="hero-stat-div"></div>
+                    <div class="hero-stat"><strong>1000<span>+</span></strong><span>Estudiantes</span></div>
+                    <div class="hero-stat-div"></div>
+                    <div class="hero-stat"><strong>3<span>+</span></strong><span>Colegios</span></div>
                 </div>
             </div>
-            <h1>RALOZ COL <span>S.A.S</span></h1>
-            <p>Uniformes escolares de calidad · Confección a medida · Temporada 2026</p>
-            <div class="hero-actions">
-                <a href="#cotizador" class="btn-primary">
-                    <i class="fa-solid fa-calculator"></i> Cotizar en Línea
-                </a>
-                <a href="#catalogo" class="btn-secondary">
-                    <i class="fa-solid fa-shirt"></i> Ver Catálogo
-                </a>
-            </div>
-            <div class="hero-trust">
-                <span><i class="fa-solid fa-shield-halved"></i> Calidad garantizada</span>
-                <span><i class="fa-solid fa-truck-fast"></i> Entrega a domicilio</span>
-                <span><i class="fa-solid fa-headset"></i> Asesoría personalizada</span>
+            <div class="hero-right">
+                <div class="hero-photo-card">
+                    <img src="estudiantes-marillac.png" alt="Estudiantes Colegio Marillac" loading="eager">
+                    <div class="hero-photo-label">
+                        <i class="fa-solid fa-school"></i> Colegio Marillac
+                    </div>
+                    <div class="hero-quality-badge">
+                        <i class="fa-solid fa-certificate"></i>
+                        <div>
+                            <strong>Calidad Garantizada</strong>
+                            <small>100% Colombiano</small>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <a href="#bienvenida" class="scroll-indicator" aria-label="Ir al contenido">
@@ -118,18 +115,26 @@
         <!-- Bienvenida -->
         <section id="bienvenida">
             <div class="welcome-content">
-                <i class="fa-solid fa-star welcome-icon"></i>
-                <h2>Bienvenidos a RALOZ COL S.A.S</h2>
+                <div class="welcome-icon-box"><i class="fa-solid fa-star"></i></div>
+                <h2>Bienvenidos a <span class="txt-blue">RALOZ</span> <span class="txt-gold">COL S.A.S</span></h2>
                 <p>Somos la empresa que acompaña a tus hijos en su formación escolar con uniformes de alta calidad, diseñados para brindar comodidad, durabilidad e identidad institucional.</p>
-                <p>Trabajamos directamente con colegios y familias para garantizar los mejores precios y la mejor atención.</p>
+                <p>Trabajamos directamente con colegios y familias para garantizar los mejores precios y la mejor atención. Nuestro compromiso es vestir a los estudiantes con orgullo y confianza.</p>
+                <div class="welcome-pills">
+                    <span class="pill"><i class="fa-solid fa-star-half-stroke"></i> Calidad garantizada</span>
+                    <span class="pill"><i class="fa-solid fa-tag"></i> Precios competitivos</span>
+                    <span class="pill"><i class="fa-solid fa-truck-fast"></i> Entrega puntual</span>
+                    <span class="pill"><i class="fa-solid fa-headset"></i> Atención personalizada</span>
+                </div>
             </div>
         </section>
 
         <!-- Estadísticas -->
         <section id="estadisticas" class="section-stats">
+            <h2>Nuestros <span class="txt-gold">Números</span></h2>
+            <p class="section-subtitle">Resultados que respaldan nuestra trayectoria y compromiso con la calidad</p>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <i class="fa-solid fa-calendar-check stat-icon"></i>
+                    <div class="stat-icon-box"><i class="fa-solid fa-calendar-check"></i></div>
                     <div class="stat-value">
                         <span class="stat-number" data-target="5">0</span>
                         <span class="stat-suffix">+</span>
@@ -137,7 +142,7 @@
                     <p class="stat-label">Años en el Mercado</p>
                 </div>
                 <div class="stat-card">
-                    <i class="fa-solid fa-user-graduate stat-icon"></i>
+                    <div class="stat-icon-box"><i class="fa-solid fa-user-graduate"></i></div>
                     <div class="stat-value">
                         <span class="stat-number" data-target="1000">0</span>
                         <span class="stat-suffix">+</span>
@@ -145,7 +150,7 @@
                     <p class="stat-label">Estudiantes Uniformados</p>
                 </div>
                 <div class="stat-card">
-                    <i class="fa-solid fa-school stat-icon"></i>
+                    <div class="stat-icon-box"><i class="fa-solid fa-school"></i></div>
                     <div class="stat-value">
                         <span class="stat-number" data-target="3">0</span>
                         <span class="stat-suffix">+</span>
@@ -153,7 +158,7 @@
                     <p class="stat-label">Colegios Aliados</p>
                 </div>
                 <div class="stat-card">
-                    <i class="fa-solid fa-medal stat-icon"></i>
+                    <div class="stat-icon-box"><i class="fa-solid fa-medal"></i></div>
                     <div class="stat-value">
                         <span class="stat-number" data-target="100">0</span>
                         <span class="stat-suffix">%</span>
@@ -165,68 +170,97 @@
 
         <!-- Lookbook / Galería Visual -->
         <section id="lookbook">
-            <h2><i class="fa-solid fa-images"></i> Nuestros Uniformes en Acción</h2>
-            <p class="section-subtitle">Calidad y estilo que se ve en cada estudiante. Confección colombiana con identidad institucional.</p>
-            <div class="lookbook-grid">
-                <div class="lookbook-card lookbook-featured">
-                    <img src="estudiantes-marillac.png" alt="Estudiantes Colegio Marillac con uniformes RALOZ" loading="lazy">
-                    <div class="lookbook-overlay">
-                        <span class="lookbook-tag"><i class="fa-solid fa-school"></i> Colegio Marillac</span>
-                        <p>Uniforme diario completo — temporada 2026</p>
-                    </div>
+            <div class="lookbook-header">
+                <div class="lookbook-header-left">
+                    <span class="lookbook-label"><i class="fa-solid fa-heart"></i> Galería de Productos</span>
+                    <h2>Nuestro <span class="txt-blue">Look</span><span class="txt-gold">book</span></h2>
+                    <p class="section-subtitle">Explora nuestros diseños en acción. Calidad que se ve y se siente.</p>
                 </div>
-                <div class="lookbook-card">
-                    <img src="uniforme-nina.png" alt="Uniforme de niña RALOZ COL" loading="lazy">
-                    <div class="lookbook-overlay">
-                        <span class="lookbook-tag"><i class="fa-solid fa-person-dress"></i> Uniforme Diario Niña</span>
-                        <p>Diseño exclusivo · Tallas 6 a 16</p>
-                    </div>
+                <div class="lookbook-nav-btns">
+                    <button class="lb-btn lb-prev" aria-label="Anterior" onclick="lbPrev()"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="lb-btn lb-next" aria-label="Siguiente" onclick="lbNext()"><i class="fa-solid fa-chevron-right"></i></button>
                 </div>
-                <div class="lookbook-card">
-                    <img src="fundadora.png" alt="Fundadora RALOZ COL" loading="lazy">
-                    <div class="lookbook-overlay">
-                        <span class="lookbook-tag"><i class="fa-solid fa-star"></i> Nuestra Historia</span>
-                        <p>Más de 5 años vistiendo a Colombia</p>
+            </div>
+            <div class="lookbook-carousel-wrap">
+                <div class="lookbook-track" id="lookbookTrack">
+                    <div class="lb-slide">
+                        <img src="estudiantes-marillac.png" alt="Estudiantes Colegio Marillac" loading="lazy">
+                        <span class="lb-tag">Colegio Marillac</span>
                     </div>
-                </div>
-                <div class="lookbook-card">
-                    <img src="fundadora2.png" alt="Equipo RALOZ COL" loading="lazy">
-                    <div class="lookbook-overlay">
-                        <span class="lookbook-tag"><i class="fa-solid fa-scissors"></i> Confección Propia</span>
-                        <p>Control de calidad en cada prenda</p>
+                    <div class="lb-slide">
+                        <img src="fundadora.png" alt="Confección RALOZ COL" loading="lazy">
+                        <span class="lb-tag">Colegio Marillac</span>
+                    </div>
+                    <div class="lb-slide">
+                        <img src="uniforme-nina.png" alt="Uniforme niña RALOZ" loading="lazy">
+                        <span class="lb-tag">Colección Especial</span>
+                    </div>
+                    <div class="lb-slide">
+                        <img src="fundadora2.png" alt="Equipo RALOZ COL" loading="lazy">
+                        <span class="lb-tag">Confección Propia</span>
                     </div>
                 </div>
             </div>
+            <div class="lookbook-dots" id="lookbookDots">
+                <span class="lb-dot active" onclick="lbGoTo(0)"></span>
+                <span class="lb-dot" onclick="lbGoTo(1)"></span>
+                <span class="lb-dot" onclick="lbGoTo(2)"></span>
+                <span class="lb-dot" onclick="lbGoTo(3)"></span>
+            </div>
             <div class="lookbook-cta">
-                <a href="#catalogo" class="btn-primary"><i class="fa-solid fa-shirt"></i> Ver Catálogo Completo</a>
+                <a href="#catalogo" class="btn-primary"><i class="fa-solid fa-shirt"></i> Ver Catálogo Completo →</a>
             </div>
         </section>
 
         <!-- ¿Quiénes Somos? -->
         <section id="quienes-somos">
-            <h2><i class="fa-solid fa-building-user"></i> ¿Quiénes Somos?</h2>
-            <p>RALOZ COL S.A.S es una empresa con más de 5 años de experiencia en la confección y distribución de uniformes escolares en Colombia. Nos destacamos por la calidad, durabilidad y diseño de nuestras prendas.</p>
-            <p>Colaboramos con instituciones como el Colegio Manyanet, Colegio Marillac y anteriormente con el Colegio Adventista del Norte. También ofrecemos chaquetas Prom y dotaciones personalizadas.</p>
-            <div class="quienes-grid">
-                <div class="quienes-item">
-                    <i class="fa-solid fa-scissors"></i>
-                    <h3>Confección Propia</h3>
-                    <p>Fabricamos nuestros uniformes con control de calidad en cada etapa del proceso de confección.</p>
+            <div class="quienes-split">
+                <div class="quienes-photo-side">
+                    <img src="uniforme-nina.png" alt="Uniforme RALOZ COL" loading="lazy">
+                    <span class="quienes-made-badge">Hecho en Colombia</span>
+                    <div class="quienes-years-badge">
+                        <i class="fa-solid fa-award"></i>
+                        <div>
+                            <strong>5+</strong>
+                            <span>Años de experiencia en confección de uniformes</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="quienes-item">
-                    <i class="fa-solid fa-ruler"></i>
-                    <h3>A Medida</h3>
-                    <p>Ofrecemos uniformes en todas las tallas y ajustamos según los requerimientos de cada institución.</p>
-                </div>
-                <div class="quienes-item">
-                    <i class="fa-solid fa-handshake"></i>
-                    <h3>Alianzas Institucionales</h3>
-                    <p>Trabajamos directamente con colegios para establecer convenios de suministro continuo.</p>
-                </div>
-                <div class="quienes-item">
-                    <i class="fa-solid fa-rotate"></i>
-                    <h3>Stock Permanente</h3>
-                    <p>Mantenemos inventario constante para garantizar disponibilidad durante todo el año escolar.</p>
+                <div class="quienes-content-side">
+                    <span class="section-label"><i class="fa-solid fa-users"></i> Sobre Nosotros</span>
+                    <h2>Pasión por la <span class="txt-gold">calidad</span></h2>
+                    <p><strong>RALOZ COL S.A.S</strong> nació del sueño de vestir a los estudiantes colombianos con uniformes que inspiren orgullo y confianza. Con más de <strong class="txt-blue">5 años de experiencia</strong>, nos hemos convertido en aliados de las principales instituciones educativas de Bogotá.</p>
+                    <p>Trabajamos directamente con el <strong>Colegio Manyanet</strong>, <strong>Colegio Marillac</strong> y hemos tenido el honor de vestir a miles de estudiantes en su camino educativo.</p>
+                    <div class="quienes-feature-grid">
+                        <div class="quienes-feature">
+                            <div class="feature-icon-box"><i class="fa-solid fa-scissors"></i></div>
+                            <div>
+                                <h4>Confección Propia</h4>
+                                <p>Fabricamos nuestros uniformes con control de calidad en cada etapa.</p>
+                            </div>
+                        </div>
+                        <div class="quienes-feature">
+                            <div class="feature-icon-box"><i class="fa-solid fa-ruler"></i></div>
+                            <div>
+                                <h4>A Medida</h4>
+                                <p>Todas las tallas disponibles con ajustes personalizados.</p>
+                            </div>
+                        </div>
+                        <div class="quienes-feature">
+                            <div class="feature-icon-box"><i class="fa-solid fa-handshake"></i></div>
+                            <div>
+                                <h4>Alianzas</h4>
+                                <p>Convenios de suministro continuo con colegios.</p>
+                            </div>
+                        </div>
+                        <div class="quienes-feature">
+                            <div class="feature-icon-box"><i class="fa-solid fa-rotate"></i></div>
+                            <div>
+                                <h4>Stock Permanente</h4>
+                                <p>Inventario constante durante todo el año escolar.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
