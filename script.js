@@ -1133,6 +1133,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Tienda online
   initTiendaOnline().catch(() => {});
+
+  // ── Carrito & Checkout: eventos siempre activos desde el inicio ──
+  document.getElementById('carritoBtn')?.addEventListener('click', abrirCarritoPanel);
+  document.getElementById('carritoCerrar')?.addEventListener('click', cerrarCarritoPanel);
+  document.getElementById('checkoutCerrar')?.addEventListener('click', cerrarCheckout);
+  document.getElementById('checkoutOverlay')?.addEventListener('click', cerrarCheckout);
+  document.getElementById('carritoCheckout')?.addEventListener('click', abrirCheckout);
+  document.getElementById('checkoutForm')?.addEventListener('submit', procesarCheckout);
+  document.getElementById('tallaCerrar')?.addEventListener('click', cerrarTallaModal);
+  document.getElementById('tallaOverlay')?.addEventListener('click', cerrarTallaModal);
 });
 
 // ===================================================================
@@ -1266,23 +1276,11 @@ async function initTiendaOnline() {
   loading.style.display  = 'none';
   contenido.style.display = 'block';
 
-  // Eventos del carrito flotante
-  document.getElementById('carritoBtn')?.addEventListener('click', abrirCarritoPanel);
-  document.getElementById('carritoCerrar')?.addEventListener('click', cerrarCarritoPanel);
+  // Evento para volver al selector de colegios (solo relevante después de cargar API)
   document.getElementById('tiendaVolverColegios')?.addEventListener('click', () => {
     document.getElementById('tiendaPaso2').style.display = 'none';
     document.getElementById('tiendaPaso1').style.display = 'block';
   });
-
-  // Checkout
-  document.getElementById('checkoutCerrar')?.addEventListener('click', cerrarCheckout);
-  document.getElementById('checkoutOverlay')?.addEventListener('click', cerrarCheckout);
-  document.getElementById('carritoCheckout')?.addEventListener('click', abrirCheckout);
-  document.getElementById('checkoutForm')?.addEventListener('submit', procesarCheckout);
-
-  // Modal de tallas
-  document.getElementById('tallaCerrar')?.addEventListener('click', cerrarTallaModal);
-  document.getElementById('tallaOverlay')?.addEventListener('click', cerrarTallaModal);
 }
 
 function renderTiendaColegios(colegios) {
@@ -1332,11 +1330,15 @@ async function cargarCatalogoColegio(id, nombre) {
     return;
   }
 
-  // Filtros por tipo
-  const tipos = [...new Set(data.productos.map(p => p.tipo || 'Otros'))];
+  // Filtros por tipo (deduplicados y ordenados)
+  const tiposRaw = data.productos.map(p => (p.tipo || 'Otros').trim());
+  const tipos = [...new Map(tiposRaw.map(t => [t.toLowerCase(), t])).values()].sort();
   filtros.innerHTML = `
-    <button class="tienda-filtro active" data-tipo="todos">Todos</button>
-    ${tipos.map(t => `<button class="tienda-filtro" data-tipo="${t}">${t}</button>`).join('')}
+    <button class="tienda-filtro active" data-tipo="todos">Todos (${data.productos.length})</button>
+    ${tipos.map(t => {
+      const count = data.productos.filter(p => (p.tipo || 'Otros').trim().toLowerCase() === t.toLowerCase()).length;
+      return `<button class="tienda-filtro" data-tipo="${t}">${t} (${count})</button>`;
+    }).join('')}
   `;
 
   filtros.querySelectorAll('.tienda-filtro').forEach(btn => {
@@ -1352,7 +1354,9 @@ async function cargarCatalogoColegio(id, nombre) {
 }
 
 function filtrarProductos(tipo, productos) {
-  const filtrados = tipo === 'todos' ? productos : productos.filter(p => (p.tipo || 'Otros') === tipo);
+  if (tipo === 'todos') { renderProductos(productos); return; }
+  const t = tipo.trim().toLowerCase();
+  const filtrados = productos.filter(p => (p.tipo || 'Otros').trim().toLowerCase() === t);
   renderProductos(filtrados);
 }
 
