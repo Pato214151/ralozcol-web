@@ -1383,7 +1383,7 @@ async function cargarCatalogoColegio(id, nombre) {
   const escuelaId = getEscuelaStaticId(nombre);
   let productos = escuelaId ? buildStaticProductos(escuelaId) : [];
 
-  // Mezclar con datos del API (actualiza precios/stock reales)
+  // Mezclar con datos del API: solo actualizar STOCK, nunca tallas ni precios
   const data = await RalozAPI.getCatalogoTienda(id);
   if (data?.productos?.length) {
     data.productos.forEach(apiP => {
@@ -1391,10 +1391,18 @@ async function cargarCatalogoColegio(id, nombre) {
         p.nombre.toLowerCase().trim() === apiP.nombre.toLowerCase().trim()
       );
       if (idx >= 0) {
-        productos[idx] = { ...apiP, _static: false };
-      } else {
-        productos.push(apiP);
+        // Construir mapa de stock desde el API para buscar por talla
+        const apiStockMap = new Map((apiP.tallas || []).map(t => [String(t.talla).trim(), t.stock]));
+        // Tallas y precios siempre desde estático; stock desde API si existe
+        const mergedTallas = productos[idx].tallas.map(st => ({
+          talla: st.talla,
+          precio: st.precio,
+          stock: apiStockMap.has(String(st.talla)) ? apiStockMap.get(String(st.talla)) : st.stock,
+        }));
+        productos[idx] = { ...productos[idx], _static: false, tallas: mergedTallas };
       }
+      // Si el API trae un producto que no está en estático, ignorarlo
+      // (solo mostramos productos del catálogo confirmado)
     });
   }
 
