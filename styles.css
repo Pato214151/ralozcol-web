@@ -413,6 +413,7 @@ main { max-width: 1200px; margin: 0 auto; padding: var(--space-md) var(--space-m
 
 /* ===== SECTIONS (base — light theme) ===== */
 section {
+    scroll-margin-top: 72px;
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);

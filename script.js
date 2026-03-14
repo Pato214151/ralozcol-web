@@ -209,7 +209,7 @@ window.addToCotizador = function(productoId, escuelaId) {
   // Scroll al cotizador
   const cotizador = document.getElementById('cotizador');
   if (cotizador) {
-    cotizador.scrollIntoView({ behavior: 'smooth' });
+    scrollToSection(cotizador);
   }
 
   // Pre-seleccionar producto en el formulario
@@ -382,7 +382,7 @@ window.cotSelectSchool = function(nombreEscuela) {
   cotRenderProductos();
 
   setTimeout(() => {
-    productos?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    scrollToSection(productos);
   }, 100);
 };
 
@@ -616,7 +616,7 @@ window.selectSchool = function(nombreEscuela) {
   setTimeout(() => {
     const productosSection = document.getElementById('productosSection');
     if (productosSection) {
-      productosSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      scrollToSection(productosSection);
     }
   }, 100);
 };
@@ -637,7 +637,7 @@ window.clearSchool = function() {
   setTimeout(() => {
     const selectorEscuelas = document.getElementById('selectorEscuelas');
     if (selectorEscuelas) {
-      selectorEscuelas.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      scrollToSection(selectorEscuelas);
     }
   }, 100);
 };
@@ -909,18 +909,24 @@ function initMobileMenu() {
   }, { passive: true });
 }
 
+function scrollToSection(target) {
+  if (!target) return;
+  const nav = document.querySelector('nav');
+  const navHeight = nav ? nav.offsetHeight : 0;
+  const rect = target.getBoundingClientRect();
+  const absoluteTop = rect.top + window.scrollY;
+  window.scrollTo({ top: absoluteTop - navHeight - 8, behavior: 'smooth' });
+}
+
 function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', e => {
       const href = anchor.getAttribute('href');
       if (href === '#' || href === '#!') return;
-      e.preventDefault();
       const target = document.querySelector(href);
       if (target) {
-        const navHeight = document.querySelector('nav')?.offsetHeight || 0;
-        const annBar = document.querySelector('.announcement-bar');
-        const annHeight = annBar?.offsetHeight || 0;
-        window.scrollTo({ top: target.offsetTop - navHeight - annHeight - 10, behavior: 'smooth' });
+        e.preventDefault();
+        scrollToSection(target);
       }
     });
   });
@@ -954,22 +960,22 @@ function initActiveNavIndicator() {
 
   let ticking = false;
   const nav = document.querySelector('nav');
-  const navH = nav?.offsetHeight || 64;
 
   const update = () => {
+    const navH = nav ? nav.offsetHeight : 64;
+    const scrollMid = window.scrollY + navH + 60;
     let current = '';
     sections.forEach(s => {
-      if (window.pageYOffset >= s.offsetTop - navH - 100) current = s.id;
+      const rect = s.getBoundingClientRect();
+      const absTop = rect.top + window.scrollY;
+      if (scrollMid >= absTop) current = s.id;
     });
     navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === `#${current}`));
     ticking = false;
   };
 
   window.addEventListener('scroll', () => {
-    if (!ticking) {
-      requestAnimationFrame(update);
-      ticking = true;
-    }
+    if (!ticking) { requestAnimationFrame(update); ticking = true; }
   }, { passive: true });
   update();
 }
@@ -1339,7 +1345,7 @@ async function cargarCatalogoColegio(id, nombre) {
   });
 
   renderProductos(data.productos);
-  document.getElementById('tienda-online')?.scrollIntoView({ behavior: 'smooth' });
+  scrollToSection(document.getElementById('tienda-online'));
 }
 
 function filtrarProductos(tipo, productos) {
