@@ -1,0 +1,141 @@
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE.CSS — All Media Queries (Consolidated)
+═══════════════════════════════════════════════════════════════ */
+
+/* ===== 1400px BREAKPOINT ===== */
+@media (max-width: 1400px) {
+    .productos-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ===== 1200px BREAKPOINT ===== */
+@media (max-width: 1200px) {
+    .portal-content { grid-template-columns: 1fr; }
+    .portal-visual { display: none; }
+}
+
+/* ===== 1024px BREAKPOINT ===== */
+@media (max-width: 1024px) {
+    .contact-grid { grid-template-columns: 1fr; }
+    .stats-grid   { grid-template-columns: repeat(2,1fr); }
+    .quienes-grid { grid-template-columns: repeat(2,1fr); }
+    .catalogo-grid { grid-template-columns: repeat(2,1fr); }
+    .cotizador-container { grid-template-columns: 1fr; }
+    .cotizador-info { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--space-sm); }
+    .school-cards { grid-template-columns: 1fr; }
+    .productos-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ===== 900px BREAKPOINT ===== */
+@media (max-width: 900px) {
+    .info-pedidos-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== 800px BREAKPOINT ===== */
+@media (max-width: 800px) {
+    .quienes-split { grid-template-columns: 1fr; gap: 2rem; }
+    .quienes-photo-side img { height: 280px; }
+    .hero-split { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-photo-card { display: none; }
+}
+
+/* ===== 768px BREAKPOINT ===== */
+@media (max-width: 768px) {
+    .nav-brand { display: none; }
+    .nav-toggle { display: block; }
+    nav ul { display: none; flex-direction: column; }
+    nav ul.active {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    nav ul.active li { width: 100%; }
+    nav ul.active li a { justify-content: center; }
+    nav a { padding: 0.75rem var(--space-sm); }
+
+    .hero-logo-img { width: 180px; }
+    .logo-frame { padding: 12px; border-radius: 20px; }
+    .logo-ring-outer { border-radius: 24px; }
+    .logo-ring-inner { border-radius: 20px; }
+    .logo-frame-shine { border-radius: 24px; }
+    .hero-logo-glow { width: 280px; height: 280px; }
+    .logo-sparkles { inset: -15px; }
+    .sparkle { width: 4px; height: 4px; }
+    .hero-actions { flex-direction: column; align-items: center; }
+    .btn-primary, .btn-secondary { width: 100%; max-width: 280px; justify-content: center; }
+    .hero-trust { gap: 0.75rem; }
+
+    .mv-grid       { grid-template-columns: 1fr; }
+    .products-grid { grid-template-columns: 1fr; }
+    .testimonios-grid { grid-template-columns: 1fr; }
+    .proceso-grid  { grid-template-columns: repeat(2,1fr); }
+    .proceso-grid::before { display: none; }
+    .catalogo-grid { grid-template-columns: 1fr; }
+    .colegios-grid { justify-content: center; }
+    .cot-row       { grid-template-columns: 1fr; }
+    .cotizador-info { grid-template-columns: 1fr; }
+    .quienes-grid  { grid-template-columns: 1fr; }
+
+    section { padding: var(--space-md); }
+    .form-container iframe { min-height: 500px; }
+
+    .footer-grid   { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+
+    .whatsapp-float { bottom: 16px; right: 16px; }
+    .back-to-top    { bottom: 72px; right: 16px; }
+    .notification   { right: 10px; left: 10px; max-width: calc(100% - 20px); }
+    .announcement-bar { padding: 0.5rem; font-size: 0.8rem; }
+
+    .cot-item { grid-template-columns: 1fr auto auto; }
+
+    .tienda-section .section-header { padding: 20px 16px 14px; }
+    #tiendaContenido { padding: 0 8px; }
+    .tienda-paso2-header { padding: 12px 14px; }
+    .tienda-colegios-grid { grid-template-columns: 1fr 1fr; }
+    .tienda-productos-grid { grid-template-columns: 1fr 1fr; }
+
+    .lookbook-header { flex-direction: column; align-items: flex-start; }
+    .lb-slide { flex: 0 0 calc(80% - 0.5rem); }
+}
+
+/* ===== 700px BREAKPOINT ===== */
+@media (max-width: 700px) {
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ===== 480px BREAKPOINT ===== */
+@media (max-width: 480px) {
+    .stats-grid    { grid-template-columns: 1fr; }
+    .proceso-grid  { grid-template-columns: 1fr; }
+    .productos-grid { grid-template-columns: repeat(2, 1fr); }
+    .tipo-filters  { gap: 0.25rem; }
+    .tipo-btn      { font-size: 0.75rem; padding: 0.4rem 0.7rem; }
+
+    .datos-list { grid-template-columns: 1fr; }
+    .contacto-rapido { flex-direction: column; }
+
+    .checkout-campos { grid-template-columns: 1fr; }
+    .carrito-panel { max-width: 100%; }
+    .tienda-colegios-grid { grid-template-columns: 1fr; }
+    .tienda-productos-grid { grid-template-columns: 1fr 1fr; }
+    .tpc-precio { font-size: 1.2rem; }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ===== PRINT ===== */
+@media print {
+    .whatsapp-float, .back-to-top, nav, .announcement-bar,
+    .form-container iframe, .form-external, .notification { display: none !important; }
+    section, address { box-shadow: none; border: 1px solid #000; page-break-inside: avoid; }
+    a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.8em; color: #666; }
+    body { background: white; color: black; }
+}

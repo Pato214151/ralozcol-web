@@ -2291,7 +2291,13 @@ footer a:hover, footer a:focus { color: var(--yellow); transform: translateX(4px
     .nav-brand { display: none; }
     .nav-toggle { display: block; }
     nav ul { display: none; flex-direction: column; }
-    nav ul.active { display: flex; }
+    nav ul.active {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    nav ul.active li { width: 100%; }
+    nav ul.active li a { justify-content: center; }
     nav a { padding: 0.75rem var(--space-sm); }
 
     .hero-logo-img { width: 180px; }

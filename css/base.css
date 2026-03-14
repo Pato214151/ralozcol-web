@@ -1,0 +1,82 @@
+/* ═══════════════════════════════════════════════════════════════
+   BASE.CSS — Variables, Reset, Typography, Helpers
+═══════════════════════════════════════════════════════════════ */
+
+/* Tipografía: DM Sans (encabezados) + Inter (cuerpo) */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+    --blue: #003DA5;
+    --blue-light: #0056d6;
+    --blue-xlight: #4d8fff;
+    --yellow: #D4A017;
+    --yellow-dark: #b8860f;
+    --red: #E4002B;
+    --green: #16a34a;
+    --bg-main: #ffffff;
+    --bg-section: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f1f5f9;
+    --text-dark: #0f172a;
+    --text-body: #334155;
+    --text-muted: #64748b;
+    --text-light: #0f172a;
+    --border: #e2e8f0;
+    --border-glass: #e2e8f0;
+    --shadow: 0 2px 16px rgba(0,0,0,0.07);
+    --shadow-md: 0 4px 24px rgba(0,0,0,0.10);
+    --shadow-blue: 0 8px 32px rgba(0,61,165,0.15);
+    --shadow-dark: 0 2px 16px rgba(0,0,0,0.07);
+    --shadow-yellow: 0 8px 32px rgba(212,160,23,0.25);
+    --glow-yellow: none;
+    --transition: all 0.3s ease;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+}
+
+/* Helper color classes */
+.txt-blue { color: var(--blue); }
+.txt-gold { color: var(--yellow); }
+
+/* ===== RESET ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Inter', 'DM Sans', sans-serif;
+    line-height: 1.7;
+    color: var(--text-body);
+    background: var(--bg-main);
+    overflow-x: hidden;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5,
+.section-label, .tienda-paso-titulo,
+nav a, .btn-primary, .btn-secondary, .btn-outline,
+.carrito-panel-header h3, .checkout-modal-inner h2 {
+    font-family: 'DM Sans', 'Inter', sans-serif;
+}
+
+body::before { display: none; }
+
+header, nav, main, footer, .whatsapp-float, .announcement-bar {
+    position: relative;
+    z-index: 1;
+}
+
+/* ===== SR-ONLY & FOCUS ===== */
+.sr-only {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+:focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
