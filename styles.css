@@ -922,12 +922,12 @@ section a:hover, section a:focus { color: var(--blue-light); text-decoration: un
 
 .sc-info { flex: 1; }
 .sc-name {
-    display: block; color: white; font-weight: 700;
+    display: block; color: var(--text-dark); font-weight: 700;
     font-size: 1rem; margin-bottom: 0.2rem;
 }
 .sc-count { color: var(--text-muted); font-size: 0.8rem; }
 
-.sc-arrow { color: rgba(255,255,255,0.3); font-size: 0.85rem; transition: var(--transition); }
+.sc-arrow { color: var(--text-muted); font-size: 0.85rem; transition: var(--transition); }
 .school-card:hover .sc-arrow { color: var(--yellow); transform: translateX(4px); }
 .school-card.selected .sc-arrow { color: var(--yellow); }
 
@@ -941,11 +941,11 @@ section a:hover, section a:focus { color: var(--blue-light); text-decoration: un
 
 .btn-back-school {
     display: flex; align-items: center; gap: 0.4rem;
-    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
-    color: var(--text-muted); padding: 0.5rem 1rem; border-radius: 20px;
+    background: white; border: 1px solid var(--border);
+    color: var(--text-body); padding: 0.5rem 1rem; border-radius: 20px;
     cursor: pointer; font-size: 0.85rem; transition: var(--transition);
 }
-.btn-back-school:hover { background: rgba(0,61,165,0.2); color: var(--text-light); border-color: rgba(0,86,214,0.4); }
+.btn-back-school:hover { background: #eff6ff; color: var(--blue); border-color: var(--blue); }
 
 .productos-colegio-tag {
     background: var(--yellow); color: var(--blue);
@@ -959,18 +959,18 @@ section a:hover, section a:focus { color: var(--blue-light); text-decoration: un
     display: flex; gap: 0.4rem; flex-wrap: wrap;
     margin-bottom: var(--space-md);
     padding-bottom: var(--space-md);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid var(--border);
 }
 .tipo-btn {
     display: flex; align-items: center; gap: 0.35rem;
-    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-    color: var(--text-muted); padding: 0.5rem 1rem;
+    background: white; border: 1px solid var(--border);
+    color: var(--text-body); padding: 0.5rem 1rem;
     border-radius: 20px; cursor: pointer; font-size: 0.82rem; font-weight: 500;
     transition: var(--transition); white-space: nowrap;
 }
-.tipo-btn:hover { border-color: rgba(255,193,7,0.3); color: var(--text-light); }
+.tipo-btn:hover { border-color: var(--blue); color: var(--blue); background: #eff6ff; }
 .tipo-btn.active {
-    background: rgba(0,61,165,0.3); border-color: rgba(0,86,214,0.5);
+    background: var(--blue); border-color: var(--blue);
     color: white; font-weight: 600;
 }
 .tipo-btn i { font-size: 0.75rem; }
