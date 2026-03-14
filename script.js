@@ -1468,10 +1468,13 @@ function abrirTallaModal(producto) {
   let selectedPrecio = null;
   let selectedMax = 0;
 
+  // Deduplicar tallas por clave (quedarse con el primero de cada talla)
+  const tallasUnicas = [...new Map(producto.tallas.map(t => [t.talla, t])).values()];
+
   opciones.innerHTML = `
     <p class="talla-instruccion">Elige la talla:</p>
     <div class="talla-pills" id="tallaPills">
-      ${producto.tallas.map(t => `
+      ${tallasUnicas.map(t => `
         <button class="talla-pill${t.stock === 0 ? ' agotado' : ''}"
           data-talla="${t.talla}" data-precio="${t.precio}" data-max="${t.stock}"
           ${t.stock === 0 ? 'disabled' : ''}>
