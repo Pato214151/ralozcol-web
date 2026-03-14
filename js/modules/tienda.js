@@ -18,25 +18,25 @@ export async function initTiendaOnline() {
 
   if (!loading) return;
 
-  // Mensaje dinámico mientras el servidor Render despierta (plan gratuito, hasta 70s)
+  // Mensaje dinámico mientras el servidor Render despierta (plan gratuito, hasta 90s)
   const loadingMsg = loading.querySelector('p');
-  let seg = 0;
+  let msgIdx = 0;
   const mensajes = [
-    'Cargando tienda...',
-    'Conectando con el servidor...',
-    'El servidor está despertando, espera un momento...',
-    'Ya casi está listo...',
-    'Un momento más...',
+    '🔄 Conectando con la tienda...',
+    '⏳ El servidor está despertando, puede tomar hasta 30 segundos...',
+    '☕ Mientras tanto, prepara tu café...',
+    '📦 Cargando catálogo de uniformes...',
+    '🏫 Ya casi está listo...',
   ];
+  if (loadingMsg) loadingMsg.textContent = mensajes[0];
   const intervalo = setInterval(() => {
-    seg += 4;
-    const idx = Math.min(Math.floor(seg / 8), mensajes.length - 1);
-    if (loadingMsg) loadingMsg.textContent = mensajes[idx];
-  }, 4000);
+    msgIdx = (msgIdx + 1) % mensajes.length;
+    if (loadingMsg) loadingMsg.textContent = mensajes[msgIdx];
+  }, 6000);
 
   let data = null;
   const inicio = Date.now();
-  while (Date.now() - inicio < 70000) {
+  while (Date.now() - inicio < 90000) {
     try {
       const res = await fetch(`${RalozAPI.baseURL}/tienda/colegios`, {
         signal: AbortSignal.timeout(10000),
@@ -58,6 +58,13 @@ export async function initTiendaOnline() {
   renderTiendaColegios(data.colegios);
   loading.style.display   = 'none';
   contenido.style.display = 'block';
+
+  // Keep-alive: ping cada 10 min para que Render no duerma mientras el usuario navega
+  setInterval(() => {
+    if (document.visibilityState === 'visible') {
+      fetch(`${RalozAPI.baseURL}/health`, { method: 'HEAD' }).catch(() => {});
+    }
+  }, 600000);
 
   document.getElementById('tiendaVolverColegios')?.addEventListener('click', () => {
     document.getElementById('tiendaPaso2').style.display = 'none';

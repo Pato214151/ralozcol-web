@@ -182,37 +182,42 @@
                     <h2>Nuestro <span class="txt-blue">Look</span><span class="txt-gold">book</span></h2>
                     <p class="section-subtitle">Explora nuestros diseños en acción. Calidad que se ve y se siente.</p>
                 </div>
-                <div class="lookbook-nav-btns">
-                    <button class="lb-btn lb-prev" aria-label="Anterior" onclick="lbPrev()"><i class="fa-solid fa-chevron-left"></i></button>
-                    <button class="lb-btn lb-next" aria-label="Siguiente" onclick="lbNext()"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+
+            <!-- Grid de imágenes -->
+            <div class="galeria-grid">
+                <div class="galeria-item" onclick="galeriaAbrir(0)">
+                    <img src="estudiantes-marillac.png" alt="Estudiantes del Colegio Marillac con uniformes RALOZ COL S.A.S" loading="lazy">
+                    <span class="galeria-tag">Colegio Marillac</span>
+                </div>
+                <div class="galeria-item" onclick="galeriaAbrir(1)">
+                    <img src="fundadora.png" alt="Proceso de confección de uniformes en el taller de RALOZ COL S.A.S" loading="lazy">
+                    <span class="galeria-tag">Confección Propia</span>
+                </div>
+                <div class="galeria-item" onclick="galeriaAbrir(2)">
+                    <img src="uniforme-nina.png" alt="Uniforme diario niña RALOZ COL S.A.S – jardinera y blusa" loading="lazy">
+                    <span class="galeria-tag">Colección Especial</span>
+                </div>
+                <div class="galeria-item" onclick="galeriaAbrir(3)">
+                    <img src="fundadora2.png" alt="Equipo de RALOZ COL S.A.S en el taller de confección de uniformes escolares" loading="lazy">
+                    <span class="galeria-tag">Nuestro Equipo</span>
                 </div>
             </div>
-            <div class="lookbook-carousel-wrap">
-                <div class="lookbook-track" id="lookbookTrack">
-                    <div class="lb-slide">
-                        <img src="estudiantes-marillac.png" alt="Estudiantes del Colegio Marillac con uniformes RALOZ COL S.A.S" loading="lazy">
-                        <span class="lb-tag">Colegio Marillac</span>
-                    </div>
-                    <div class="lb-slide">
-                        <img src="fundadora.png" alt="Proceso de confección de uniformes en el taller de RALOZ COL S.A.S" loading="lazy">
-                        <span class="lb-tag">Colegio Marillac</span>
-                    </div>
-                    <div class="lb-slide">
-                        <img src="uniforme-nina.png" alt="Uniforme diario niña RALOZ COL S.A.S – jardinera y blusa" loading="lazy">
-                        <span class="lb-tag">Colección Especial</span>
-                    </div>
-                    <div class="lb-slide">
-                        <img src="fundadora2.png" alt="Equipo de RALOZ COL S.A.S en el taller de confección de uniformes escolares" loading="lazy">
-                        <span class="lb-tag">Confección Propia</span>
-                    </div>
-                </div>
+
+            <!-- Lightbox -->
+            <div class="galeria-lightbox" id="galeriaLightbox" onclick="galeriaCerrar()">
+                <button class="galeria-lb-prev" onclick="event.stopPropagation(); galeriaNav(-1)" aria-label="Anterior">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <img id="galeriaLbImg" src="" alt="">
+                <button class="galeria-lb-next" onclick="event.stopPropagation(); galeriaNav(1)" aria-label="Siguiente">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+                <button class="galeria-lb-cerrar" onclick="galeriaCerrar()" aria-label="Cerrar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
-            <div class="lookbook-dots" id="lookbookDots">
-                <span class="lb-dot active" onclick="lbGoTo(0)"></span>
-                <span class="lb-dot" onclick="lbGoTo(1)"></span>
-                <span class="lb-dot" onclick="lbGoTo(2)"></span>
-                <span class="lb-dot" onclick="lbGoTo(3)"></span>
-            </div>
+
             <div class="lookbook-cta">
                 <a href="#catalogo" class="btn-primary"><i class="fa-solid fa-shirt"></i> Ver Catálogo Completo →</a>
             </div>

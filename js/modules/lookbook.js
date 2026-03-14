@@ -1,35 +1,48 @@
 // ===================================================================
-// MÓDULO — Lookbook carousel
+// MÓDULO — Galería / Lookbook con lightbox
 // ===================================================================
 
-let lbCurrentIndex = 0;
-const lbSlideCount = 4;
-const lbSlideWidth = 33.333;
+const galeriaImagenes = [
+  { src: 'estudiantes-marillac.png', alt: 'Estudiantes del Colegio Marillac con uniformes RALOZ COL S.A.S', tag: 'Colegio Marillac' },
+  { src: 'fundadora.png',            alt: 'Proceso de confección de uniformes en el taller de RALOZ COL S.A.S', tag: 'Confección Propia' },
+  { src: 'uniforme-nina.png',        alt: 'Uniforme diario niña RALOZ COL S.A.S – jardinera y blusa', tag: 'Colección Especial' },
+  { src: 'fundadora2.png',           alt: 'Equipo de RALOZ COL S.A.S en el taller de confección de uniformes escolares', tag: 'Nuestro Equipo' },
+];
 
-function updateLookbookPosition() {
-  const track = document.getElementById('lookbookTrack');
-  if (!track) return;
-  const offset = -lbCurrentIndex * (lbSlideWidth + 0.667);
-  track.style.transform = `translateX(calc(${offset}% + ${-lbCurrentIndex * 1}rem))`;
+let galeriaIdx = 0;
 
-  document.querySelectorAll('.lb-dot').forEach((dot, idx) => {
-    dot.classList.toggle('active', idx === lbCurrentIndex);
-  });
-}
-
-window.lbNext = function() {
-  lbCurrentIndex = (lbCurrentIndex + 1) % lbSlideCount;
-  updateLookbookPosition();
+window.galeriaAbrir = function(idx) {
+  galeriaIdx = idx;
+  const lb  = document.getElementById('galeriaLightbox');
+  const img = document.getElementById('galeriaLbImg');
+  if (!lb || !img) return;
+  img.src = galeriaImagenes[idx].src;
+  img.alt = galeriaImagenes[idx].alt;
+  lb.classList.add('active');
+  document.body.style.overflow = 'hidden';
 };
 
-window.lbPrev = function() {
-  lbCurrentIndex = (lbCurrentIndex - 1 + lbSlideCount) % lbSlideCount;
-  updateLookbookPosition();
+window.galeriaCerrar = function() {
+  const lb = document.getElementById('galeriaLightbox');
+  if (!lb) return;
+  lb.classList.remove('active');
+  document.body.style.overflow = '';
 };
 
-window.lbGoTo = function(index) {
-  if (index >= 0 && index < lbSlideCount) {
-    lbCurrentIndex = index;
-    updateLookbookPosition();
+window.galeriaNav = function(dir) {
+  galeriaIdx = (galeriaIdx + dir + galeriaImagenes.length) % galeriaImagenes.length;
+  const img = document.getElementById('galeriaLbImg');
+  if (img) {
+    img.src = galeriaImagenes[galeriaIdx].src;
+    img.alt = galeriaImagenes[galeriaIdx].alt;
   }
 };
+
+// Teclas: ESC cierra, flechas navegan
+document.addEventListener('keydown', e => {
+  const lb = document.getElementById('galeriaLightbox');
+  if (!lb?.classList.contains('active')) return;
+  if (e.key === 'Escape')     window.galeriaCerrar();
+  if (e.key === 'ArrowRight') window.galeriaNav(1);
+  if (e.key === 'ArrowLeft')  window.galeriaNav(-1);
+});

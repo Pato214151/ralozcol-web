@@ -2,6 +2,13 @@
 // RALOZ COL S.A.S — Entry point principal v6.0
 // ===================================================================
 
+// Registro del Service Worker (caché offline)
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+
 import { initRalozIntegration } from './core/api.js';
 import { initTiendaOnline } from './modules/tienda.js';
 import { actualizarContadoresEscuelas, initCatalogo } from './modules/catalogo.js';
