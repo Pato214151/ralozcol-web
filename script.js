@@ -1291,9 +1291,12 @@ function renderTiendaColegios(colegios) {
 
   grid.innerHTML = colegios.map(c => `
     <button class="tienda-colegio-card" data-id="${c.id_colegio}" data-nombre="${c.nombre}">
-      <i class="fa-solid fa-school"></i>
-      <span class="tc-nombre">${c.nombre}</span>
-      ${c.ciudad ? `<span class="tc-ciudad">${c.ciudad}</span>` : ''}
+      <div class="tc-icon-wrap"><i class="fa-solid fa-school"></i></div>
+      <div class="tc-text">
+        <span class="tc-nombre">${c.nombre}</span>
+        ${c.ciudad ? `<span class="tc-ciudad"><i class="fa-solid fa-location-dot"></i> ${c.ciudad}</span>` : ''}
+      </div>
+      <i class="fa-solid fa-chevron-right tc-arrow"></i>
     </button>
   `).join('');
 
@@ -1365,19 +1368,27 @@ function renderProductos(productos) {
   grid.innerHTML = productos.map(p => {
     const precioMin = Math.min(...p.tallas.map(t => t.precio));
     const stockTotal = p.tallas.reduce((s, t) => s + t.stock, 0);
+    const sinStock = stockTotal === 0;
     return `
       <div class="tienda-producto-card">
         <div class="tpc-imagen">
           <i class="fa-solid fa-shirt tpc-icon"></i>
-          ${stockTotal < 5 ? '<span class="tpc-badge-poco">¡Pocas unidades!</span>' : ''}
+          ${stockTotal > 0 && stockTotal < 5 ? '<span class="tpc-badge-poco">¡Últimas unidades!</span>' : ''}
         </div>
         <div class="tpc-info">
-          <h4 class="tpc-nombre">${p.nombre}</h4>
-          <p class="tpc-tipo">${p.tipo || ''}</p>
-          <p class="tpc-precio">Desde <strong>${formatCOP(precioMin)}</strong></p>
-          <p class="tpc-stock">${stockTotal} unidades disponibles</p>
+          <p class="tpc-nombre">${p.nombre}</p>
+          ${p.tipo ? `<span class="tpc-tipo-tag">${p.tipo}</span>` : ''}
+          <div class="tpc-precio-wrap">
+            <span class="tpc-precio-desde">Desde</span>
+            <span class="tpc-precio">${formatCOP(precioMin)}</span>
+          </div>
+          <span class="tpc-cuotas">Pago seguro con MercadoPago</span>
+          <span class="tpc-envio"><i class="fa-solid fa-truck"></i> Envío a domicilio</span>
+          ${sinStock
+            ? '<span class="tpc-sin-stock">Sin stock</span>'
+            : `<span class="tpc-stock-ok"><i class="fa-solid fa-check"></i> ${stockTotal} disponibles</span>`}
         </div>
-        <button class="btn-agregar-carrito" data-id="${p.id_producto}" data-nombre="${p.nombre}">
+        <button class="btn-agregar-carrito" data-id="${p.id_producto}" data-nombre="${p.nombre}" ${sinStock ? 'disabled' : ''}>
           <i class="fa-solid fa-cart-plus"></i> Agregar al carrito
         </button>
       </div>
@@ -1484,14 +1495,14 @@ function renderCarritoPanel() {
 
   items.innerHTML = Carrito.items.map(i => `
     <div class="carrito-item">
+      <div class="ci-img"><i class="fa-solid fa-shirt"></i></div>
       <div class="ci-info">
         <span class="ci-nombre">${i.nombre}</span>
-        <span class="ci-detalle">Talla ${i.talla} · ${formatCOP(i.precio)} c/u</span>
+        <span class="ci-detalle">Talla ${i.talla} · ${formatCOP(i.precio)} c/u · ×${i.cantidad}</span>
       </div>
       <div class="ci-acciones">
-        <span class="ci-cantidad">×${i.cantidad}</span>
         <span class="ci-subtotal">${formatCOP(i.precio * i.cantidad)}</span>
-        <button class="ci-quitar" data-id="${i.id_producto}" data-talla="${i.talla}" aria-label="Quitar">×</button>
+        <button class="ci-quitar" data-id="${i.id_producto}" data-talla="${i.talla}" aria-label="Quitar">Eliminar</button>
       </div>
     </div>
   `).join('');
