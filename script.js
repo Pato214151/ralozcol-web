@@ -666,6 +666,12 @@ function renderizarProductos() {
 
   productos.forEach(producto => {
     const precioMinimo = obtenerPrecioMinimo(escuelaSeleccionada.id, producto.id);
+    const tallas = obtenerTallas(escuelaSeleccionada.id, producto.id);
+    const precioRows = tallas.map(t => {
+      const p = obtenerPrecio(escuelaSeleccionada.id, producto.id, t);
+      return `<tr><td class="cat-talla-cell">${t}</td><td class="cat-precio-cell">${formatCOP(p)}</td></tr>`;
+    }).join('');
+
     const card = document.createElement('div');
     card.className = 'producto-card';
     card.innerHTML = `
@@ -679,13 +685,34 @@ function renderizarProductos() {
       <div class="producto-precio">
         <span class="precio-desde">Desde ${formatCOP(precioMinimo)}</span>
       </div>
-      <button class="btn btn-cotizar" onclick="addToCotizador(${producto.id}, ${escuelaSeleccionada.id})">
-        Cotizar
-      </button>
+      <div class="cat-precios-wrap" id="catPrecios_${producto.id}" style="display:none;">
+        <table class="cat-precios-tabla">
+          <thead><tr><th>Talla</th><th>Precio</th></tr></thead>
+          <tbody>${precioRows}</tbody>
+        </table>
+      </div>
+      <div class="cat-btns">
+        <button class="btn-ver-precios" onclick="toggleCatPrecios(${producto.id}, this)">
+          <i class="fa-solid fa-tags"></i> Ver precios
+        </button>
+        <a href="#tienda-online" class="btn-ir-tienda">
+          <i class="fa-solid fa-bag-shopping"></i> Comprar
+        </a>
+      </div>
     `;
     grid.appendChild(card);
   });
 }
+
+window.toggleCatPrecios = function(productoId, btn) {
+  const wrap = document.getElementById(`catPrecios_${productoId}`);
+  if (!wrap) return;
+  const isOpen = wrap.style.display !== 'none';
+  wrap.style.display = isOpen ? 'none' : 'block';
+  btn.innerHTML = isOpen
+    ? '<i class="fa-solid fa-tags"></i> Ver precios'
+    : '<i class="fa-solid fa-chevron-up"></i> Ocultar';
+};
 
 /**
  * Obtiene los productos disponibles para una escuela

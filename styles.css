@@ -353,6 +353,12 @@ nav.scrolled {
     flex-shrink: 0;
     display: flex; align-items: center;
 }
+.nav-logo-link {
+    display: flex; align-items: center; gap: 0.5rem; text-decoration: none;
+}
+.nav-logo-img {
+    height: 34px; width: auto;
+}
 .nav-logo {
     color: white;
     font-weight: 800;
@@ -1135,6 +1141,78 @@ section a:hover, section a:focus { color: var(--blue-light); text-decoration: un
     font-size: 1rem;
     font-weight: 800;
 }
+.cat-precios-wrap {
+    width: 100%;
+    margin-top: 0.4rem;
+    animation: fadeDown 0.2s ease both;
+}
+.cat-precios-tabla {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+}
+.cat-precios-tabla thead tr th {
+    background: var(--blue);
+    color: #fff;
+    padding: 0.3rem 0.6rem;
+    font-weight: 600;
+    text-align: left;
+}
+.cat-talla-cell {
+    padding: 0.28rem 0.6rem;
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+    color: var(--text-dark);
+    background: #f8fbff;
+}
+.cat-precio-cell {
+    padding: 0.28rem 0.6rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--blue);
+    font-weight: 700;
+    text-align: right;
+}
+.cat-btns {
+    display: flex;
+    gap: 0.4rem;
+    width: 100%;
+    margin-top: auto;
+}
+.btn-ver-precios {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: var(--blue);
+    padding: 0.45rem 0.6rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-weight: 600;
+    transition: var(--transition);
+    font-family: inherit;
+}
+.btn-ver-precios:hover { background: var(--blue); color: #fff; border-color: var(--blue); }
+.btn-ir-tienda {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    background: var(--blue);
+    border: 1px solid var(--blue);
+    color: #fff;
+    padding: 0.45rem 0.6rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+}
+.btn-ir-tienda:hover { background: var(--yellow); color: var(--blue); border-color: var(--yellow); }
 .btn-cotizar {
     display: flex;
     align-items: center;
