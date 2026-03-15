@@ -185,48 +185,92 @@ export async function procesarCheckout(e) {
   const documento = document.getElementById('ck-documento').value.trim();
 
   if (!nombre || !email || !telefono) {
-    errorEl.textContent = 'Por favor completa todos los campos requeridos.';
-    errorEl.style.display = 'block';
+    _checkoutError(errorEl, 'Por favor completa todos los campos requeridos.');
     return;
   }
 
   btn.disabled = true;
-  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Procesando...';
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creando tu pedido...';
   errorEl.style.display = 'none';
 
-  try {
-    const payload = {
-      nombre_cliente:    nombre,
-      email_cliente:     email,
-      telefono_cliente:  telefono,
-      documento_cliente: documento,
-      id_colegio:        Carrito.colegio_id,
-      items: Carrito.items.map(i => ({
-        id_producto: i.id_producto,
-        nombre:      i.nombre,
-        talla:       i.talla,
-        cantidad:    i.cantidad,
-      })),
-    };
-
-    const resp = await RalozAPI.crearPedido(payload);
-
-    Carrito.vaciar();
-
-    if (resp.pago_url) {
-      window.location.href = resp.pago_url;
-    } else {
-      btn.innerHTML = '<i class="fa-solid fa-check"></i> Pedido creado';
-      errorEl.style.background = '#e8f5e9';
-      errorEl.style.color = '#2e7d32';
-      errorEl.textContent = `Pedido #${resp.pedido.referencia} registrado. Nos contactaremos contigo para coordinar el pago.`;
-      errorEl.style.display = 'block';
+  // Mensaje de espera si el servidor tarda (Render cold start)
+  const msgTimer = setTimeout(() => {
+    if (btn.disabled) {
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> El servidor está respondiendo, espera un momento...';
     }
+  }, 8000);
 
-  } catch (err) {
-    errorEl.textContent = err.message || 'Error al procesar el pedido. Intenta de nuevo.';
-    errorEl.style.display = 'block';
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fa-solid fa-lock"></i> Pagar ahora';
+  const payload = {
+    nombre_cliente:    nombre,
+    email_cliente:     email,
+    telefono_cliente:  telefono,
+    documento_cliente: documento,
+    id_colegio:        Carrito.colegio_id,
+    items: Carrito.items.map(i => ({
+      id_producto: i.id_producto,
+      nombre:      i.nombre,
+      talla:       i.talla,
+      cantidad:    i.cantidad,
+    })),
+  };
+
+  let resp = null;
+  let lastErr = null;
+
+  // Hasta 2 intentos (por si el primer timeout coincide con cold start)
+  for (let intento = 1; intento <= 2; intento++) {
+    try {
+      resp = await RalozAPI.crearPedido(payload);
+      break;
+    } catch (err) {
+      lastErr = err;
+      if (intento === 1) {
+        // Pequeña pausa antes del reintento
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Reintentando conexión...';
+        await new Promise(r => setTimeout(r, 3000));
+      }
+    }
   }
+
+  clearTimeout(msgTimer);
+
+  if (!resp) {
+    _checkoutError(
+      errorEl,
+      `No se pudo conectar con el servidor${lastErr?.message ? ': ' + lastErr.message : ''}. Intenta de nuevo o contáctanos por WhatsApp.`,
+      true
+    );
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-lock"></i> Ir a pagar con MercadoPago';
+    return;
+  }
+
+  Carrito.vaciar();
+
+  if (resp.pago_url) {
+    btn.innerHTML = '<i class="fa-solid fa-arrow-right"></i> Redirigiendo a MercadoPago...';
+    window.location.href = resp.pago_url;
+  } else {
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> Pedido registrado';
+    _checkoutOk(
+      errorEl,
+      `Pedido #${resp.pedido?.referencia ?? '—'} registrado. Te contactaremos para coordinar el pago.`
+    );
+  }
+}
+
+function _checkoutError(el, msg, withWA = false) {
+  el.style.cssText = '';
+  el.innerHTML = msg + (withWA
+    ? ' <a href="https://wa.me/573213412903" target="_blank" rel="noopener" style="color:inherit;font-weight:700;">Escribir por WhatsApp →</a>'
+    : '');
+  el.style.display = 'block';
+}
+
+function _checkoutOk(el, msg) {
+  el.style.background = '#e8f5e9';
+  el.style.color = '#2e7d32';
+  el.style.border = '1px solid #a5d6a7';
+  el.textContent = msg;
+  el.style.display = 'block';
 }

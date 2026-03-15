@@ -32,16 +32,24 @@ export const RalozAPI = {
     } catch { return null; }
   },
 
-  async post(endpoint, body) {
-    const res = await fetch(`${this.baseURL}${endpoint}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-      signal: AbortSignal.timeout(12000),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
-    return data;
+  async post(endpoint, body, timeoutMs = 25000) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const res = await fetch(`${this.baseURL}${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+        signal: controller.signal,
+      });
+      clearTimeout(timer);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+      return data;
+    } catch (err) {
+      clearTimeout(timer);
+      throw err;
+    }
   },
 
   // Tienda online
