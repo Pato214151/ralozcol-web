@@ -211,6 +211,8 @@ export async function procesarCheckout(e) {
       nombre:      i.nombre,
       talla:       i.talla,
       cantidad:    i.cantidad,
+      precio:      i.precio,
+      unit_price:  i.precio,
     })),
   };
 
