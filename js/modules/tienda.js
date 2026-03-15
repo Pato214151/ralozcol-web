@@ -237,10 +237,10 @@ function renderProductos(productos) {
           ${sinStock
             ? '<span class="tpc-sin-stock">Sin stock</span>'
             : p._static
-              ? '<span class="tpc-stock-ok"><i class="fa-solid fa-check"></i> Disponible</span>'
+              ? '<span class="tpc-sin-stock">No disponible en línea</span>'
               : `<span class="tpc-stock-ok"><i class="fa-solid fa-check"></i> ${stockTotal} disponibles</span>`}
         </div>
-        <button class="btn-agregar-carrito" data-id="${p.id_producto}" data-nombre="${p.nombre}" ${sinStock ? 'disabled' : ''}>
+        <button class="btn-agregar-carrito" data-id="${p.id_producto}" data-nombre="${p.nombre}" ${sinStock || p._static ? 'disabled' : ''}>
           <i class="fa-solid fa-cart-plus"></i> Agregar al carrito
         </button>
       </div>
