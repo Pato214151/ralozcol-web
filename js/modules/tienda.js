@@ -150,11 +150,14 @@ async function cargarCatalogoColegio(id, nombre) {
   let productos = escuelaId ? buildStaticProductos(escuelaId) : [];
 
   // Mezclar con API: reemplazar id_producto y tallas con los valores reales de DB
+  const normNombre = s => s.toLowerCase().trim()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
   const data = await RalozAPI.getCatalogoTienda(id);
   if (data?.productos?.length) {
     data.productos.forEach(apiP => {
       const idx = productos.findIndex(p =>
-        p.nombre.toLowerCase().trim() === apiP.nombre.toLowerCase().trim()
+        normNombre(p.nombre) === normNombre(apiP.nombre)
       );
       if (idx >= 0) {
         // Usar id_producto y tallas de la API — son los IDs/tallas reales en la DB
