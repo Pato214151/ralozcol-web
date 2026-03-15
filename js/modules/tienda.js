@@ -149,7 +149,7 @@ async function cargarCatalogoColegio(id, nombre) {
   const escuelaId = getEscuelaStaticId(nombre);
   let productos = escuelaId ? buildStaticProductos(escuelaId) : [];
 
-  // Mezclar con API: solo actualizar STOCK, nunca tallas ni precios
+  // Mezclar con API: reemplazar id_producto y tallas con los valores reales de DB
   const data = await RalozAPI.getCatalogoTienda(id);
   if (data?.productos?.length) {
     data.productos.forEach(apiP => {
@@ -157,13 +157,17 @@ async function cargarCatalogoColegio(id, nombre) {
         p.nombre.toLowerCase().trim() === apiP.nombre.toLowerCase().trim()
       );
       if (idx >= 0) {
-        const apiStockMap = new Map((apiP.tallas || []).map(t => [String(t.talla).trim(), t.stock]));
-        const mergedTallas = productos[idx].tallas.map(st => ({
-          talla: st.talla,
-          precio: st.precio,
-          stock: apiStockMap.has(String(st.talla)) ? apiStockMap.get(String(st.talla)) : st.stock,
-        }));
-        productos[idx] = { ...productos[idx], _static: false, tallas: mergedTallas };
+        // Usar id_producto y tallas de la API — son los IDs/tallas reales en la DB
+        productos[idx] = {
+          ...productos[idx],
+          id_producto: apiP.id_producto,
+          _static: false,
+          tallas: (apiP.tallas || []).map(t => ({
+            talla:  t.talla,
+            precio: t.precio,
+            stock:  t.stock,
+          })),
+        };
       }
     });
   }
