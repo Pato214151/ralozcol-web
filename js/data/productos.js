@@ -10,7 +10,7 @@ export const PRODUCTOS = {
   5:  { id: 5,  codigo: 'CHQ-DIARIO',      nombre: 'Chaqueta Diario',                         tipo: 'Diario',       icon: 'fa-solid fa-jacket' },
   6:  { id: 6,  codigo: 'JARDINERA',       nombre: 'Jardinera Niña',                          tipo: 'Diario Niña',  icon: 'fa-solid fa-person-dress' },
   7:  { id: 7,  codigo: 'BLUSA',           nombre: 'Blusa Niña',                              tipo: 'Diario Niña',  icon: 'fa-solid fa-shirt' },
-  8:  { id: 8,  codigo: 'PANT-EDU',        nombre: 'Pantalón Ed. Física',                     tipo: 'Ed. Física',   icon: 'fa-solid fa-person-running' },
+  8:  { id: 8,  codigo: 'PANT-EDU',        nombre: 'Pantalón Educación Física',               tipo: 'Ed. Física',   icon: 'fa-solid fa-person-running' },
   9:  { id: 9,  codigo: 'CAMISETA',        nombre: 'Camiseta Ed. Física',                     tipo: 'Ed. Física',   icon: 'fa-solid fa-shirt' },
   10: { id: 10, codigo: 'CHQ-EDU',         nombre: 'Chaqueta Ed. Física',                     tipo: 'Ed. Física',   icon: 'fa-solid fa-person-running' },
   11: { id: 11, codigo: 'PANTALONETA',     nombre: 'Pantaloneta',                             tipo: 'Ed. Física',   icon: 'fa-solid fa-person-running' },
