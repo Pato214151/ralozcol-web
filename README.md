@@ -53,6 +53,20 @@ Raloz/
 8. Pago confirmado
 ```
 
+## Nombres de productos — importante
+
+Los nombres en `js/data/productos.js` deben coincidir **exactamente** con los nombres en la base de datos (Supabase). Si no coinciden, el botón queda gris con "No disponible en línea".
+
+La comparación normaliza acentos y mayúsculas, pero NO elimina emojis. Si la DB tiene un emoji en el nombre, el estático también debe tenerlo.
+
+| ID | Nombre en DB y en productos.js |
+|----|-------------------------------|
+| 8  | `Pantalón Educación Física` (no abreviar) |
+| 14 | `🎒 Uniforme Diario Niña COMPLETO` (con emoji) |
+| 15 | `🏃 Uniforme Ed. Física COMPLETO` (con emoji) |
+
+Si agregas productos nuevos a la DB, actualiza también `productos.js` con el nombre idéntico.
+
 ## Modo offline / fallback estático
 
 Si el backend no responde (Render en plan gratuito tarda hasta 90s en despertar), la tienda usa datos estáticos de `/js/data/` con precios locales y marca los productos como "No disponible en línea" hasta que la API responda.
