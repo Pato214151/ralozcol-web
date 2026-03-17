@@ -55,6 +55,7 @@ export const RalozAPI = {
   // Tienda online
   async getColegiosTienda()   { return this.get('/tienda/colegios'); },
   async getCatalogoTienda(id) { return this.get(`/tienda/catalogo/${id}`); },
+  async reservar(data)        { return this.post('/tienda/reservar', data, 8000); },
   async crearPedido(data)     { return this.post('/tienda/pedido', data); },
   async consultarPedido(ref)  { return this.get(`/tienda/pedido/${encodeURIComponent(ref)}`); },
 

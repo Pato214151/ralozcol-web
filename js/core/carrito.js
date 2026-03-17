@@ -5,9 +5,10 @@
 import { formatCOP } from './utils.js';
 
 export const Carrito = {
-  items: [],           // [{id_producto, nombre, talla, cantidad, precio}]
+  items: [],           // [{id_producto, nombre, talla, cantidad, precio, id_reserva?}]
   colegio_id: null,
   colegio_nombre: '',
+  sessionId: null,     // UUID único de sesión — identifica el carrito para reservas
 
   agregar(item) {
     const key = `${item.id_producto}-${item.talla}`;
@@ -71,6 +72,12 @@ export const Carrito = {
         this.colegio_nombre = d.colegio_nombre || '';
       }
     } catch {}
+    // Generar o recuperar sessionId único para el sistema de reservas
+    this.sessionId = sessionStorage.getItem('raloz_session_id');
+    if (!this.sessionId) {
+      this.sessionId = crypto.randomUUID();
+      sessionStorage.setItem('raloz_session_id', this.sessionId);
+    }
     this.renderBadge();
   },
 };

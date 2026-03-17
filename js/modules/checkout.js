@@ -79,19 +79,48 @@ export function abrirTallaModal(producto) {
     if (v < selectedMax) el.textContent = v + 1;
   });
 
-  // Agregar al carrito
-  document.getElementById('btnTallaAdd').addEventListener('click', () => {
+  // Agregar al carrito (con reserva temporal de 15 min)
+  document.getElementById('btnTallaAdd').addEventListener('click', async () => {
     if (!selectedTalla) return;
-    const cant = parseInt(document.getElementById('tallaCantVal').textContent);
-    Carrito.agregar({
-      id_producto: producto.id_producto,
-      nombre:      producto.nombre,
-      talla:       selectedTalla,
-      cantidad:    cant,
-      precio:      selectedPrecio,
-    });
-    cerrarTallaModal();
-    mostrarToast(`${producto.nombre} — Talla ${selectedTalla} agregado ✓`);
+    const cant    = parseInt(document.getElementById('tallaCantVal').textContent);
+    const btnAdd  = document.getElementById('btnTallaAdd');
+    const errViejo = document.getElementById('tallaReservaError');
+    if (errViejo) errViejo.remove();
+
+    btnAdd.disabled = true;
+    btnAdd.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Reservando...';
+
+    try {
+      const resp = await RalozAPI.reservar({
+        session_id:  Carrito.sessionId,
+        id_colegio:  Carrito.colegio_id,
+        id_producto: producto.id_producto,
+        talla:       selectedTalla,
+        cantidad:    cant,
+      });
+
+      Carrito.agregar({
+        id_producto: producto.id_producto,
+        nombre:      producto.nombre,
+        talla:       selectedTalla,
+        cantidad:    cant,
+        precio:      selectedPrecio,
+        id_reserva:  resp.id_reserva,
+      });
+      cerrarTallaModal();
+      mostrarToast(`${producto.nombre} — Talla ${selectedTalla} agregado ✓`);
+    } catch (err) {
+      btnAdd.disabled = false;
+      btnAdd.innerHTML = '<i class="fa-solid fa-cart-plus"></i> Agregar al carrito';
+      const msg = err.message?.toLowerCase().includes('stock')
+        ? '⚠️ Sin stock disponible para esta talla'
+        : `⚠️ ${err.message || 'Error al reservar, intenta de nuevo'}`;
+      const errEl = document.createElement('p');
+      errEl.id = 'tallaReservaError';
+      errEl.style.cssText = 'color:#e53935;font-size:0.85rem;margin:8px 0 0;text-align:center;';
+      errEl.textContent = msg;
+      btnAdd.parentNode.insertBefore(errEl, btnAdd);
+    }
   });
 
   document.getElementById('tallaModal').style.display   = 'flex';
@@ -213,6 +242,7 @@ export async function procesarCheckout(e) {
       cantidad:    i.cantidad,
       precio:      i.precio,
       unit_price:  i.precio,
+      id_reserva:  i.id_reserva || null,
     })),
   };
 
