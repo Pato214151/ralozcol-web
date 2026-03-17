@@ -9,6 +9,13 @@ import { formatCOP, scrollToSection } from '../core/utils.js';
 import { Carrito } from '../core/carrito.js';
 import { abrirTallaModal } from './checkout.js';
 
+// ─── Estado del módulo ────────────────────────────────────────────
+let _colegioId     = null;
+let _colegioNombre = null;
+let _productos     = [];   // lista completa mergeada (todas las tallas con stock real)
+let _filtroActivo  = 'todos';
+let _refreshTimer  = null;
+
 export async function initTiendaOnline() {
   Carrito.cargar();
 
@@ -67,6 +74,7 @@ export async function initTiendaOnline() {
   }, 600000);
 
   document.getElementById('tiendaVolverColegios')?.addEventListener('click', () => {
+    _detenerRefresh();
     document.getElementById('tiendaPaso2').style.display = 'none';
     document.getElementById('tiendaPaso1').style.display = 'block';
   });
@@ -101,6 +109,64 @@ function buildStaticProductos(escuelaStaticId) {
   }).filter(Boolean);
 }
 
+// ─── Normalización de nombres (para merge) ────────────────────────
+
+const normNombre = s => s.toLowerCase().trim()
+  .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+// ─── Merge: superpone datos de API sobre base estática ────────────
+
+function mergeConAPI(base, apiProductos) {
+  const resultado = base.map(p => ({ ...p }));
+  (apiProductos || []).forEach(apiP => {
+    const idx = resultado.findIndex(p =>
+      normNombre(p.nombre) === normNombre(apiP.nombre)
+    );
+    if (idx >= 0) {
+      resultado[idx] = {
+        ...resultado[idx],
+        id_producto: apiP.id_producto,
+        _static: false,
+        tallas: (apiP.tallas || []).map(t => ({
+          talla:  t.talla,
+          precio: t.precio,
+          stock:  t.stock,
+        })),
+      };
+    }
+  });
+  return resultado;
+}
+
+// ─── Refresh de stock (silencioso) ────────────────────────────────
+
+function _detenerRefresh() {
+  if (_refreshTimer) { clearInterval(_refreshTimer); _refreshTimer = null; }
+}
+
+async function _refreshStock() {
+  if (!_colegioId) return;
+
+  const data = await RalozAPI.getCatalogoTienda(_colegioId);
+  if (!data?.productos?.length) return;
+
+  const escuelaId = getEscuelaStaticId(_colegioNombre);
+  const base      = escuelaId ? buildStaticProductos(escuelaId) : [];
+  _productos      = mergeConAPI(base, data.productos);
+
+  window._tiendaProductos = _productos;
+  filtrarProductos(_filtroActivo, _productos);
+
+  // Indicador: muestra la hora de la última actualización
+  const ind = document.getElementById('stockRefreshInd');
+  if (ind) {
+    const hora = new Date().toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
+    ind.textContent = `Actualizado ${hora}`;
+    ind.style.opacity = '1';
+    setTimeout(() => { if (ind) ind.style.opacity = '0'; }, 4000);
+  }
+}
+
 // ─── Render del grid de colegios ─────────────────────────────────
 
 function renderTiendaColegios(colegios) {
@@ -129,11 +195,11 @@ function renderTiendaColegios(colegios) {
 // ─── Carga del catálogo (estático + merge stock API) ──────────────
 
 async function cargarCatalogoColegio(id, nombre) {
-  const paso1   = document.getElementById('tiendaPaso1');
-  const paso2   = document.getElementById('tiendaPaso2');
+  const paso1    = document.getElementById('tiendaPaso1');
+  const paso2    = document.getElementById('tiendaPaso2');
   const nombreEl = document.getElementById('tiendaColegioNombre');
-  const grid    = document.getElementById('tiendaProductosGrid');
-  const filtros = document.getElementById('tiendaTipoFiltros');
+  const grid     = document.getElementById('tiendaProductosGrid');
+  const filtros  = document.getElementById('tiendaTipoFiltros');
 
   paso1.style.display = 'none';
   paso2.style.display = 'block';
@@ -145,62 +211,58 @@ async function cargarCatalogoColegio(id, nombre) {
   Carrito.colegio_nombre = nombre;
   Carrito.guardar();
 
-  // Base estática siempre completa
+  // Guardar estado del módulo
+  _colegioId     = id;
+  _colegioNombre = nombre;
+  _filtroActivo  = 'todos';
+  _detenerRefresh();
+
+  // Base estática + merge con API
   const escuelaId = getEscuelaStaticId(nombre);
-  let productos = escuelaId ? buildStaticProductos(escuelaId) : [];
+  const base      = escuelaId ? buildStaticProductos(escuelaId) : [];
+  const data      = await RalozAPI.getCatalogoTienda(id);
+  _productos      = mergeConAPI(base, data?.productos);
 
-  // Mezclar con API: reemplazar id_producto y tallas con los valores reales de DB
-  const normNombre = s => s.toLowerCase().trim()
-    .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-
-  const data = await RalozAPI.getCatalogoTienda(id);
-  if (data?.productos?.length) {
-    data.productos.forEach(apiP => {
-      const idx = productos.findIndex(p =>
-        normNombre(p.nombre) === normNombre(apiP.nombre)
-      );
-      if (idx >= 0) {
-        // Usar id_producto y tallas de la API — son los IDs/tallas reales en la DB
-        productos[idx] = {
-          ...productos[idx],
-          id_producto: apiP.id_producto,
-          _static: false,
-          tallas: (apiP.tallas || []).map(t => ({
-            talla:  t.talla,
-            precio: t.precio,
-            stock:  t.stock,
-          })),
-        };
-      }
-    });
-  }
-
-  if (!productos.length) {
+  if (!_productos.length) {
     grid.innerHTML = '<p class="tienda-empty">No hay productos disponibles para este colegio por el momento.</p>';
     return;
   }
 
   // Filtros por tipo (deduplicados y ordenados)
-  const tiposRaw = productos.map(p => (p.tipo || 'Otros').trim());
+  const tiposRaw = _productos.map(p => (p.tipo || 'Otros').trim());
   const tipos = [...new Map(tiposRaw.map(t => [t.toLowerCase(), t])).values()].sort();
+  const horaInicio = new Date().toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
   filtros.innerHTML = `
-    <button class="tienda-filtro active" data-tipo="todos">Todos (${productos.length})</button>
+    <button class="tienda-filtro active" data-tipo="todos">Todos (${_productos.length})</button>
     ${tipos.map(t => {
-      const count = productos.filter(p => (p.tipo || 'Otros').trim().toLowerCase() === t.toLowerCase()).length;
+      const count = _productos.filter(p => (p.tipo || 'Otros').trim().toLowerCase() === t.toLowerCase()).length;
       return `<button class="tienda-filtro" data-tipo="${t}">${t} (${count})</button>`;
     }).join('')}
+    <span id="stockRefreshInd" style="font-size:0.72rem;color:#4caf50;margin-left:auto;opacity:0;transition:opacity 0.6s;align-self:center;white-space:nowrap;">
+      <i class="fa-solid fa-circle-check"></i> Actualizado ${horaInicio}
+    </span>
   `;
 
   filtros.querySelectorAll('.tienda-filtro').forEach(btn => {
     btn.addEventListener('click', () => {
       filtros.querySelectorAll('.tienda-filtro').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      filtrarProductos(btn.dataset.tipo, productos);
+      _filtroActivo = btn.dataset.tipo;
+      filtrarProductos(_filtroActivo, _productos);
     });
   });
 
-  renderProductos(productos);
+  window._tiendaProductos = _productos;
+  renderProductos(_productos);
   scrollToSection(document.getElementById('tienda-online'));
+
+  // Auto-refresh de stock cada 60 segundos (solo si la pestaña está activa)
+  _refreshTimer = setInterval(() => {
+    if (document.getElementById('tiendaPaso2')?.style.display !== 'none'
+        && document.visibilityState === 'visible') {
+      _refreshStock();
+    }
+  }, 60000);
 }
 
 function filtrarProductos(tipo, productos) {
@@ -219,9 +281,9 @@ function renderProductos(productos) {
   }
 
   grid.innerHTML = productos.map(p => {
-    const precioMin = Math.min(...p.tallas.map(t => t.precio));
+    const precioMin  = Math.min(...p.tallas.map(t => t.precio));
     const stockTotal = p.tallas.reduce((s, t) => s + t.stock, 0);
-    const sinStock = stockTotal === 0;
+    const sinStock   = stockTotal === 0;
     return `
       <div class="tienda-producto-card">
         <div class="tpc-imagen">
@@ -250,14 +312,19 @@ function renderProductos(productos) {
     `;
   }).join('');
 
-  // Guardar referencia para el modal de tallas
-  window._tiendaProductos = productos;
+  // window._tiendaProductos apunta siempre a la lista completa (_productos)
+  // para que el click handler encuentre el producto aunque la vista esté filtrada
+  window._tiendaProductos = _productos;
 
   grid.querySelectorAll('.btn-agregar-carrito').forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', async () => {
       const id = parseInt(btn.dataset.id);
+
+      // Actualizar stock desde la API justo antes de abrir el modal
+      await _refreshStock();
+
       const producto = window._tiendaProductos?.find(p => p.id_producto === id);
-      if (producto) abrirTallaModal(producto);
+      if (producto && !producto._static) abrirTallaModal(producto);
     });
   });
 }
