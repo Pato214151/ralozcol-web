@@ -1527,6 +1527,46 @@ nav.scrolled .nav-tienda-btn { background: var(--ml-yellow) !important; border: 
     transition: background 0.15s;
 }
 .btn-agregar-carrito:hover { background: var(--ml-blue-dark); }
+.btn-agregar-carrito:disabled { background: #c8c8c8; color: #888; cursor: not-allowed; opacity: 0.7; }
+.btn-agregar-carrito.btn-fab { background: #6d4c41; }
+.btn-agregar-carrito.btn-fab:hover { background: #4e342e; }
+
+/* ─── Tarjeta de fabricación ────────────────────────────────────── */
+.tpc-fabricacion { border: 2px dashed #bcaaa4; }
+.tpc-badge-fab {
+    position: absolute; top: 8px; left: 8px;
+    font-size: 1.3rem; background: #fff3e0; border-radius: 50%;
+    width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+}
+.tpc-fab-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 0.75rem; color: #6d4c41; font-weight: 600;
+    background: #efebe9; padding: 3px 8px; border-radius: 12px; margin-top: 4px;
+}
+.tpc-fab-tiempo {
+    display: block; font-size: 0.73rem; color: #8d6e63; margin-top: 3px;
+}
+.tpc-stock-poco {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 0.75rem; color: #e65100; font-weight: 600;
+    background: #fff3e0; padding: 3px 8px; border-radius: 12px; margin-top: 4px;
+}
+
+/* ─── Selector de abono en checkout ─────────────────────────────── */
+.ck-abono-wrap {
+    background: #fff3e0; border: 1px solid #ffcc80; border-radius: 8px;
+    padding: 14px 16px; margin: 12px 0;
+}
+.ck-abono-wrap p { margin: 0 0 10px; font-size: 0.85rem; color: #5d4037; font-weight: 600; }
+.ck-abono-opciones { display: flex; gap: 10px; flex-wrap: wrap; }
+.ck-abono-btn {
+    flex: 1; min-width: 120px; padding: 10px 12px;
+    border: 2px solid #ffcc80; border-radius: 8px; background: #fff8f0;
+    cursor: pointer; text-align: center; transition: all 0.15s;
+}
+.ck-abono-btn.selected { border-color: #e65100; background: #fff3e0; }
+.ck-abono-btn .abono-pct  { font-size: 1.1rem; font-weight: 700; color: #e65100; display: block; }
+.ck-abono-btn .abono-monto{ font-size: 0.82rem; color: #555; display: block; margin-top: 2px; }
 
 /* ─── Modal de tallas ─────────────────────────────────────────── */
 .talla-overlay {
@@ -1598,6 +1638,17 @@ nav.scrolled .nav-tienda-btn { background: var(--ml-yellow) !important; border: 
     transition: background 0.15s;
 }
 .btn-talla-add:hover { background: var(--ml-blue-dark); }
+.btn-talla-add.btn-talla-fab { background: #6d4c41; }
+.btn-talla-add.btn-talla-fab:hover { background: #4e342e; }
+
+/* Aviso de fabricación dentro del modal de tallas */
+.talla-fab-aviso {
+    background: #fff3e0; border: 1px solid #ffcc80; border-radius: 8px;
+    padding: 12px 14px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 6px;
+}
+.talla-fab-aviso i { color: #e65100; font-size: 1.1rem; }
+.talla-fab-aviso strong { color: #bf360c; font-size: 0.9rem; }
+.talla-fab-aviso p { margin: 0; font-size: 0.82rem; color: #5d4037; line-height: 1.4; }
 
 /* ─── Carrito flotante ────────────────────────────────────────── */
 .carrito-float {

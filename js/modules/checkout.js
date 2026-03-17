@@ -8,7 +8,9 @@ import { formatCOP, mostrarToast } from '../core/utils.js';
 
 // ─── Modal de selección de talla ─────────────────────────────────
 
-export function abrirTallaModal(producto) {
+export function abrirTallaModal(producto, opts = {}) {
+  const esFabricacion = opts.esFabricacion === true;
+
   document.getElementById('tallaNombreProducto').textContent = producto.nombre;
   const opciones = document.getElementById('tallaOpciones');
 
@@ -16,17 +18,25 @@ export function abrirTallaModal(producto) {
   let selectedPrecio = null;
   let selectedMax    = 0;
 
-  // Deduplicar tallas por clave (primera aparición de cada talla)
   const tallasUnicas = [...new Map(producto.tallas.map(t => [t.talla, t])).values()];
 
+  const avisoFab = esFabricacion ? `
+    <div class="talla-fab-aviso">
+      <i class="fa-solid fa-scissors"></i>
+      <strong>Pedido por fabricación</strong>
+      <p>Este producto no tiene stock disponible. Puedes realizar un pedido anticipado: la prenda se fabrica en <strong>1 a 2 meses</strong> y se requiere un abono del <strong>50%</strong> para confirmar.</p>
+    </div>
+  ` : '';
+
   opciones.innerHTML = `
+    ${avisoFab}
     <p class="talla-instruccion">Elige la talla:</p>
     <div class="talla-pills" id="tallaPills">
       ${tallasUnicas.map(t => `
-        <button class="talla-pill${t.stock === 0 ? ' agotado' : ''}"
-          data-talla="${t.talla}" data-precio="${t.precio}" data-max="${t.stock}"
-          ${t.stock === 0 ? 'disabled' : ''}>
-          ${t.talla}${t.stock === 0 ? '<br><small>Agotado</small>' : ''}
+        <button class="talla-pill"
+          data-talla="${t.talla}" data-precio="${t.precio}" data-max="${esFabricacion ? 99 : t.stock}"
+          ${!esFabricacion && t.stock === 0 ? 'disabled' : ''}>
+          ${t.talla}${!esFabricacion && t.stock === 0 ? '<br><small>Agotado</small>' : ''}
         </button>
       `).join('')}
     </div>
@@ -46,12 +56,13 @@ export function abrirTallaModal(producto) {
       </div>
     </div>
 
-    <button class="btn-talla-add" id="btnTallaAdd" style="display:none;">
-      <i class="fa-solid fa-cart-plus"></i> Agregar al carrito
+    <button class="btn-talla-add${esFabricacion ? ' btn-talla-fab' : ''}" id="btnTallaAdd" style="display:none;">
+      ${esFabricacion
+        ? '<i class="fa-solid fa-scissors"></i> Agregar pedido anticipado'
+        : '<i class="fa-solid fa-cart-plus"></i> Agregar al carrito'}
     </button>
   `;
 
-  // Selección de talla
   opciones.querySelectorAll('.talla-pill:not([disabled])').forEach(btn => {
     btn.addEventListener('click', () => {
       opciones.querySelectorAll('.talla-pill').forEach(b => b.classList.remove('selected'));
@@ -67,7 +78,6 @@ export function abrirTallaModal(producto) {
     });
   });
 
-  // Cantidad
   document.getElementById('tallaMenos').addEventListener('click', () => {
     const el = document.getElementById('tallaCantVal');
     const v = parseInt(el.textContent);
@@ -79,14 +89,28 @@ export function abrirTallaModal(producto) {
     if (v < selectedMax) el.textContent = v + 1;
   });
 
-  // Agregar al carrito (con reserva temporal de 15 min)
   document.getElementById('btnTallaAdd').addEventListener('click', async () => {
     if (!selectedTalla) return;
-    const cant    = parseInt(document.getElementById('tallaCantVal').textContent);
-    const btnAdd  = document.getElementById('btnTallaAdd');
-    const errViejo = document.getElementById('tallaReservaError');
-    if (errViejo) errViejo.remove();
+    const cant   = parseInt(document.getElementById('tallaCantVal').textContent);
+    const btnAdd = document.getElementById('btnTallaAdd');
+    document.getElementById('tallaReservaError')?.remove();
 
+    if (esFabricacion) {
+      // Pedido anticipado: sin reserva, agregar directamente al carrito
+      Carrito.agregar({
+        id_producto: producto.id_producto,
+        nombre:      producto.nombre,
+        talla:       selectedTalla,
+        cantidad:    cant,
+        precio:      selectedPrecio,
+        tipo_pedido: 'fabricacion',
+      });
+      cerrarTallaModal();
+      mostrarToast(`🪡 ${producto.nombre} — Talla ${selectedTalla} añadido (fabricación)`);
+      return;
+    }
+
+    // Venta normal con reserva
     btnAdd.disabled = true;
     btnAdd.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Reservando...';
 
@@ -106,6 +130,7 @@ export function abrirTallaModal(producto) {
         cantidad:    cant,
         precio:      selectedPrecio,
         id_reserva:  resp.id_reserva,
+        tipo_pedido: 'normal',
       });
       cerrarTallaModal();
       mostrarToast(`${producto.nombre} — Talla ${selectedTalla} agregado ✓`);
@@ -184,15 +209,50 @@ function renderCarritoPanel() {
 export function abrirCheckout() {
   cerrarCarritoPanel();
 
+  const tieneFab = Carrito.items.some(i => i.tipo_pedido === 'fabricacion');
+  const total    = Carrito.total();
+
   const resumen = document.getElementById('checkoutResumenItems');
   resumen.innerHTML = Carrito.items.map(i => `
     <div class="checkout-item">
-      <span>${i.nombre} T.${i.talla} ×${i.cantidad}</span>
+      <span>${i.nombre} T.${i.talla} ×${i.cantidad}${i.tipo_pedido === 'fabricacion' ? ' 🪡' : ''}</span>
       <span>${formatCOP(i.precio * i.cantidad)}</span>
     </div>
   `).join('');
-  document.getElementById('checkoutTotalDisplay').textContent = formatCOP(Carrito.total());
 
+  // Selector de abono (solo si hay items de fabricación)
+  const abonoWrap = document.getElementById('checkoutAbonoWrap');
+  if (abonoWrap) {
+    if (tieneFab) {
+      const abono50  = Math.round(total * 0.5);
+      abonoWrap.style.display = 'block';
+      abonoWrap.innerHTML = `
+        <div class="ck-abono-wrap">
+          <p>🪡 Tu pedido incluye prendas por fabricación. Elige cómo pagar:</p>
+          <div class="ck-abono-opciones">
+            <button class="ck-abono-btn selected" data-pct="50">
+              <span class="abono-pct">Abono 50%</span>
+              <span class="abono-monto">${formatCOP(abono50)} ahora · ${formatCOP(total - abono50)} al recoger</span>
+            </button>
+            <button class="ck-abono-btn" data-pct="100">
+              <span class="abono-pct">Pago total</span>
+              <span class="abono-monto">${formatCOP(total)} ahora</span>
+            </button>
+          </div>
+        </div>
+      `;
+      abonoWrap.querySelectorAll('.ck-abono-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          abonoWrap.querySelectorAll('.ck-abono-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+        });
+      });
+    } else {
+      abonoWrap.style.display = 'none';
+    }
+  }
+
+  document.getElementById('checkoutTotalDisplay').textContent = formatCOP(total);
   document.getElementById('checkoutModal').style.display   = 'flex';
   document.getElementById('checkoutOverlay').style.display = 'block';
   document.getElementById('checkoutError').style.display   = 'none';
@@ -229,12 +289,17 @@ export async function procesarCheckout(e) {
     }
   }, 8000);
 
+  // Leer abono seleccionado (si aplica)
+  const abonoBtn = document.querySelector('.ck-abono-btn.selected');
+  const abonoPct = abonoBtn ? parseInt(abonoBtn.dataset.pct) : 100;
+
   const payload = {
     nombre_cliente:    nombre,
     email_cliente:     email,
     telefono_cliente:  telefono,
     documento_cliente: documento,
     id_colegio:        Carrito.colegio_id,
+    abono_porcentaje:  abonoPct,
     items: Carrito.items.map(i => ({
       id_producto: i.id_producto,
       nombre:      i.nombre,
@@ -242,7 +307,8 @@ export async function procesarCheckout(e) {
       cantidad:    i.cantidad,
       precio:      i.precio,
       unit_price:  i.precio,
-      id_reserva:  i.id_reserva || null,
+      id_reserva:  i.id_reserva  || null,
+      tipo_pedido: i.tipo_pedido || 'normal',
     })),
   };
 

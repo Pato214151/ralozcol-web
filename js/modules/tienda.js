@@ -283,12 +283,34 @@ function renderProductos(productos) {
   grid.innerHTML = productos.map(p => {
     const precioMin  = Math.min(...p.tallas.map(t => t.precio));
     const stockTotal = p.tallas.reduce((s, t) => s + t.stock, 0);
-    const sinStock   = stockTotal === 0;
+    const esFab      = p.fabricacion === true;
+    const sinStock   = !esFab && stockTotal === 0;
+
+    let badgeStock = '';
+    if (esFab) {
+      badgeStock = '<span class="tpc-fab-badge"><i class="fa-solid fa-scissors"></i> Pedido por fabricación</span>';
+    } else if (sinStock) {
+      badgeStock = '<span class="tpc-sin-stock">Sin stock</span>';
+    } else if (p._static) {
+      badgeStock = '<span class="tpc-sin-stock">No disponible en línea</span>';
+    } else if (stockTotal < 5) {
+      badgeStock = `<span class="tpc-stock-poco"><i class="fa-solid fa-triangle-exclamation"></i> ¡Últimas ${stockTotal} unidades!</span>`;
+    } else {
+      badgeStock = `<span class="tpc-stock-ok"><i class="fa-solid fa-check"></i> ${stockTotal} disponibles</span>`;
+    }
+
+    const btnDisabled = sinStock || p._static;
+    const btnClass    = esFab ? 'btn-agregar-carrito btn-fab' : 'btn-agregar-carrito';
+    const btnLabel    = esFab
+      ? '<i class="fa-solid fa-scissors"></i> Pedir por fabricación'
+      : '<i class="fa-solid fa-cart-plus"></i> Agregar al carrito';
+
     return `
-      <div class="tienda-producto-card">
+      <div class="tienda-producto-card${esFab ? ' tpc-fabricacion' : ''}">
         <div class="tpc-imagen">
           <i class="fa-solid fa-shirt tpc-icon"></i>
-          ${stockTotal > 0 && stockTotal < 5 ? '<span class="tpc-badge-poco">¡Últimas unidades!</span>' : ''}
+          ${!esFab && stockTotal > 0 && stockTotal < 5 ? '<span class="tpc-badge-poco">¡Últimas unidades!</span>' : ''}
+          ${esFab ? '<span class="tpc-badge-fab">🪡</span>' : ''}
         </div>
         <div class="tpc-info">
           <p class="tpc-nombre">${p.nombre}</p>
@@ -299,32 +321,31 @@ function renderProductos(productos) {
           </div>
           <span class="tpc-cuotas">Pago seguro con MercadoPago</span>
           <span class="tpc-envio"><i class="fa-solid fa-truck"></i> Envío a domicilio</span>
-          ${sinStock
-            ? '<span class="tpc-sin-stock">Sin stock</span>'
-            : p._static
-              ? '<span class="tpc-sin-stock">No disponible en línea</span>'
-              : `<span class="tpc-stock-ok"><i class="fa-solid fa-check"></i> ${stockTotal} disponibles</span>`}
+          ${esFab ? '<span class="tpc-fab-tiempo"><i class="fa-solid fa-clock"></i> Entrega en 1-2 meses · Abono del 50%</span>' : ''}
+          ${badgeStock}
         </div>
-        <button class="btn-agregar-carrito" data-id="${p.id_producto}" data-nombre="${p.nombre}" ${sinStock || p._static ? 'disabled' : ''}>
-          <i class="fa-solid fa-cart-plus"></i> Agregar al carrito
+        <button class="${btnClass}" data-id="${p.id_producto}" data-nombre="${p.nombre}"
+          data-fab="${esFab}" ${btnDisabled ? 'disabled' : ''}>
+          ${btnLabel}
         </button>
       </div>
     `;
   }).join('');
 
-  // window._tiendaProductos apunta siempre a la lista completa (_productos)
-  // para que el click handler encuentre el producto aunque la vista esté filtrada
   window._tiendaProductos = _productos;
 
   grid.querySelectorAll('.btn-agregar-carrito').forEach(btn => {
     btn.addEventListener('click', async () => {
-      const id = parseInt(btn.dataset.id);
+      const id    = parseInt(btn.dataset.id);
+      const esFab = btn.dataset.fab === 'true';
 
-      // Actualizar stock desde la API justo antes de abrir el modal
-      await _refreshStock();
+      if (!esFab) await _refreshStock();
 
       const producto = window._tiendaProductos?.find(p => p.id_producto === id);
-      if (producto && !producto._static) abrirTallaModal(producto);
+      if (!producto) return;
+      if (!esFab && producto._static) return;
+
+      abrirTallaModal(producto, { esFabricacion: esFab });
     });
   });
 }
