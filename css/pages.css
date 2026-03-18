@@ -1604,10 +1604,16 @@ nav.scrolled .nav-tienda-btn { background: var(--ml-yellow) !important; border: 
     text-align: center; line-height: 1.3;
     transition: border-color 0.15s, background 0.15s, color 0.15s;
 }
-.talla-pill:hover:not([disabled]) { border-color: var(--ml-blue); color: var(--ml-blue); }
+.talla-pill:hover { border-color: var(--ml-blue); color: var(--ml-blue); }
 .talla-pill.selected { background: var(--ml-blue); color: #fff; border-color: var(--ml-blue); }
 .talla-pill.agotado { opacity: 0.4; cursor: not-allowed; font-size: 0.72rem; }
 .talla-pill small { display: block; font-size: 0.65rem; color: inherit; opacity: 0.8; }
+/* Talla "bajo pedido" (anticipo/fabricación) */
+.talla-pill-anticipo { border-color: #bcaaa4; color: #5d4037; }
+.talla-pill-anticipo:hover { border-color: #8d5a2b; color: #8d5a2b; }
+.talla-pill-anticipo.selected { background: #6d4c41; border-color: #6d4c41; color: #fff; }
+.talla-pill-fab { color: #8d5a2b; font-size: 0.65rem; display: block; }
+.talla-pill-ok  { color: #388e3c; font-size: 0.65rem; display: block; }
 
 /* Detalle de selección */
 .talla-seleccion-detalle {

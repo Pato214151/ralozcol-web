@@ -16,15 +16,15 @@ export function abrirTallaModal(producto, opts = {}) {
 
   let selectedTalla  = null;
   let selectedPrecio = null;
-  let selectedMax    = 0;
+  let selectedStock  = 0;  // stock real de la talla seleccionada
 
   const tallasUnicas = [...new Map(producto.tallas.map(t => [t.talla, t])).values()];
 
   const avisoFab = esFabricacion ? `
     <div class="talla-fab-aviso">
       <i class="fa-solid fa-scissors"></i>
-      <strong>Pedido por fabricación</strong>
-      <p>Este producto no tiene stock disponible. Puedes realizar un pedido anticipado: la prenda se fabrica en <strong>1 a 2 meses</strong> y se requiere un abono del <strong>50%</strong> para confirmar.</p>
+      <strong>Pedido con anticipación</strong>
+      <p>Este producto se fabrica bajo pedido en <strong>1 a 2 meses</strong>. Se requiere un abono del <strong>50%</strong> para confirmar.</p>
     </div>
   ` : '';
 
@@ -32,13 +32,21 @@ export function abrirTallaModal(producto, opts = {}) {
     ${avisoFab}
     <p class="talla-instruccion">Elige la talla:</p>
     <div class="talla-pills" id="tallaPills">
-      ${tallasUnicas.map(t => `
-        <button class="talla-pill"
-          data-talla="${t.talla}" data-precio="${t.precio}" data-max="${esFabricacion ? 99 : t.stock}"
-          ${!esFabricacion && t.stock === 0 ? 'disabled' : ''}>
-          ${t.talla}${!esFabricacion && t.stock === 0 ? '<br><small>Agotado</small>' : ''}
-        </button>
-      `).join('')}
+      ${tallasUnicas.map(t => {
+        const tallaEsFab = esFabricacion || t.stock === 0;
+        const stockLabel = tallaEsFab
+          ? '<br><small class="talla-pill-fab">🪡 Bajo pedido</small>'
+          : t.stock > 0 && t.stock < 5
+            ? `<br><small class="talla-pill-ok">¡${t.stock} disp.!</small>`
+            : '';
+        return `
+          <button class="talla-pill${tallaEsFab ? ' talla-pill-anticipo' : ''}"
+            data-talla="${t.talla}" data-precio="${t.precio}"
+            data-stock="${t.stock}" data-fab="${tallaEsFab}">
+            ${t.talla}${stockLabel}
+          </button>
+        `;
+      }).join('')}
     </div>
 
     <div class="talla-seleccion-detalle" id="tallaDetalle" style="display:none;">
@@ -54,27 +62,47 @@ export function abrirTallaModal(producto, opts = {}) {
           <button class="talla-mas" id="tallaMas">+</button>
         </div>
       </div>
+      <div id="tallaStockInfo" style="margin-top:6px;font-size:0.82rem;"></div>
     </div>
 
-    <button class="btn-talla-add${esFabricacion ? ' btn-talla-fab' : ''}" id="btnTallaAdd" style="display:none;">
-      ${esFabricacion
-        ? '<i class="fa-solid fa-scissors"></i> Agregar pedido anticipado'
-        : '<i class="fa-solid fa-cart-plus"></i> Agregar al carrito'}
+    <button class="btn-talla-add" id="btnTallaAdd" style="display:none;">
+      <i class="fa-solid fa-cart-plus"></i> Agregar al carrito
     </button>
   `;
 
-  opciones.querySelectorAll('.talla-pill:not([disabled])').forEach(btn => {
+  opciones.querySelectorAll('.talla-pill').forEach(btn => {
     btn.addEventListener('click', () => {
       opciones.querySelectorAll('.talla-pill').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
       selectedTalla  = btn.dataset.talla;
       selectedPrecio = parseFloat(btn.dataset.precio);
-      selectedMax    = parseInt(btn.dataset.max);
+      selectedStock  = parseInt(btn.dataset.stock) || 0;
+      const tallaEsFab = btn.dataset.fab === 'true';
 
       document.getElementById('tallaPrecioDisplay').textContent = formatCOP(selectedPrecio);
       document.getElementById('tallaCantVal').textContent = '1';
       document.getElementById('tallaDetalle').style.display = 'flex';
-      document.getElementById('btnTallaAdd').style.display  = 'flex';
+
+      // Label dinámico del botón
+      const btnAdd = document.getElementById('btnTallaAdd');
+      if (tallaEsFab) {
+        btnAdd.className = 'btn-talla-add btn-talla-fab';
+        btnAdd.innerHTML = '<i class="fa-solid fa-scissors"></i> Agregar pedido anticipado';
+      } else {
+        btnAdd.className = 'btn-talla-add';
+        btnAdd.innerHTML = '<i class="fa-solid fa-cart-plus"></i> Agregar al carrito';
+      }
+      btnAdd.style.display = 'flex';
+
+      // Info de stock bajo el precio
+      const info = document.getElementById('tallaStockInfo');
+      if (tallaEsFab) {
+        info.innerHTML = '<span style="color:#8d5a2b;">🪡 Bajo pedido · Entrega en 1-2 meses</span>';
+      } else if (selectedStock > 0) {
+        info.innerHTML = `<span style="color:#388e3c;"><i class="fa-solid fa-check"></i> ${selectedStock} disponibles · Entrega inmediata</span>`;
+      } else {
+        info.innerHTML = '';
+      }
     });
   });
 
@@ -85,32 +113,50 @@ export function abrirTallaModal(producto, opts = {}) {
   });
   document.getElementById('tallaMas').addEventListener('click', () => {
     const el = document.getElementById('tallaCantVal');
-    const v = parseInt(el.textContent);
-    if (v < selectedMax) el.textContent = v + 1;
+    el.textContent = parseInt(el.textContent) + 1;  // sin límite — permite pedir más del stock
   });
 
   document.getElementById('btnTallaAdd').addEventListener('click', async () => {
     if (!selectedTalla) return;
-    const cant   = parseInt(document.getElementById('tallaCantVal').textContent);
-    const btnAdd = document.getElementById('btnTallaAdd');
+    const cant    = parseInt(document.getElementById('tallaCantVal').textContent);
+    const btnAdd  = document.getElementById('btnTallaAdd');
+    const tallaEsFab = opciones.querySelector('.talla-pill.selected')?.dataset.fab === 'true';
     document.getElementById('tallaReservaError')?.remove();
 
-    if (esFabricacion) {
-      // Pedido anticipado: sin reserva, agregar directamente al carrito
+    if (tallaEsFab) {
+      // Talla sin stock: pedido anticipado, sin reserva
       Carrito.agregar({
-        id_producto: producto.id_producto,
-        nombre:      producto.nombre,
-        talla:       selectedTalla,
-        cantidad:    cant,
-        precio:      selectedPrecio,
-        tipo_pedido: 'fabricacion',
+        id_producto:      producto.id_producto,
+        nombre:           producto.nombre,
+        talla:            selectedTalla,
+        cantidad:         cant,
+        precio:           selectedPrecio,
+        tipo_pedido:      'fabricacion',
+        stock_disponible: 0,
       });
       cerrarTallaModal();
       mostrarToast(`🪡 ${producto.nombre} — Talla ${selectedTalla} añadido (fabricación)`);
       return;
     }
 
-    // Venta normal con reserva
+    // Talla con stock: verificar si hay suficiente o si es mixto
+    if (cant > selectedStock) {
+      // Stock parcial: parte inmediata + parte fabricación
+      Carrito.agregar({
+        id_producto:      producto.id_producto,
+        nombre:           producto.nombre,
+        talla:            selectedTalla,
+        cantidad:         cant,
+        precio:           selectedPrecio,
+        tipo_pedido:      'mixto',
+        stock_disponible: selectedStock,
+      });
+      cerrarTallaModal();
+      mostrarToast(`${producto.nombre} T.${selectedTalla} ×${cant} (${selectedStock} inmediato + ${cant - selectedStock} 🪡)`);
+      return;
+    }
+
+    // Stock suficiente: reserva normal
     btnAdd.disabled = true;
     btnAdd.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Reservando...';
 
@@ -124,13 +170,14 @@ export function abrirTallaModal(producto, opts = {}) {
       });
 
       Carrito.agregar({
-        id_producto: producto.id_producto,
-        nombre:      producto.nombre,
-        talla:       selectedTalla,
-        cantidad:    cant,
-        precio:      selectedPrecio,
-        id_reserva:  resp.id_reserva,
-        tipo_pedido: 'normal',
+        id_producto:      producto.id_producto,
+        nombre:           producto.nombre,
+        talla:            selectedTalla,
+        cantidad:         cant,
+        precio:           selectedPrecio,
+        id_reserva:       resp.id_reserva,
+        tipo_pedido:      'normal',
+        stock_disponible: selectedStock,
       });
       cerrarTallaModal();
       mostrarToast(`${producto.nombre} — Talla ${selectedTalla} agregado ✓`);
@@ -209,41 +256,93 @@ function renderCarritoPanel() {
 export function abrirCheckout() {
   cerrarCarritoPanel();
 
-  const tieneFab = Carrito.items.some(i => i.tipo_pedido === 'fabricacion');
-  const total    = Carrito.total();
+  const items = Carrito.items;
 
+  // Calcular montos por tipo
+  const totalNormal   = items.filter(i => i.tipo_pedido === 'normal')
+    .reduce((s, i) => s + i.precio * i.cantidad, 0);
+  const totalFab      = items.filter(i => i.tipo_pedido === 'fabricacion')
+    .reduce((s, i) => s + i.precio * i.cantidad, 0);
+  const itemsMixtos   = items.filter(i => i.tipo_pedido === 'mixto');
+  const totalMixtoInm = itemsMixtos.reduce((s, i) => s + i.precio * (i.stock_disponible || 0), 0);
+  const totalMixtoFab = itemsMixtos.reduce((s, i) => s + i.precio * (i.cantidad - (i.stock_disponible || 0)), 0);
+  const totalGeneral  = totalNormal + totalFab + totalMixtoInm + totalMixtoFab;
+  const montoFab      = totalFab + totalMixtoFab;   // porción que puede llevar abono
+  const tieneFab      = montoFab > 0;
+  const tieneMixto    = itemsMixtos.length > 0;
+
+  // Resumen de items
   const resumen = document.getElementById('checkoutResumenItems');
-  resumen.innerHTML = Carrito.items.map(i => `
-    <div class="checkout-item">
-      <span>${i.nombre} T.${i.talla} ×${i.cantidad}${i.tipo_pedido === 'fabricacion' ? ' 🪡' : ''}</span>
-      <span>${formatCOP(i.precio * i.cantidad)}</span>
-    </div>
-  `).join('');
+  resumen.innerHTML = items.map(i => {
+    let tag = '';
+    if (i.tipo_pedido === 'fabricacion') tag = ' 🪡';
+    else if (i.tipo_pedido === 'mixto') {
+      const inm = i.stock_disponible || 0;
+      tag = ` (${inm} inmediato + ${i.cantidad - inm} 🪡)`;
+    }
+    return `
+      <div class="checkout-item">
+        <span>${i.nombre} T.${i.talla} ×${i.cantidad}${tag}</span>
+        <span>${formatCOP(i.precio * i.cantidad)}</span>
+      </div>
+    `;
+  }).join('');
 
-  // Selector de abono (solo si hay items de fabricación)
+  // Selectores dinámicos
   const abonoWrap = document.getElementById('checkoutAbonoWrap');
   if (abonoWrap) {
-    if (tieneFab) {
-      const abono50  = Math.round(total * 0.5);
-      abonoWrap.style.display = 'block';
-      abonoWrap.innerHTML = `
-        <div class="ck-abono-wrap">
-          <p>🪡 Tu pedido incluye prendas por fabricación. Elige cómo pagar:</p>
+    let html = '';
+
+    // Selector tipo_entrega (solo si hay mixtos)
+    if (tieneMixto) {
+      const unidInm = itemsMixtos.reduce((s, i) => s + (i.stock_disponible || 0), 0);
+      const unidFab = itemsMixtos.reduce((s, i) => s + (i.cantidad - (i.stock_disponible || 0)), 0);
+      html += `
+        <div class="ck-abono-wrap" style="margin-bottom:12px;">
+          <p>🔀 Tienes <strong>${unidInm}</strong> unidades disponibles ahora y <strong>${unidFab}</strong> por fabricar. ¿Cómo las quieres recibir?</p>
           <div class="ck-abono-opciones">
-            <button class="ck-abono-btn selected" data-pct="50">
-              <span class="abono-pct">Abono 50%</span>
-              <span class="abono-monto">${formatCOP(abono50)} ahora · ${formatCOP(total - abono50)} al recoger</span>
+            <button class="ck-abono-btn selected" data-entrega="parcial">
+              <span class="abono-pct">Recibir por partes</span>
+              <span class="abono-monto">Las ${unidInm} disponibles ahora · las ${unidFab} restantes al fabricarse</span>
             </button>
-            <button class="ck-abono-btn" data-pct="100">
-              <span class="abono-pct">Pago total</span>
-              <span class="abono-monto">${formatCOP(total)} ahora</span>
+            <button class="ck-abono-btn" data-entrega="completa">
+              <span class="abono-pct">Esperar todo junto</span>
+              <span class="abono-monto">Se envía todo cuando esté completo el pedido</span>
             </button>
           </div>
         </div>
       `;
+    }
+
+    // Selector abono (solo si hay porción de fabricación)
+    if (tieneFab) {
+      const abono50 = Math.round(montoFab * 0.5);
+      const totalConAbono = totalNormal + totalMixtoInm + abono50;
+      const totalCompleto = totalGeneral;
+      html += `
+        <div class="ck-abono-wrap">
+          <p>🪡 Tu pedido incluye <strong>${formatCOP(montoFab)}</strong> en prendas por fabricación. Elige cómo pagar esa parte:</p>
+          <div class="ck-abono-opciones">
+            <button class="ck-abono-btn selected" data-pct="50">
+              <span class="abono-pct">Abono 50%</span>
+              <span class="abono-monto">${formatCOP(totalConAbono)} ahora · ${formatCOP(montoFab - abono50)} al recoger</span>
+            </button>
+            <button class="ck-abono-btn" data-pct="100">
+              <span class="abono-pct">Pago total</span>
+              <span class="abono-monto">${formatCOP(totalCompleto)} ahora</span>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    if (html) {
+      abonoWrap.style.display = 'block';
+      abonoWrap.innerHTML = html;
       abonoWrap.querySelectorAll('.ck-abono-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-          abonoWrap.querySelectorAll('.ck-abono-btn').forEach(b => b.classList.remove('selected'));
+          btn.closest('.ck-abono-opciones').querySelectorAll('.ck-abono-btn')
+            .forEach(b => b.classList.remove('selected'));
           btn.classList.add('selected');
         });
       });
@@ -252,7 +351,7 @@ export function abrirCheckout() {
     }
   }
 
-  document.getElementById('checkoutTotalDisplay').textContent = formatCOP(total);
+  document.getElementById('checkoutTotalDisplay').textContent = formatCOP(totalGeneral);
   document.getElementById('checkoutModal').style.display   = 'flex';
   document.getElementById('checkoutOverlay').style.display = 'block';
   document.getElementById('checkoutError').style.display   = 'none';
@@ -289,9 +388,13 @@ export async function procesarCheckout(e) {
     }
   }, 8000);
 
-  // Leer abono seleccionado (si aplica)
-  const abonoBtn = document.querySelector('.ck-abono-btn.selected');
+  // Leer abono seleccionado (solo aplica a porción fabricación)
+  const abonoBtn = document.querySelector('.ck-abono-btn[data-pct].selected');
   const abonoPct = abonoBtn ? parseInt(abonoBtn.dataset.pct) : 100;
+
+  // Leer tipo_entrega (parcial o completa)
+  const entregaBtn = document.querySelector('.ck-abono-btn[data-entrega].selected');
+  const tipoEntrega = entregaBtn ? entregaBtn.dataset.entrega : 'completa';
 
   const payload = {
     nombre_cliente:    nombre,
@@ -300,15 +403,17 @@ export async function procesarCheckout(e) {
     documento_cliente: documento,
     id_colegio:        Carrito.colegio_id,
     abono_porcentaje:  abonoPct,
+    tipo_entrega:      tipoEntrega,
     items: Carrito.items.map(i => ({
-      id_producto: i.id_producto,
-      nombre:      i.nombre,
-      talla:       i.talla,
-      cantidad:    i.cantidad,
-      precio:      i.precio,
-      unit_price:  i.precio,
-      id_reserva:  i.id_reserva  || null,
-      tipo_pedido: i.tipo_pedido || 'normal',
+      id_producto:      i.id_producto,
+      nombre:           i.nombre,
+      talla:            i.talla,
+      cantidad:         i.cantidad,
+      precio:           i.precio,
+      unit_price:       i.precio,
+      id_reserva:       i.id_reserva       || null,
+      tipo_pedido:      i.tipo_pedido      || 'normal',
+      stock_disponible: i.stock_disponible || 0,
     })),
   };
 

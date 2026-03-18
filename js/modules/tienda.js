@@ -281,51 +281,59 @@ function renderProductos(productos) {
   }
 
   grid.innerHTML = productos.map(p => {
-    const precioMin  = Math.min(...p.tallas.map(t => t.precio));
-    const stockTotal = p.tallas.reduce((s, t) => s + t.stock, 0);
-    const esFab      = p.fabricacion === true;
-    const sinStock   = !esFab && stockTotal === 0;
+    // Ignorar precios 0 para el mínimo (tallas sin precio configurado)
+    const preciosValidos = p.tallas.map(t => t.precio).filter(pr => pr > 0);
+    const precioMin      = preciosValidos.length > 0 ? Math.min(...preciosValidos) : null;
+    const stockTotal     = p.tallas.reduce((s, t) => s + (t.stock || 0), 0);
+    const esFab          = p.fabricacion === true;
+    // "anticipo" = producto que se pide sin stock (fabricación pura o estático)
+    const esAnticipo     = esFab || p._static;
 
     let badgeStock = '';
     if (esFab) {
       badgeStock = '<span class="tpc-fab-badge"><i class="fa-solid fa-scissors"></i> Pedido por fabricación</span>';
-    } else if (sinStock) {
-      badgeStock = '<span class="tpc-sin-stock">Sin stock</span>';
     } else if (p._static) {
-      badgeStock = '<span class="tpc-sin-stock">No disponible en línea</span>';
+      badgeStock = '<span class="tpc-fab-badge">🪡 Disponible por pedido</span>';
+    } else if (stockTotal === 0) {
+      badgeStock = '<span class="tpc-fab-badge">🪡 Pedir con anticipación</span>';
     } else if (stockTotal < 5) {
       badgeStock = `<span class="tpc-stock-poco"><i class="fa-solid fa-triangle-exclamation"></i> ¡Últimas ${stockTotal} unidades!</span>`;
     } else {
       badgeStock = `<span class="tpc-stock-ok"><i class="fa-solid fa-check"></i> ${stockTotal} disponibles</span>`;
     }
 
-    const btnDisabled = sinStock || p._static;
-    const btnClass    = esFab ? 'btn-agregar-carrito btn-fab' : 'btn-agregar-carrito';
-    const btnLabel    = esFab
-      ? '<i class="fa-solid fa-scissors"></i> Pedir por fabricación'
+    // Botón NUNCA deshabilitado
+    const btnClass = esAnticipo
+      ? 'btn-agregar-carrito btn-fab'
+      : 'btn-agregar-carrito';
+    const btnLabel = esAnticipo
+      ? '<i class="fa-solid fa-scissors"></i> Pedir con anticipación'
       : '<i class="fa-solid fa-cart-plus"></i> Agregar al carrito';
 
     return `
-      <div class="tienda-producto-card${esFab ? ' tpc-fabricacion' : ''}">
+      <div class="tienda-producto-card${esAnticipo ? ' tpc-fabricacion' : ''}">
         <div class="tpc-imagen">
           <i class="fa-solid fa-shirt tpc-icon"></i>
-          ${!esFab && stockTotal > 0 && stockTotal < 5 ? '<span class="tpc-badge-poco">¡Últimas unidades!</span>' : ''}
-          ${esFab ? '<span class="tpc-badge-fab">🪡</span>' : ''}
+          ${!esAnticipo && stockTotal > 0 && stockTotal < 5 ? '<span class="tpc-badge-poco">¡Últimas unidades!</span>' : ''}
+          ${esAnticipo ? '<span class="tpc-badge-fab">🪡</span>' : ''}
         </div>
         <div class="tpc-info">
           <p class="tpc-nombre">${p.nombre}</p>
           ${p.tipo ? `<span class="tpc-tipo-tag">${p.tipo}</span>` : ''}
           <div class="tpc-precio-wrap">
-            <span class="tpc-precio-desde">Desde</span>
-            <span class="tpc-precio">${formatCOP(precioMin)}</span>
+            ${precioMin !== null
+              ? `<span class="tpc-precio-desde">Desde</span>
+                 <span class="tpc-precio">${formatCOP(precioMin)}</span>`
+              : `<span class="tpc-precio-desde">Precio a consultar</span>`
+            }
           </div>
           <span class="tpc-cuotas">Pago seguro con MercadoPago</span>
           <span class="tpc-envio"><i class="fa-solid fa-truck"></i> Envío a domicilio</span>
-          ${esFab ? '<span class="tpc-fab-tiempo"><i class="fa-solid fa-clock"></i> Entrega en 1-2 meses · Abono del 50%</span>' : ''}
+          ${esAnticipo ? '<span class="tpc-fab-tiempo"><i class="fa-solid fa-clock"></i> Entrega en 1-2 meses · Abono del 50%</span>' : ''}
           ${badgeStock}
         </div>
         <button class="${btnClass}" data-id="${p.id_producto}" data-nombre="${p.nombre}"
-          data-fab="${esFab}" ${btnDisabled ? 'disabled' : ''}>
+          data-fab="${esFab}" data-anticipo="${esAnticipo}">
           ${btnLabel}
         </button>
       </div>
@@ -336,16 +344,18 @@ function renderProductos(productos) {
 
   grid.querySelectorAll('.btn-agregar-carrito').forEach(btn => {
     btn.addEventListener('click', async () => {
-      const id    = parseInt(btn.dataset.id);
-      const esFab = btn.dataset.fab === 'true';
+      const id        = parseInt(btn.dataset.id);
+      const esAnticipo = btn.dataset.anticipo === 'true';
+      const esFab     = btn.dataset.fab === 'true';
 
-      if (!esFab) await _refreshStock();
+      // Solo refrescar stock si el producto tiene/puede tener stock
+      if (!esAnticipo) await _refreshStock();
 
       const producto = window._tiendaProductos?.find(p => p.id_producto === id);
       if (!producto) return;
-      if (!esFab && producto._static) return;
 
-      abrirTallaModal(producto, { esFabricacion: esFab });
+      // Abrir modal: fabricacion pura si el producto es fab o estático
+      abrirTallaModal(producto, { esFabricacion: esFab || producto._static });
     });
   });
 }
