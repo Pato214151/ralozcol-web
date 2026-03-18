@@ -114,27 +114,24 @@ function buildStaticProductos(escuelaStaticId) {
 const normNombre = s => s.toLowerCase().trim()
   .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-// ─── Merge: superpone datos de API sobre base estática ────────────
+// ─── Merge: la API manda, estáticos solo como fallback ────────────
+// Arranca desde los productos de la API (stock real) y agrega los
+// estáticos que la API no devolvió (p.ej. colegios sin datos aún).
 
 function mergeConAPI(base, apiProductos) {
-  const resultado = base.map(p => ({ ...p }));
-  (apiProductos || []).forEach(apiP => {
-    const idx = resultado.findIndex(p =>
-      normNombre(p.nombre) === normNombre(apiP.nombre)
+  if (!apiProductos?.length) return base.map(p => ({ ...p }));
+
+  // Todos los productos de la API con _static: false
+  const resultado = apiProductos.map(p => ({ ...p, _static: false }));
+
+  // Solo agregar estáticos que NO existen en la API
+  base.forEach(baseP => {
+    const yaEsta = resultado.some(p =>
+      normNombre(p.nombre) === normNombre(baseP.nombre)
     );
-    if (idx >= 0) {
-      resultado[idx] = {
-        ...resultado[idx],
-        id_producto: apiP.id_producto,
-        _static: false,
-        tallas: (apiP.tallas || []).map(t => ({
-          talla:  t.talla,
-          precio: t.precio,
-          stock:  t.stock,
-        })),
-      };
-    }
+    if (!yaEsta) resultado.push({ ...baseP });
   });
+
   return resultado;
 }
 
