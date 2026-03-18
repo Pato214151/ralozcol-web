@@ -6,9 +6,9 @@
 /index.html
   Cache-Control: no-cache, no-store, must-revalidate
 
-# JS y CSS se cachean 1 año (el ?v=FECHA en el HTML fuerza la renovación)
+# JS y CSS: el browser siempre verifica si cambiaron (no usa versión vieja cacheada)
 /js/*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: no-cache, must-revalidate
 
 /css/*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: no-cache, must-revalidate
