@@ -28,7 +28,7 @@
 
     <!-- Barra de anuncio temporada -->
     <div class="announcement-bar" id="announcementBar">
-        <span><i class="fa-solid fa-graduation-cap"></i> 🎒 Temporada Escolar 2026 — ¡Haz tu pedido con anticipación y asegura tu talla!</span>
+        <span><i class="fa-solid fa-graduation-cap"></i> Temporada 2026 — Uniformes escolares + Próximamente: relojes, sudaderas y más</span>
         <a href="#tienda-online" class="ann-cta">Comprar ahora →</a>
         <button class="ann-close" aria-label="Cerrar anuncio" onclick="this.parentElement.style.display='none'">✕</button>
     </div>
@@ -46,10 +46,10 @@
     <header id="inicio">
         <div class="hero-split">
             <div class="hero-left">
-                <div class="hero-brand-name"><i class="fa-solid fa-star-of-life fa-xs"></i> RALOZ COL S.A.S <i class="fa-solid fa-star-of-life fa-xs"></i></div>
+                <div class="hero-brand-name">RALOZ COL <span class="txt-gold">S.A.S</span></div>
                 <div class="hero-badge"><span class="hero-badge-dot"></span> Temporada Escolar 2026</div>
                 <h1>Viste el <span>futuro</span><br>con orgullo</h1>
-                <p>Uniformes escolares de calidad superior para colegios en Colombia. Más de 5 años vistiendo con excelencia.</p>
+                <p>Uniformes escolares de calidad superior para colegios en Colombia. Más de 5 años vistiendo con excelencia. <strong>Próximamente:</strong> relojes, sudaderas y artículos escolares.</p>
                 <div class="hero-actions">
                     <a href="#tienda-online" class="btn-primary">
                         <i class="fa-solid fa-bag-shopping"></i> Comprar Ahora →
@@ -232,7 +232,7 @@
                 <span class="pill-tag"><i class="fa-solid fa-layer-group"></i> Nuestras Categorías</span>
             </div>
             <h2 style="text-align:center;">¿Qué estás <span class="txt-gold">buscando?</span></h2>
-            <p class="section-subtitle" style="text-align:center;margin-bottom:0;">Todo lo que tu colegio necesita, en un solo lugar.</p>
+            <p class="section-subtitle" style="text-align:center;margin-bottom:0;">Uniformes, accesorios y más — todo en un solo lugar.</p>
             <div class="categorias-grid">
                 <!-- Uniformes Escolares — activo -->
                 <a href="#tienda-online" class="cat-card cat-card-uniformes" title="Ver uniformes escolares">
@@ -551,29 +551,50 @@
 
         <!-- Colegios -->
         <section id="colegios">
-            <h2><i class="fa-solid fa-school"></i> Instituciones Educativas</h2>
-            <h3>Aliados Actuales</h3>
+            <h2><i class="fa-solid fa-school"></i> Nuestros Colegios</h2>
+            <p class="section-subtitle">Trabajamos de la mano con las mejores instituciones educativas de Bogotá</p>
             <div class="colegios-grid">
                 <div class="colegio-card active">
-                    <i class="fa-solid fa-school-flag colegio-icon"></i>
-                    <p>Colegio Manyanet</p>
-                    <span class="badge">Activo</span>
+                    <div class="colegio-card-header">
+                        <i class="fa-solid fa-school-flag colegio-icon"></i>
+                        <span class="badge">Aliado Activo</span>
+                    </div>
+                    <h3>Colegio Manyanet</h3>
+                    <p class="colegio-desc">Uniformes diarios, de educación física y accesorios. Diferenciados niño/niña.</p>
+                    <div class="colegio-stats">
+                        <span><i class="fa-solid fa-shirt"></i> 15+ prendas</span>
+                        <span><i class="fa-solid fa-ruler"></i> Tallas 4–XL</span>
+                    </div>
+                    <a href="#catalogo" class="btn-colegio-ver" onclick="setTimeout(()=>selectSchool('MANYANET'),300)">Ver catálogo →</a>
                 </div>
                 <div class="colegio-card active">
-                    <i class="fa-solid fa-school-flag colegio-icon"></i>
-                    <p>Colegio Marillac</p>
-                    <span class="badge">Activo</span>
+                    <div class="colegio-card-header">
+                        <i class="fa-solid fa-school-flag colegio-icon"></i>
+                        <span class="badge">Aliado Activo</span>
+                    </div>
+                    <h3>Colegio Marillac</h3>
+                    <p class="colegio-desc">Catálogo completo con blazer, chaleco, uniformes diarios y de educación física.</p>
+                    <div class="colegio-stats">
+                        <span><i class="fa-solid fa-shirt"></i> 18+ prendas</span>
+                        <span><i class="fa-solid fa-ruler"></i> Tallas 4–XL</span>
+                    </div>
+                    <a href="#catalogo" class="btn-colegio-ver" onclick="setTimeout(()=>selectSchool('MARILLAC'),300)">Ver catálogo →</a>
                 </div>
-            </div>
-            <h3>Colaboraciones Previas</h3>
-            <div class="colegios-grid">
                 <div class="colegio-card prev">
-                    <i class="fa-solid fa-school colegio-icon"></i>
-                    <p>Colegio Adventista del Norte</p>
-                    <span class="badge badge-prev">Anterior</span>
+                    <div class="colegio-card-header">
+                        <i class="fa-solid fa-school colegio-icon"></i>
+                        <span class="badge badge-prev">Colaboración Previa</span>
+                    </div>
+                    <h3>Colegio Adventista del Norte</h3>
+                    <p class="colegio-desc">Uniformes diarios y de educación física para todos los grados.</p>
+                    <div class="colegio-stats">
+                        <span><i class="fa-solid fa-shirt"></i> 13+ prendas</span>
+                        <span><i class="fa-solid fa-ruler"></i> Tallas 6–XL</span>
+                    </div>
+                    <a href="#catalogo" class="btn-colegio-ver" onclick="setTimeout(()=>selectSchool('ADVENTISTA'),300)">Ver catálogo →</a>
                 </div>
             </div>
-            <p class="colegio-cta"><strong>¿Tu colegio está interesado?</strong> <a href="#contacto">Contáctanos</a> para conocer nuestras soluciones personalizadas para instituciones.</p>
+            <p class="colegio-cta"><strong>¿Tu colegio está interesado?</strong> <a href="#contacto">Contáctanos</a> para conocer nuestras soluciones personalizadas.</p>
         </section>
 
         <!-- Testimonios -->
@@ -1071,7 +1092,7 @@
         <div class="footer-grid">
             <div>
                 <h3>RALOZ COL S.A.S</h3>
-                <p>Uniformes escolares de calidad que acompañan la formación de miles de estudiantes en Colombia. Confección, diseño y entrega garantizados.</p>
+                <p>Uniformes escolares de calidad y próximamente una línea completa de relojes, sudaderas y artículos escolares. Confección, diseño y entrega garantizados en toda Colombia.</p>
                 <div class="footer-badges">
                     <span><i class="fa-solid fa-shield-halved"></i> Calidad Garantizada</span>
                     <span><i class="fa-solid fa-award"></i> 5+ Años</span>
