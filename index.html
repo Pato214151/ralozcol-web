@@ -46,6 +46,7 @@
     <header id="inicio">
         <div class="hero-split">
             <div class="hero-left">
+                <div class="hero-brand-name"><i class="fa-solid fa-star-of-life fa-xs"></i> RALOZ COL S.A.S <i class="fa-solid fa-star-of-life fa-xs"></i></div>
                 <div class="hero-badge"><span class="hero-badge-dot"></span> Temporada Escolar 2026</div>
                 <h1>Viste el <span>futuro</span><br>con orgullo</h1>
                 <p>Uniformes escolares de calidad superior para colegios en Colombia. Más de 5 años vistiendo con excelencia.</p>
@@ -99,6 +100,7 @@
             <li><a href="#inicio"><i class="fa-solid fa-house"></i> Inicio</a></li>
             <li><a href="#quienes-somos"><i class="fa-solid fa-users"></i> Nosotros</a></li>
             <li><a href="#lookbook"><i class="fa-solid fa-images"></i> Lookbook</a></li>
+            <li><a href="#categorias"><i class="fa-solid fa-layer-group"></i> Categorías</a></li>
             <li><a href="#catalogo"><i class="fa-solid fa-grid-2"></i> Catálogo</a></li>
             <li><a href="#productos"><i class="fa-solid fa-shirt"></i> Servicios</a></li>
             <li><a href="#colegios"><i class="fa-solid fa-school"></i> Colegios</a></li>
@@ -117,6 +119,56 @@
     </nav>
 
     <main>
+
+        <!-- Carousel de imágenes -->
+        <section id="carousel-section" aria-label="Galería de imágenes RALOZ">
+            <div class="carousel-wrapper">
+                <div class="carousel-track" id="carouselTrack">
+                    <div class="carousel-slide">
+                        <img src="banner.webp" alt="RALOZ COL S.A.S - Uniformes Escolares" loading="eager">
+                        <div class="carousel-slide-overlay">
+                            <div class="carousel-slide-caption"><span>RALOZ COL S.A.S</span> — Más que uniformes</div>
+                            <div class="carousel-slide-sub">Calidad, identidad y orgullo escolar en cada prenda</div>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="estudiantes-marillac.png" alt="Estudiantes Colegio Marillac con uniformes RALOZ" loading="lazy">
+                        <div class="carousel-slide-overlay">
+                            <div class="carousel-slide-caption">Colegio <span>Marillac</span></div>
+                            <div class="carousel-slide-sub">Uniformes que reflejan la identidad de tu institución</div>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="fundadora.png" alt="Confección artesanal de uniformes RALOZ COL S.A.S" loading="lazy">
+                        <div class="carousel-slide-overlay">
+                            <div class="carousel-slide-caption">Confección <span>100% colombiana</span></div>
+                            <div class="carousel-slide-sub">Elaborados con pasión y compromiso en cada costura</div>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="fundadora2.png" alt="Taller RALOZ - Artesanía y dedicación" loading="lazy">
+                        <div class="carousel-slide-overlay">
+                            <div class="carousel-slide-caption">Más de <span>5 años</span> de experiencia</div>
+                            <div class="carousel-slide-sub">Vistiendo el futuro de Colombia con orgullo</div>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="uniforme-nina.png" alt="Uniforme niña RALOZ COL S.A.S" loading="lazy">
+                        <div class="carousel-slide-overlay">
+                            <div class="carousel-slide-caption">Diseños para <span>todos</span></div>
+                            <div class="carousel-slide-sub">Tallas desde la 4 hasta XL — pídela en nuestra tienda online</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-btn carousel-prev" aria-label="Imagen anterior" onclick="carouselMove(-1)">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button class="carousel-btn carousel-next" aria-label="Siguiente imagen" onclick="carouselMove(1)">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+                <div class="carousel-dots" id="carouselDots"></div>
+            </div>
+        </section>
 
         <!-- Bienvenida -->
         <section id="bienvenida">
@@ -170,6 +222,61 @@
                         <span class="stat-suffix">%</span>
                     </div>
                     <p class="stat-label">Compromiso y Calidad</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categorías -->
+        <section id="categorias">
+            <div class="categorias-label">
+                <span class="pill-tag"><i class="fa-solid fa-layer-group"></i> Nuestras Categorías</span>
+            </div>
+            <h2 style="text-align:center;">¿Qué estás <span class="txt-gold">buscando?</span></h2>
+            <p class="section-subtitle" style="text-align:center;margin-bottom:0;">Todo lo que tu colegio necesita, en un solo lugar.</p>
+            <div class="categorias-grid">
+                <!-- Uniformes Escolares — activo -->
+                <a href="#tienda-online" class="cat-card cat-card-uniformes" title="Ver uniformes escolares">
+                    <div class="cat-card-bg"></div>
+                    <div class="cat-card-overlay"></div>
+                    <div class="cat-card-body">
+                        <div class="cat-card-icon"><i class="fa-solid fa-shirt"></i></div>
+                        <h3>Uniformes Escolares</h3>
+                        <p>Diarios, deportivos y de gala para todos los colegios</p>
+                        <span class="cat-badge-active">Disponible</span>
+                    </div>
+                </a>
+                <!-- Relojes — próximamente -->
+                <div class="cat-card cat-card-relojes" title="Próximamente">
+                    <div class="cat-card-bg"></div>
+                    <div class="cat-card-overlay"></div>
+                    <div class="cat-card-body">
+                        <div class="cat-card-icon"><i class="fa-solid fa-clock"></i></div>
+                        <h3>Relojes</h3>
+                        <p>Relojes escolares y de uso diario para estudiantes</p>
+                        <span class="cat-badge-soon">Próximamente</span>
+                    </div>
+                </div>
+                <!-- Sudaderas — próximamente -->
+                <div class="cat-card cat-card-sudaderas" title="Próximamente">
+                    <div class="cat-card-bg"></div>
+                    <div class="cat-card-overlay"></div>
+                    <div class="cat-card-body">
+                        <div class="cat-card-icon"><i class="fa-solid fa-person-half-dress"></i></div>
+                        <h3>Sudaderas</h3>
+                        <p>Sudaderas personalizadas para colegios y eventos</p>
+                        <span class="cat-badge-soon">Próximamente</span>
+                    </div>
+                </div>
+                <!-- Artículos Escolares — próximamente -->
+                <div class="cat-card cat-card-articulos" title="Próximamente">
+                    <div class="cat-card-bg"></div>
+                    <div class="cat-card-overlay"></div>
+                    <div class="cat-card-body">
+                        <div class="cat-card-icon"><i class="fa-solid fa-pencil"></i></div>
+                        <h3>Artículos Escolares</h3>
+                        <p>Útiles, accesorios y más para el año escolar</p>
+                        <span class="cat-badge-soon">Próximamente</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1003,5 +1110,61 @@
     </footer>
 
     <script type="module" src="js/main.js?v=20250318"></script>
+
+    <!-- Carousel autoplay -->
+    <script>
+    (function () {
+        var track   = document.getElementById('carouselTrack');
+        var dotsEl  = document.getElementById('carouselDots');
+        if (!track) return;
+
+        var slides  = track.querySelectorAll('.carousel-slide');
+        var total   = slides.length;
+        var current = 0;
+        var timer   = null;
+        var DELAY   = 4500;
+
+        // Build dots
+        slides.forEach(function (_, i) {
+            var d = document.createElement('button');
+            d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+            d.setAttribute('aria-label', 'Ir a imagen ' + (i + 1));
+            d.addEventListener('click', function () { goTo(i); resetTimer(); });
+            dotsEl.appendChild(d);
+        });
+
+        function goTo(idx) {
+            current = (idx + total) % total;
+            track.style.transform = 'translateX(-' + current * 100 + '%)';
+            dotsEl.querySelectorAll('.carousel-dot').forEach(function (d, i) {
+                d.classList.toggle('active', i === current);
+            });
+        }
+
+        function next() { goTo(current + 1); }
+
+        function resetTimer() {
+            clearInterval(timer);
+            timer = setInterval(next, DELAY);
+        }
+
+        // Expose for inline onclick buttons
+        window.carouselMove = function (dir) { goTo(current + dir); resetTimer(); };
+
+        // Pause on hover
+        track.parentElement.addEventListener('mouseenter', function () { clearInterval(timer); });
+        track.parentElement.addEventListener('mouseleave', resetTimer);
+
+        // Touch swipe
+        var startX = 0;
+        track.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; }, { passive: true });
+        track.addEventListener('touchend', function (e) {
+            var dx = e.changedTouches[0].clientX - startX;
+            if (Math.abs(dx) > 40) { goTo(current + (dx < 0 ? 1 : -1)); resetTimer(); }
+        }, { passive: true });
+
+        resetTimer();
+    })();
+    </script>
 </body>
 </html>

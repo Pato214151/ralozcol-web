@@ -1818,3 +1818,299 @@ nav.scrolled .nav-tienda-btn { background: var(--ml-yellow) !important; border: 
     padding: 10px 14px; border-radius: 6px;
     margin-top: 12px; font-size: 0.86rem;
 }
+
+/* ===================================================
+   HERO BRAND NAME
+   =================================================== */
+.hero-brand-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+    position: relative;
+}
+.hero-brand-name::before,
+.hero-brand-name::after {
+    content: '';
+    display: block;
+    height: 2px;
+    width: 28px;
+    background: var(--yellow);
+    border-radius: 2px;
+    opacity: 0.7;
+}
+
+/* ===================================================
+   CAROUSEL SECTION
+   =================================================== */
+#carousel-section {
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    background: #000;
+    border-top: 2px solid rgba(255,193,7,0.25);
+    border-bottom: 2px solid rgba(255,193,7,0.25);
+}
+
+.carousel-wrapper {
+    position: relative;
+    width: 100%;
+    height: 480px;
+    overflow: hidden;
+}
+
+.carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.7s cubic-bezier(0.4,0,0.2,1);
+    will-change: transform;
+}
+
+.carousel-slide {
+    flex: 0 0 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    user-select: none;
+    pointer-events: none;
+}
+
+.carousel-slide-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,10,30,0.72) 0%, rgba(0,10,30,0.1) 50%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem 2.5rem;
+}
+
+.carousel-slide-caption {
+    color: white;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-weight: 700;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+.carousel-slide-caption span {
+    color: var(--yellow);
+}
+.carousel-slide-sub {
+    color: rgba(255,255,255,0.75);
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+    font-weight: 400;
+}
+
+/* Arrows */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: rgba(0,0,0,0.45);
+    border: 2px solid rgba(255,193,7,0.45);
+    color: white;
+    width: 3rem; height: 3rem;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background 0.25s, border-color 0.25s;
+    backdrop-filter: blur(4px);
+}
+.carousel-btn:hover {
+    background: var(--yellow);
+    color: var(--blue);
+    border-color: var(--yellow);
+}
+.carousel-prev { left: 1.25rem; }
+.carousel-next { right: 1.25rem; }
+
+/* Dots */
+.carousel-dots {
+    position: absolute;
+    bottom: 1.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    z-index: 10;
+}
+.carousel-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+    padding: 0;
+}
+.carousel-dot.active {
+    background: var(--yellow);
+    transform: scale(1.35);
+}
+
+/* ===================================================
+   CATEGORÍAS SECTION
+   =================================================== */
+#categorias {
+    background: linear-gradient(135deg, rgba(0,10,40,0.9), rgba(0,20,70,0.7));
+    border-color: rgba(255,193,7,0.12);
+}
+
+.categorias-label {
+    text-align: center;
+    margin-bottom: var(--space-md);
+}
+.categorias-label .pill-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255,193,7,0.1);
+    border: 1px solid rgba(255,193,7,0.28);
+    border-radius: 50px;
+    padding: 0.35rem 1rem;
+    color: var(--yellow);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.categorias-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-md);
+    margin-top: var(--space-md);
+}
+
+.cat-card {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: 260px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+.cat-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+    border-color: rgba(255,193,7,0.3);
+}
+
+.cat-card-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.5s;
+}
+.cat-card:hover .cat-card-bg { transform: scale(1.05); }
+
+.cat-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,10,40,0.88) 0%, rgba(0,10,40,0.3) 60%, transparent 100%);
+    transition: background 0.3s;
+}
+.cat-card:hover .cat-card-overlay {
+    background: linear-gradient(to top, rgba(0,10,40,0.92) 0%, rgba(0,10,40,0.45) 60%, transparent 100%);
+}
+
+.cat-card-body {
+    position: relative;
+    z-index: 2;
+    padding: 1.5rem 1.25rem;
+    text-align: center;
+    width: 100%;
+}
+
+.cat-card-icon {
+    width: 56px; height: 56px;
+    background: rgba(255,193,7,0.15);
+    border: 1.5px solid rgba(255,193,7,0.35);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem;
+    color: var(--yellow);
+    margin: 0 auto 0.75rem;
+    transition: background 0.3s, transform 0.3s;
+}
+.cat-card:hover .cat-card-icon {
+    background: var(--yellow);
+    color: var(--blue);
+    transform: scale(1.1);
+}
+
+.cat-card h3 {
+    color: white;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+}
+.cat-card p {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.78rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+}
+
+.cat-badge-active {
+    display: inline-block;
+    background: rgba(74,222,128,0.15);
+    color: #4ade80;
+    border: 1px solid rgba(74,222,128,0.3);
+    border-radius: 20px;
+    padding: 0.2rem 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+.cat-badge-soon {
+    display: inline-block;
+    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.45);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 0.2rem 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+/* Solid color bg for soon cards */
+.cat-card-uniformes .cat-card-bg  { background: linear-gradient(135deg, #001d5c 0%, #003da5 100%); }
+.cat-card-relojes .cat-card-bg    { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); }
+.cat-card-sudaderas .cat-card-bg  { background: linear-gradient(135deg, #0f3460 0%, #1a1a4e 100%); }
+.cat-card-articulos .cat-card-bg  { background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%); }
+
+@media (max-width: 900px) {
+    .categorias-grid { grid-template-columns: repeat(2,1fr); }
+    .carousel-wrapper { height: 320px; }
+    .carousel-slide-overlay { padding: 1.2rem 1.5rem; }
+}
+@media (max-width: 600px) {
+    .categorias-grid { grid-template-columns: 1fr; }
+    .carousel-wrapper { height: 240px; }
+    .cat-card { min-height: 200px; }
+}
