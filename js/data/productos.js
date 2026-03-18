@@ -21,10 +21,14 @@ export const PRODUCTOS = {
   16: { id: 16, codigo: 'UNI-DIARIO-NINO-M', nombre: 'Uniforme Diario Niño COMPLETO (Manyanet)', tipo: 'Completo', icon: 'fa-solid fa-box-open' },
   17: { id: 17, codigo: 'UNI-DIARIO-NINA-M', nombre: 'Uniforme Diario Niña COMPLETO (Manyanet)', tipo: 'Completo', icon: 'fa-solid fa-box-open' },
   18: { id: 18, codigo: 'DELANTAL',        nombre: 'Delantal',                                tipo: 'accesorio',    icon: 'fa-solid fa-star' },
+  19: { id: 19, codigo: 'CAMISETA-NINO',   nombre: 'Camiseta Ed. Física Niño',                 tipo: 'Ed. Física Niño', icon: 'fa-solid fa-shirt' },
+  20: { id: 20, codigo: 'CAMISETA-NINA',   nombre: 'Camiseta Ed. Física Niña',                 tipo: 'Ed. Física Niña', icon: 'fa-solid fa-shirt' },
+  21: { id: 21, codigo: 'CHQ-EDU-NINO',    nombre: 'Chaqueta Ed. Física Niño',                 tipo: 'Ed. Física Niño', icon: 'fa-solid fa-person-running' },
+  22: { id: 22, codigo: 'CHQ-EDU-NINA',    nombre: 'Chaqueta Ed. Física Niña',                 tipo: 'Ed. Física Niña', icon: 'fa-solid fa-person-running' },
 };
 
 export const PRODUCTOS_POR_ESCUELA = {
   1: [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 18],
   2: [1, 2, 3, 4, 6, 7, 8, 9, 10, 12, 13, 14, 15],
-  3: [1, 2, 5, 6, 7, 8, 9, 10, 11, 12, 15, 16, 17],
+  3: [1, 2, 5, 6, 7, 8, 19, 20, 21, 22, 11, 12, 15, 16, 17],
 };
