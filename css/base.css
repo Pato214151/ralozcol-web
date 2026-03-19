@@ -6,37 +6,47 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Inter:wght@400;500;600&display=swap');
 
 :root {
-    --blue: #003DA5;
-    --blue-light: #0056d6;
-    --blue-xlight: #4d8fff;
-    --yellow: #D4A017;
-    --yellow-dark: #b8860f;
-    --red: #E4002B;
-    --green: #16a34a;
+    --blue: #1A237E;
+    --blue-light: #283593;
+    --blue-xlight: #5C6BC0;
+    --blue-dark: #0D1642;
+    --navy: #0F172A;
+    --yellow: #FFC107;
+    --yellow-dark: #F59E0B;
+    --yellow-light: #FFF8E1;
+    --red: #EF4444;
+    --green: #10B981;
     --bg-main: #ffffff;
-    --bg-section: #f8fafc;
+    --bg-section: #F8FAFC;
     --bg-card: #ffffff;
     --bg-card-hover: #f1f5f9;
-    --text-dark: #0f172a;
+    --bg-dark: #0F172A;
+    --text-dark: #1E293B;
     --text-body: #334155;
-    --text-muted: #64748b;
-    --text-light: #0f172a;
-    --border: #e2e8f0;
-    --border-glass: #e2e8f0;
-    --shadow: 0 2px 16px rgba(0,0,0,0.07);
-    --shadow-md: 0 4px 24px rgba(0,0,0,0.10);
-    --shadow-blue: 0 8px 32px rgba(0,61,165,0.15);
+    --text-muted: #64748B;
+    --text-light: #F8FAFC;
+    --border: #E2E8F0;
+    --border-glass: rgba(255,255,255,0.12);
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.04), 0 10px 24px rgba(0,0,0,0.08);
+    --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+    --shadow-blue: 0 8px 32px rgba(26,35,126,0.15);
     --shadow-dark: 0 2px 16px rgba(0,0,0,0.07);
-    --shadow-yellow: 0 8px 32px rgba(212,160,23,0.25);
-    --glow-yellow: none;
-    --transition: all 0.3s ease;
+    --shadow-yellow: 0 8px 32px rgba(255,193,7,0.2);
+    --shadow-card: 0 2px 8px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06);
+    --glow-yellow: 0 0 20px rgba(255,193,7,0.3);
+    --glass-bg: rgba(255,255,255,0.8);
+    --glass-border: rgba(255,255,255,0.2);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --radius: 16px;
     --radius-sm: 10px;
+    --radius-lg: 24px;
     --space-xs: 0.5rem;
     --space-sm: 1rem;
     --space-md: 1.5rem;
     --space-lg: 2rem;
     --space-xl: 3rem;
+    --space-2xl: 5rem;
 }
 
 /* Helper color classes */
@@ -80,3 +90,23 @@ header, nav, main, footer, .whatsapp-float, .announcement-bar {
 }
 
 :focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
+
+/* Modern animations */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+@keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+.animate-fade-in-up { animation: fadeInUp 0.6s ease forwards; }
+.animate-float { animation: float 3s ease-in-out infinite; }

@@ -35,6 +35,8 @@ import {
   cerrarTallaModal,
 } from './modules/checkout.js';
 
+import { initRelojes } from './modules/relojes.js';
+
 // Los siguientes módulos registran funciones en window.* al importarse
 import './modules/cotizador.js';
 import './modules/lookbook.js';
@@ -69,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // API y tienda (async, no bloquean el render)
   initRalozIntegration().catch(() => {});
   initTiendaOnline().catch(() => {});
+  initRelojes();
 
   // Event listeners del carrito y checkout
   document.getElementById('carritoBtn')?.addEventListener('click', abrirCarritoPanel);

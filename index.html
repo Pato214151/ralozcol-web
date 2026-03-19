@@ -18,17 +18,17 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>RALOZ COL S.A.S - Uniformes Escolares de Calidad en Bogotá – Colombia</title>
-    <link rel="stylesheet" href="css/base.css?v=20260318">
-    <link rel="stylesheet" href="css/layout.css?v=20260318">
-    <link rel="stylesheet" href="css/components.css?v=20260318">
-    <link rel="stylesheet" href="css/pages.css?v=20260318">
-    <link rel="stylesheet" href="css/responsive.css?v=20260318">
+    <link rel="stylesheet" href="css/base.css?v=20260319">
+    <link rel="stylesheet" href="css/layout.css?v=20260319">
+    <link rel="stylesheet" href="css/components.css?v=20260319">
+    <link rel="stylesheet" href="css/pages.css?v=20260319">
+    <link rel="stylesheet" href="css/responsive.css?v=20260319">
 </head>
 <body>
 
     <!-- Barra de anuncio temporada -->
     <div class="announcement-bar" id="announcementBar">
-        <span><i class="fa-solid fa-graduation-cap"></i> Temporada 2026 — Uniformes escolares + Próximamente: relojes, sudaderas y más</span>
+        <span><i class="fa-solid fa-graduation-cap"></i> Temporada 2026 — Uniformes escolares + <strong>¡Relojes ya disponibles!</strong> Sudaderas y más próximamente</span>
         <a href="#tienda-online" class="ann-cta">Comprar ahora →</a>
         <button class="ann-close" aria-label="Cerrar anuncio" onclick="this.parentElement.style.display='none'">✕</button>
     </div>
@@ -47,9 +47,9 @@
         <div class="hero-split">
             <div class="hero-left">
                 <div class="hero-brand-name">RALOZ COL <span class="txt-gold">S.A.S</span></div>
-                <div class="hero-badge"><span class="hero-badge-dot"></span> Temporada Escolar 2026</div>
-                <h1>Viste el <span>futuro</span><br>con orgullo</h1>
-                <p>Uniformes escolares de calidad superior para colegios en Colombia. Más de 5 años vistiendo con excelencia. <strong>Próximamente:</strong> relojes, sudaderas y artículos escolares.</p>
+                <div class="hero-badge"><span class="hero-badge-dot"></span> Temporada 2026</div>
+                <h1>Calidad que<br><span>se ve y se siente</span></h1>
+                <p>Uniformes escolares, relojes y más — todo en un solo lugar. Más de 5 años vistiendo a Colombia con excelencia y compromiso.</p>
                 <div class="hero-actions">
                     <a href="#tienda-online" class="btn-primary">
                         <i class="fa-solid fa-bag-shopping"></i> Comprar Ahora →
@@ -101,6 +101,7 @@
             <li><a href="#quienes-somos"><i class="fa-solid fa-users"></i> Nosotros</a></li>
             <li><a href="#lookbook"><i class="fa-solid fa-images"></i> Lookbook</a></li>
             <li><a href="#categorias"><i class="fa-solid fa-layer-group"></i> Categorías</a></li>
+            <li><a href="#tienda-relojes"><i class="fa-solid fa-clock"></i> Relojes</a></li>
             <li><a href="#catalogo"><i class="fa-solid fa-grid-2"></i> Catálogo</a></li>
             <li><a href="#productos"><i class="fa-solid fa-shirt"></i> Servicios</a></li>
             <li><a href="#colegios"><i class="fa-solid fa-school"></i> Colegios</a></li>
@@ -245,17 +246,17 @@
                         <span class="cat-badge-active">Disponible</span>
                     </div>
                 </a>
-                <!-- Relojes — próximamente -->
-                <div class="cat-card cat-card-relojes" title="Próximamente">
+                <!-- Relojes — activo -->
+                <a href="#tienda-relojes" class="cat-card cat-card-relojes" title="Ver catálogo de relojes">
                     <div class="cat-card-bg"></div>
                     <div class="cat-card-overlay"></div>
                     <div class="cat-card-body">
                         <div class="cat-card-icon"><i class="fa-solid fa-clock"></i></div>
                         <h3>Relojes</h3>
-                        <p>Relojes escolares y de uso diario para estudiantes</p>
-                        <span class="cat-badge-soon">Próximamente</span>
+                        <p>Modelos exclusivos para hombre y mujer. Calidad y estilo a tu alcance</p>
+                        <span class="cat-badge-active">Disponible</span>
                     </div>
-                </div>
+                </a>
                 <!-- Sudaderas — próximamente -->
                 <div class="cat-card cat-card-sudaderas" title="Próximamente">
                     <div class="cat-card-bg"></div>
@@ -963,6 +964,50 @@
         </div>
         <div id="tallaOverlay" class="talla-overlay" style="display:none;"></div>
 
+        <!-- ════════════════════════════════════════════════════ -->
+        <!-- TIENDA RELOJES                                      -->
+        <!-- ════════════════════════════════════════════════════ -->
+        <section id="tienda-relojes" class="tienda-relojes-section">
+            <div class="tienda-relojes-header">
+                <span class="section-label"><i class="fa-solid fa-clock"></i> Relojes</span>
+                <h2>Catálogo de <span class="txt-gold">Relojes</span></h2>
+                <p>Modelos exclusivos para hombre y mujer. Relojes de calidad a precios accesibles.</p>
+            </div>
+            <div id="relojesGrid" class="relojes-grid"></div>
+        </section>
+
+        <!-- Modal de color / modelo reloj -->
+        <div id="colorModal" class="color-modal" role="dialog" aria-modal="true" aria-label="Seleccionar color de reloj" style="display:none;">
+            <div class="color-modal-inner">
+                <button id="colorCerrar" class="color-cerrar" aria-label="Cerrar">&times;</button>
+                <div class="color-modal-img-box">
+                    <i id="colorModalIcon" class="fa-solid fa-clock"></i>
+                </div>
+                <h3 id="colorNombreProducto"></h3>
+                <p id="colorDescripcion"></p>
+                <p class="color-instruccion">Selecciona el color:</p>
+                <div id="colorOpciones" class="color-opciones"></div>
+                <div id="colorDetalle" style="display:none;">
+                    <div class="color-precio-row">
+                        <span>Precio:</span>
+                        <strong id="colorPrecioDisplay"></strong>
+                    </div>
+                    <div class="color-cantidad-row">
+                        <span>Cantidad:</span>
+                        <div class="color-cantidad">
+                            <button id="colorMenos">−</button>
+                            <span id="colorCantVal">1</span>
+                            <button id="colorMas">+</button>
+                        </div>
+                    </div>
+                </div>
+                <button id="btnColorAdd" class="btn-color-add" style="display:none;">
+                    <i class="fa-solid fa-cart-plus"></i> Agregar al carrito
+                </button>
+            </div>
+        </div>
+        <div id="colorOverlay" class="color-overlay" style="display:none;"></div>
+
         <!-- Portal / Integración RALOZ -->
         <section id="portal-raloz" class="portal-section">
             <div class="portal-content">
@@ -1106,6 +1151,7 @@
                     <li><a href="#lookbook"><i class="fa-solid fa-chevron-right"></i> Lookbook</a></li>
                     <li><a href="#catalogo"><i class="fa-solid fa-chevron-right"></i> Catálogo</a></li>
                     <li><a href="#tienda-online"><i class="fa-solid fa-chevron-right"></i> Tienda Online</a></li>
+                    <li><a href="#tienda-relojes"><i class="fa-solid fa-chevron-right"></i> Relojes</a></li>
                     <li><a href="#colegios"><i class="fa-solid fa-chevron-right"></i> Colegios</a></li>
                     <li><a href="#faq"><i class="fa-solid fa-chevron-right"></i> FAQ</a></li>
                     <li><a href="#contacto"><i class="fa-solid fa-chevron-right"></i> Contacto</a></li>
@@ -1130,7 +1176,7 @@
         </div>
     </footer>
 
-    <script type="module" src="js/main.js?v=20260318"></script>
+    <script type="module" src="js/main.js?v=20260319"></script>
 
     <!-- Carousel autoplay -->
     <script>

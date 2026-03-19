@@ -125,6 +125,20 @@
     .galeria-grid { grid-template-columns: 1fr; }
 }
 
+/* ===== TIENDA RELOJES RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .tienda-relojes-section { padding: 40px 0 56px; }
+    .relojes-grid { grid-template-columns: 1fr 1fr; padding: 0 16px; gap: 14px; }
+    .reloj-img-box { height: 130px; font-size: 3rem; }
+    .reloj-precio { font-size: 1.2rem; }
+    .color-modal-inner { padding: 20px; }
+}
+@media (max-width: 480px) {
+    .relojes-grid { grid-template-columns: 1fr; }
+    .tienda-relojes-header { padding: 0 16px; }
+    .tienda-relojes-header h2 { font-size: 1.6rem; }
+}
+
 /* ===== REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {

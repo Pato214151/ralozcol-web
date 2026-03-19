@@ -12,18 +12,19 @@
 .welcome-content {
     max-width: 700px;
     margin: 0 auto;
-    display: flex; flex-direction: column; align-items: center; gap: 1rem;
+    display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
 }
 
 .welcome-icon-box {
-    width: 64px; height: 64px;
-    background: var(--yellow);
-    border-radius: 18px;
+    width: 80px; height: 80px;
+    background: linear-gradient(135deg, var(--yellow) 0%, var(--yellow-dark) 100%);
+    border-radius: 24px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 1.6rem;
+    font-size: 2rem;
     color: white;
     margin-bottom: 0.5rem;
-    box-shadow: 0 8px 24px rgba(212,160,23,0.25);
+    box-shadow: var(--shadow-yellow);
+    animation: float 3s ease-in-out infinite;
 }
 
 #bienvenida h2 {
@@ -72,7 +73,7 @@
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1.25rem;
+    gap: 1.5rem;
     margin-top: var(--space-lg);
 }
 
@@ -2114,3 +2115,298 @@ nav.scrolled .nav-tienda-btn { background: var(--ml-yellow) !important; border: 
     .carousel-wrapper { height: 240px; }
     .cat-card { min-height: 200px; }
 }
+
+/* ===== COLEGIOS CARDS ENHANCED ===== */
+.colegio-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.colegio-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.colegio-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+}
+
+.colegio-stats {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.colegio-stats span {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.colegio-stats i {
+    color: var(--blue);
+    font-size: 0.75rem;
+}
+
+.btn-colegio-ver {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: var(--blue);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.btn-colegio-ver:hover {
+    color: var(--yellow);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TIENDA RELOJES
+═══════════════════════════════════════════════════════════════ */
+
+.tienda-relojes-section {
+    padding: 64px 0 80px;
+    background: #0d0d1a;
+    border-top: 2px solid rgba(255,193,7,0.18);
+}
+
+.tienda-relojes-header {
+    max-width: 1280px;
+    margin: 0 auto 2.5rem;
+    padding: 0 24px;
+    text-align: center;
+}
+
+.tienda-relojes-header .section-label {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: rgba(255,193,7,0.1);
+    border: 1px solid rgba(255,193,7,0.28);
+    border-radius: 50px;
+    padding: 0.35rem 1rem;
+    color: var(--yellow);
+    font-size: 0.82rem; font-weight: 600;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.tienda-relojes-header h2 { color: white; font-size: clamp(1.7rem, 3.5vw, 2.4rem); margin-bottom: 0.5rem; }
+.tienda-relojes-header p  { color: rgba(255,255,255,0.55); font-size: 0.97rem; max-width: 540px; margin: 0 auto; }
+
+/* ─── Grid de relojes ─── */
+.relojes-grid {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+/* ─── Card de reloj ─── */
+.reloj-card {
+    background: #161625;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+.reloj-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+    border-color: rgba(255,193,7,0.35);
+}
+.reloj-card-destacado { border-color: rgba(255,193,7,0.2); }
+
+.reloj-img-box {
+    position: relative;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    height: 160px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem; color: rgba(255,193,7,0.3);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.reloj-card:hover .reloj-img-box i { color: rgba(255,193,7,0.6); transition: color 0.25s; }
+
+.reloj-badge-dest {
+    position: absolute; top: 10px; left: 10px;
+    background: rgba(255,193,7,0.15);
+    color: var(--yellow);
+    border: 1px solid rgba(255,193,7,0.3);
+    font-size: 0.7rem; font-weight: 700;
+    padding: 3px 10px; border-radius: 20px;
+    display: flex; align-items: center; gap: 4px;
+}
+
+.reloj-info { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+
+.reloj-nombre {
+    font-size: 0.97rem; font-weight: 700;
+    color: white; margin: 0; line-height: 1.3;
+}
+.reloj-desc {
+    font-size: 0.8rem; color: rgba(255,255,255,0.5);
+    line-height: 1.5; margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.reloj-colores-preview {
+    display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+}
+.reloj-color-dot {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: default;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    transition: transform 0.15s;
+}
+.reloj-color-dot:hover { transform: scale(1.2); }
+.reloj-colores-hint {
+    font-size: 0.73rem; color: rgba(255,255,255,0.35);
+    margin-left: 2px;
+}
+
+.reloj-precio-row {
+    display: flex; align-items: baseline; gap: 6px; margin-top: 4px;
+}
+.reloj-precio-desde { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
+.reloj-precio       { font-size: 1.4rem; font-weight: 800; color: var(--yellow); }
+
+.btn-reloj-comprar {
+    margin-top: auto;
+    background: var(--yellow);
+    color: var(--blue);
+    border: none; border-radius: 8px;
+    padding: 11px 16px; font-weight: 700; font-size: 0.9rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    transition: background 0.15s, transform 0.15s;
+}
+.btn-reloj-comprar:hover {
+    background: #e6b800;
+    transform: scale(1.02);
+}
+
+/* ─── Modal de color ─── */
+.color-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.65); z-index: 1000;
+}
+.color-modal {
+    position: fixed; inset: 0; z-index: 1001;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+}
+.color-modal-inner {
+    background: #fff; border-radius: 14px;
+    padding: 28px; max-width: 500px; width: 100%;
+    position: relative; max-height: 88vh; overflow-y: auto;
+    box-shadow: 0 10px 48px rgba(0,0,0,0.3);
+}
+.color-cerrar {
+    position: absolute; top: 14px; right: 16px;
+    background: none; border: none; font-size: 1.5rem;
+    cursor: pointer; color: #888; line-height: 1;
+}
+.color-cerrar:hover { color: #333; }
+
+.color-modal-img-box {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border-radius: 10px;
+    height: 120px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3.5rem; color: rgba(255,193,7,0.5);
+    margin-bottom: 16px;
+}
+
+#colorNombreProducto {
+    font-size: 1.1rem; font-weight: 700;
+    color: #1a1a2e; margin: 0 0 6px;
+}
+#colorDescripcion {
+    font-size: 0.82rem; color: #666;
+    line-height: 1.5; margin: 0 0 20px;
+}
+
+.color-instruccion {
+    font-size: 0.85rem; font-weight: 600;
+    color: #444; margin: 0 0 12px;
+}
+
+.color-opciones {
+    display: flex; flex-direction: column; gap: 8px;
+    margin-bottom: 16px;
+}
+.color-opcion-btn {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px;
+    border: 1.5px solid #e0e0e0; border-radius: 8px;
+    background: #fafafa; cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    text-align: left; width: 100%;
+}
+.color-opcion-btn:hover { border-color: #3483fa; background: #f0f5ff; }
+.color-opcion-btn.selected { border-color: #3483fa; background: #e8f0fe; }
+
+.cop-dot {
+    width: 24px; height: 24px; border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.cop-nombre { flex: 1; font-size: 0.9rem; font-weight: 600; color: #333; }
+.cop-precio { font-size: 0.88rem; font-weight: 700; color: #3483fa; }
+.cop-stock-low {
+    font-size: 0.72rem; font-weight: 700; color: #e65100;
+    background: #fff3e0; padding: 2px 7px; border-radius: 10px;
+    display: flex; align-items: center; gap: 3px;
+}
+
+#colorDetalle {
+    flex-direction: column; gap: 12px;
+    background: #f5f5f5; border-radius: 8px;
+    padding: 14px 16px; margin-bottom: 16px;
+}
+.color-precio-row,
+.color-cantidad-row {
+    display: flex; align-items: center; gap: 12px;
+}
+.color-precio-row span,
+.color-cantidad-row span { font-size: 0.82rem; color: #666; min-width: 64px; }
+#colorPrecioDisplay { font-size: 1.3rem; font-weight: 700; color: #333; }
+
+.color-cantidad {
+    display: flex; align-items: center; gap: 10px;
+}
+#colorMenos, #colorMas {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 1.5px solid #3483fa; background: #fff; color: #3483fa;
+    font-size: 1.1rem; cursor: pointer; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s, color 0.15s;
+}
+#colorMenos:hover, #colorMas:hover { background: #3483fa; color: #fff; }
+#colorCantVal { min-width: 28px; text-align: center; font-weight: 700; font-size: 1.1rem; }
+
+.btn-color-add {
+    width: 100%; background: #3483fa; color: #fff; border: none;
+    padding: 13px; border-radius: 8px; cursor: pointer;
+    font-weight: 700; font-size: 0.95rem;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background 0.15s;
+}
+.btn-color-add:hover { background: #2968c8; }

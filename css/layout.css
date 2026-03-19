@@ -61,7 +61,7 @@ header {
     display: flex; flex-direction: column;
     align-items: stretch; justify-content: center;
     position: relative; overflow: hidden;
-    background: linear-gradient(135deg, #001233 0%, #00174f 40%, #001a3d 100%);
+    background: linear-gradient(135deg, var(--blue-dark) 0%, var(--navy) 40%, #0a1128 100%);
     padding: var(--space-lg) var(--space-lg) 5rem;
 }
 
@@ -220,14 +220,15 @@ header > .hero-split .hero-left > p {
 .btn-primary {
     display: inline-flex; align-items: center; gap: 0.5rem;
     background: var(--yellow); color: var(--text-dark);
-    padding: 0.9rem 2rem; border-radius: 50px;
+    padding: 0.9rem 2rem; border-radius: 10px;
     font-weight: 700; font-size: 0.95rem; text-decoration: none;
-    transition: var(--transition); box-shadow: var(--shadow-yellow);
+    transition: var(--transition); box-shadow: var(--shadow-card);
+    border: none;
 }
 .btn-primary:hover, .btn-primary:focus {
     background: var(--yellow-dark); color: white;
     transform: translateY(-3px);
-    box-shadow: 0 12px 40px rgba(212,160,23,0.4);
+    box-shadow: var(--shadow-yellow);
 }
 
 .btn-secondary {
@@ -266,17 +267,20 @@ nav {
     background: var(--blue);
     position: sticky; top: 0; z-index: 1000;
     box-shadow: 0 2px 20px rgba(0,61,165,0.2);
-    transition: background 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex; align-items: center;
+    padding: 0.75rem 0;
 }
 
 nav.scrolled {
-    background: white;
-    box-shadow: 0 2px 20px rgba(0,0,0,0.10);
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    border-bottom: 1px solid var(--border);
 }
 
 .nav-brand {
-    padding: 0 1.5rem;
+    padding: 0 var(--space-md);
     flex-shrink: 0;
     display: flex; align-items: center;
 }
@@ -311,7 +315,7 @@ nav ul {
 
 nav a {
     display: flex; align-items: center; gap: 0.4rem;
-    padding: var(--space-sm) 0.9rem;
+    padding: 0.6rem 0.9rem;
     color: rgba(255,255,255,0.85);
     text-decoration: none; font-weight: 500; font-size: 0.85rem;
     transition: var(--transition); position: relative;
@@ -364,12 +368,13 @@ section {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: var(--space-xl) var(--space-lg);
-    margin: var(--space-md) 0;
+    margin: var(--space-lg) auto;
+    max-width: 1240px;
     box-shadow: var(--shadow);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 section:hover {
-    border-color: rgba(0,61,165,0.12);
+    border-color: rgba(26,35,126,0.15);
     box-shadow: var(--shadow-md);
 }
 
@@ -379,6 +384,19 @@ section h2 {
     font-weight: 700; margin-bottom: var(--space-md);
     letter-spacing: -0.3px;
     line-height: 1.2;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+}
+section h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: var(--yellow);
+    border-radius: 2px;
 }
 section h2 i { color: var(--blue); font-size: 0.85em; margin-right: 0.35rem; }
 

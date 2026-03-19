@@ -228,10 +228,10 @@ function renderCarritoPanel() {
 
   items.innerHTML = Carrito.items.map(i => `
     <div class="carrito-item">
-      <div class="ci-img"><i class="fa-solid fa-shirt"></i></div>
+      <div class="ci-img"><i class="fa-solid ${i.categoria === 'relojes' ? 'fa-clock' : 'fa-shirt'}"></i></div>
       <div class="ci-info">
         <span class="ci-nombre">${i.nombre}</span>
-        <span class="ci-detalle">Talla ${i.talla} · ${formatCOP(i.precio)} c/u · ×${i.cantidad}</span>
+        <span class="ci-detalle">${i.categoria === 'relojes' ? 'Color' : 'Talla'} ${i.talla} · ${formatCOP(i.precio)} c/u · ×${i.cantidad}</span>
       </div>
       <div class="ci-acciones">
         <span class="ci-subtotal">${formatCOP(i.precio * i.cantidad)}</span>
@@ -282,7 +282,7 @@ export function abrirCheckout() {
     }
     return `
       <div class="checkout-item">
-        <span>${i.nombre} T.${i.talla} ×${i.cantidad}${tag}</span>
+        <span>${i.nombre} ${i.categoria === 'relojes' ? 'Color' : 'T.'} ${i.talla} ×${i.cantidad}${tag}</span>
         <span>${formatCOP(i.precio * i.cantidad)}</span>
       </div>
     `;

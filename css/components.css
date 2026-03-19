@@ -10,22 +10,23 @@
     padding: var(--space-lg);
     text-align: center;
     display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
+    box-shadow: var(--shadow-card);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .stat-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-blue);
-    border-color: rgba(0,61,165,0.2);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(26,35,126,0.2);
 }
 
 .stat-icon-box {
-    width: 52px; height: 52px;
-    background: var(--blue);
-    border-radius: 14px;
+    width: 60px; height: 60px;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%);
+    border-radius: 16px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     color: white;
+    box-shadow: var(--shadow-blue);
 }
 
 .stat-value {
@@ -56,9 +57,10 @@
 .uniforme-card {
     background: white; border: 1px solid var(--border);
     border-radius: var(--radius); overflow: hidden;
-    transition: var(--transition); display: flex; flex-direction: column;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column;
+    box-shadow: var(--shadow-card);
 }
-.uniforme-card:hover { border-color: rgba(255,193,7,0.35); transform: translateY(-6px); box-shadow: var(--shadow-yellow); }
+.uniforme-card:hover { border-color: rgba(255,193,7,0.4); transform: translateY(-8px); box-shadow: var(--shadow-md); }
 
 .uc-header {
     padding: 0.7rem 1rem; display: flex; justify-content: space-between; align-items: center;
@@ -108,33 +110,36 @@
 .btn-cotizar-item {
     display: flex; align-items: center; justify-content: center; gap: 0.4rem;
     margin: auto var(--space-md) var(--space-md);
-    background: var(--blue); border: 1px solid var(--blue);
-    color: #fff; padding: 0.6rem 1rem; border-radius: var(--radius-sm);
+    background: var(--blue); border: none;
+    color: #fff; padding: 0.7rem 1.2rem; border-radius: 10px;
     cursor: pointer; font-size: 0.85rem; font-weight: 600;
-    transition: var(--transition); width: calc(100% - 2*var(--space-md));
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); width: calc(100% - 2*var(--space-md));
+    box-shadow: var(--shadow-card);
 }
-.btn-cotizar-item:hover { background: var(--yellow); color: var(--blue); border-color: var(--yellow); }
+.btn-cotizar-item:hover { background: var(--yellow); color: var(--blue); box-shadow: var(--shadow-md); }
 
 /* ===== QUIENES FEATURE ===== */
 .quienes-feature {
     display: flex;
     align-items: flex-start;
     gap: 0.75rem;
-    padding: 1rem;
+    padding: 1.25rem;
     background: var(--bg-section);
     border-radius: var(--radius-sm);
     border: 1px solid var(--border);
-    transition: var(--transition);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow);
 }
-.quienes-feature:hover { border-color: rgba(0,61,165,0.2); box-shadow: var(--shadow-blue); }
+.quienes-feature:hover { border-color: rgba(26,35,126,0.2); box-shadow: var(--shadow-md); }
 
 .feature-icon-box {
-    width: 40px; height: 40px;
-    background: var(--blue);
-    border-radius: 10px;
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%);
+    border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
-    color: white; font-size: 0.9rem;
+    color: white; font-size: 1.1rem;
     flex-shrink: 0;
+    box-shadow: var(--shadow-blue);
 }
 
 .quienes-feature h4 {
@@ -362,11 +367,12 @@
 
 /* ===== TESTIMONIOS ===== */
 .testimonio-card {
-    background: rgba(0,61,165,0.1); border: 1px solid rgba(0,61,165,0.2);
+    background: white; border: 1px solid var(--border);
     border-radius: var(--radius); padding: var(--space-lg);
-    transition: var(--transition);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-card);
 }
-.testimonio-card:hover { border-color: rgba(255,193,7,0.3); transform: translateY(-4px); box-shadow: var(--shadow-yellow); }
+.testimonio-card:hover { border-color: rgba(26,35,126,0.2); transform: translateY(-6px); box-shadow: var(--shadow-md); }
 
 .test-stars { color: var(--yellow); font-size: 1.1rem; margin-bottom: var(--space-sm); letter-spacing: 2px; }
 
