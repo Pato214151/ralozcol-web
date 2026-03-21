@@ -3,7 +3,7 @@
 // Caché offline para estáticos + respaldo de API (colegios/productos)
 // ===================================================================
 
-const CACHE_STATIC = 'raloz-static-v2';
+const CACHE_STATIC = 'raloz-static-v3';
 const CACHE_API    = 'raloz-api-v1';
 
 const STATIC_FILES = [
@@ -51,9 +51,28 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // Archivos estáticos: cache-first
+  // HTML de navegación: network-first (siempre HTML fresco)
+  if (e.request.mode === 'navigate') {
+    e.respondWith(networkFirstHTML(e.request));
+    return;
+  }
+
+  // CSS/JS/imágenes: cache-first (el ?v= en la URL ya garantiza frescura)
   e.respondWith(cacheFirstStatic(e.request));
 });
+
+// ─── Estrategia: network-first para HTML ─────────────────────────
+async function networkFirstHTML(req) {
+  const cache = await caches.open(CACHE_STATIC);
+  try {
+    const res = await fetch(req);
+    if (res.ok) cache.put(req, res.clone());
+    return res;
+  } catch {
+    const cached = await cache.match(req);
+    return cached || caches.match('/index.html') || new Response('Sin conexión', { status: 503 });
+  }
+}
 
 // ─── Estrategia: network-first para la API ───────────────────────
 async function networkFirstAPI(req) {
