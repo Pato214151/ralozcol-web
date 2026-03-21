@@ -27,6 +27,7 @@ import {
   initWhatsAppThrottle,
   initImagePreload,
   initContactForm,
+  initStickyCTA,
 } from './modules/ui.js';
 import {
   abrirCarritoPanel,
@@ -68,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initWhatsAppThrottle,
     initImagePreload,
     initContactForm,
+    initStickyCTA,
   ].forEach(fn => {
     try { fn(); } catch (e) { console.warn('[RALOZ]', fn.name, e); }
   });

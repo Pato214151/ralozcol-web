@@ -272,6 +272,41 @@ export function initWhatsAppThrottle() {
   });
 }
 
+export function initStickyCTA() {
+  const bar    = document.getElementById('stickyCTA');
+  const tienda = document.getElementById('tienda-online');
+  if (!bar || !tienda) return;
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        bar.classList.remove('visible');
+        bar.setAttribute('aria-hidden', 'true');
+      } else {
+        bar.classList.add('visible');
+        bar.setAttribute('aria-hidden', 'false');
+      }
+    },
+    { threshold: 0.15 }
+  );
+  observer.observe(tienda);
+
+  // Dots del carrusel de testimonios
+  const track = document.querySelector('.testimonios-grid');
+  const dots  = document.querySelectorAll('.test-dot');
+  if (track && dots.length) {
+    track.addEventListener('scroll', () => {
+      const idx = Math.round(track.scrollLeft / track.clientWidth);
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    }, { passive: true });
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' });
+      });
+    });
+  }
+}
+
 export function initImagePreload() {
   ['banner.webp', 'whatsapp.webp'].forEach(src => {
     const l = document.createElement('link');

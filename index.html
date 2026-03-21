@@ -18,17 +18,18 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>RALOZ COL S.A.S - Uniformes Escolares de Calidad en Bogotá – Colombia</title>
-    <link rel="stylesheet" href="css/base.css?v=20260321i">
-    <link rel="stylesheet" href="css/layout.css?v=20260321i">
-    <link rel="stylesheet" href="css/components.css?v=20260321i">
-    <link rel="stylesheet" href="css/pages.css?v=20260321i">
-    <link rel="stylesheet" href="css/responsive.css?v=20260321i">
+    <link rel="stylesheet" href="css/base.css?v=20260321j">
+    <link rel="stylesheet" href="css/layout.css?v=20260321j">
+    <link rel="stylesheet" href="css/components.css?v=20260321j">
+    <link rel="stylesheet" href="css/pages.css?v=20260321j">
+    <link rel="stylesheet" href="css/responsive.css?v=20260321j">
 </head>
 <body>
 
     <!-- Barra de anuncio temporada -->
     <div class="announcement-bar" id="announcementBar">
-        <span><i class="fa-solid fa-graduation-cap"></i> Temporada 2026 — <strong>Uniformes escolares + Relojes disponibles.</strong> Elige tu colegio y compra hoy →</span>
+        <span class="ann-text-long"><i class="fa-solid fa-graduation-cap"></i> Temporada 2026 — <strong>Uniformes escolares + Relojes disponibles.</strong> Elige tu colegio y compra hoy →</span>
+        <span class="ann-text-short"><i class="fa-solid fa-graduation-cap"></i> Temporada 2026 🎒</span>
         <a href="#tienda-online" class="ann-cta">Comprar ahora →</a>
         <button class="ann-close" aria-label="Cerrar anuncio" onclick="this.parentElement.style.display='none'">✕</button>
     </div>
@@ -528,6 +529,7 @@
         <!-- Testimonios -->
         <section id="testimonios">
             <h2><i class="fa-solid fa-comments"></i> Lo que Dicen Nuestros Clientes</h2>
+            <div class="testimonios-carousel">
             <div class="testimonios-grid">
                 <div class="testimonio-card">
                     <div class="test-stars">★★★★★</div>
@@ -562,6 +564,12 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="testimonios-dots" aria-hidden="true">
+                <span class="test-dot active"></span>
+                <span class="test-dot"></span>
+                <span class="test-dot"></span>
+            </div>
             </div>
         </section>
 
@@ -749,7 +757,7 @@
         </div>
     </footer>
 
-    <script type="module" src="js/main.js?v=20260321i"></script>
+    <script type="module" src="js/main.js?v=20260321j"></script>
 
     <!-- Carousel autoplay -->
     <script>
@@ -806,5 +814,12 @@
         resetTimer();
     })();
     </script>
+
+    <!-- Barra sticky "Ir a la tienda" — solo móvil -->
+    <div class="sticky-cta-mobile" id="stickyCTA" aria-hidden="true">
+        <a href="#tienda-online" class="sticky-cta-btn">
+            <i class="fa-solid fa-bag-shopping"></i> Comprar ahora
+        </a>
+    </div>
 </body>
 </html>

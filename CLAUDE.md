@@ -13,7 +13,7 @@ python -m http.server 8080
 
 ## CSS versioning
 
-All CSS `<link>` tags use a `?v=YYYYMMDD` cache-bust query string. When you modify any CSS file, update the version in **all five** `<link>` tags in `index.html` to force Cloudflare to invalidate the cache.
+All CSS `<link>` tags use a `?v=YYYYMMDD` cache-bust query string (with an optional letter suffix, e.g. `?v=20260321i`). When you modify any CSS file, update the version in **all five** `<link>` tags in `index.html` to force Cloudflare to invalidate the cache.
 
 ## JS module architecture
 
@@ -28,7 +28,7 @@ js/
     utils.js           ← formatCOP, scrollToSection, showNotification, mostrarToast
   modules/
     ui.js              ← all UI init functions: menu, scroll, FAQ, counters, back-to-top
-    tienda.js          ← online store: API load with 90s retry loop, school selector, product grid
+    tienda.js          ← online store: static-first render, API sync in background, school selector, product grid
     catalogo.js        ← static catalog section (offline, from data files)
     checkout.js        ← talla modal, carrito panel, checkout form → MercadoPago
     relojes.js         ← watch catalog rendering + color selector modal
@@ -36,24 +36,44 @@ js/
     lookbook.js        ← gallery lightbox (registers window.* functions)
   data/
     productos.js       ← PRODUCTOS (id→metadata) + PRODUCTOS_POR_ESCUELA (school→[ids])
-    precios.js         ← PRECIOS[colegio_id][producto_id][talla] = price (279 prices)
+    precios.js         ← PRECIOS[colegio_id][producto_id][talla] = price (static fallback)
     relojes.js         ← RELOJES array (static catalog with colors/stock)
-    colegios.js        ← school metadata
+    colegios.js        ← ESCUELAS metadata (id, nombre, displayName, productosCount)
 ```
 
 ## Critical constraint: product name matching
 
 Product `nombre` strings in `js/data/productos.js` must **exactly match** the names stored in the backend database (including emojis and accented characters). A mismatch silently breaks price lookups in the live store.
 
+## Checkout flow
+
+`abrirTallaModal(producto, opts)` → user picks talla → `Carrito.agregar()` → user opens panel → `abrirCheckout()` → form submit → `procesarCheckout()` → `RalozAPI.crearPedido()` → MercadoPago redirect.
+
+Cart items shape: `{ id_producto, nombre, talla, cantidad, precio, id_reserva? }`. The `Carrito` singleton holds a `sessionId` (UUID) used for stock reservations (`RalozAPI.reservar()`). Cart state persists to `localStorage`.
+
+Products with `stock === 0` auto-flag as `esFabricacion: true` — the talla modal shows a "Bajo pedido / 50% abono" notice.
+
+## API integration
+
+`RalozAPI.baseURL` auto-selects `localhost:5000` vs `raloz-web.onrender.com` based on `window.location.hostname`. All methods return `null` on failure (never throw from the store UI perspective).
+
+Public endpoints used by the store:
+- `GET /tienda/colegios` — list of schools
+- `GET /tienda/catalogo/:id` — products + real stock for a school
+- `POST /tienda/reservar` — reserve stock for cart session
+- `POST /tienda/pedido` — create order → returns MercadoPago init_point
+
 ## Offline / API fallback pattern
 
-`tienda.js` polls `/api/tienda/colegios` up to 90 seconds (Render free-tier cold start). If it fails, the store falls back to static data from `js/data/` and marks products "No disponible en línea". `api.js` auto-selects `localhost:5000` vs `raloz-web.onrender.com` based on `window.location.hostname`.
+`tienda.js` renders the static school list immediately, then calls `_sincronizarColegiosAPI()` in the background. A keep-alive ping fires every 10 minutes so Render (free tier, ~90s cold start) stays warm. If the API is unreachable, all prices and stock come from `js/data/precios.js` and products are marked "No disponible en línea".
 
-The Service Worker (`sw.js`) caches static assets with `raloz-static-v2` and API responses with `raloz-api-v1`. Update these cache names when making breaking changes to either.
+## Service Worker
+
+`sw.js` uses two caches: `raloz-static-v3` (pre-cached HTML/CSS/JS) and `raloz-api-v1` (API responses, network-first). **Bump `raloz-static-v3` version when making breaking changes to static assets.**
 
 ## Inline functions vs modules
 
-`cotizador.js` and `lookbook.js` register functions on `window.*` because `index.html` uses inline `onclick=` attributes to call them. Functions like `selectSchool()`, `clearSchool()`, `filtrarPorTipo()`, `galeriaAbrir()`, `galeriaCerrar()`, `galeriaNav()` are all defined this way — do not refactor them to unexported module functions without updating every `onclick` in the HTML.
+`cotizador.js` and `lookbook.js` register functions on `window.*` because `index.html` uses inline `onclick=` attributes. Functions like `selectSchool()`, `clearSchool()`, `filtrarPorTipo()`, `galeriaAbrir()`, `galeriaCerrar()`, `galeriaNav()`, and `window.abrirTiendaColegio()` (in `tienda.js`) are all defined this way — do not refactor them to unexported module functions without updating every `onclick` in the HTML.
 
 ## Watches catalog
 

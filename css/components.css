@@ -45,14 +45,14 @@
 }
 
 .stat-number {
-    font-size: clamp(2rem, 5vw, 2.8rem);
+    font-size: clamp(2.8rem, 6vw, 4rem);
     font-weight: 800;
     color: var(--blue);
     line-height: 1;
 }
 
 .stat-suffix {
-    font-size: 1.3rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: var(--yellow);
 }
@@ -402,3 +402,15 @@
 }
 .test-autor strong { color: var(--text-dark); font-size: 0.9rem; display: block; }
 .test-autor span { color: var(--text-muted); font-size: 0.78rem; }
+
+/* Dots carrusel testimonios (móvil) */
+.testimonios-dots {
+    display: none;
+    justify-content: center; gap: 6px;
+    margin-top: 8px;
+}
+.test-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--border); transition: background 0.2s, transform 0.2s;
+}
+.test-dot.active { background: var(--blue); transform: scale(1.3); }

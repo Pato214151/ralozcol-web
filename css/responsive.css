@@ -69,7 +69,22 @@
 
     .mv-grid       { grid-template-columns: 1fr; }
     .products-grid { grid-template-columns: 1fr; }
-    .testimonios-grid { grid-template-columns: 1fr; }
+    /* Testimonios: carrusel scroll snap */
+    .testimonios-carousel { position: relative; }
+    .testimonios-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 1rem;
+        padding-bottom: 16px;
+        scrollbar-width: none;
+        grid-template-columns: none;
+    }
+    .testimonios-grid::-webkit-scrollbar { display: none; }
+    .testimonio-card { flex: 0 0 85%; scroll-snap-align: center; }
+    .sticky-cta-mobile { display: block; }
+    .testimonios-dots { display: flex; }
     .proceso-grid  { grid-template-columns: repeat(2,1fr); }
     .proceso-grid::before { display: none; }
     .catalogo-grid { grid-template-columns: 1fr; }
@@ -84,10 +99,12 @@
     .footer-grid   { grid-template-columns: 1fr; }
     .footer-bottom { flex-direction: column; text-align: center; }
 
-    .whatsapp-float { bottom: 16px; right: 16px; }
-    .back-to-top    { bottom: 72px; right: 16px; }
+    .whatsapp-float { bottom: 80px; right: 16px; }
+    .back-to-top    { bottom: 140px; right: 16px; }
     .notification   { right: 10px; left: 10px; max-width: calc(100% - 20px); }
     .announcement-bar { padding: 0.5rem; font-size: 0.8rem; }
+    .ann-text-long  { display: none; }
+    .ann-text-short { display: flex; }
 
     .cot-item { grid-template-columns: 1fr auto auto; }
 
@@ -96,6 +113,16 @@
     .tienda-paso2-header { padding: 12px 14px; }
     .tienda-colegios-grid { grid-template-columns: 1fr 1fr; }
     .tienda-productos-grid { grid-template-columns: 1fr 1fr; }
+    /* Filtros de tipo: scroll horizontal en lugar de wrap */
+    .tienda-tipo-filtros {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 4px;
+    }
+    .tienda-tipo-filtros::-webkit-scrollbar { display: none; }
+    .tienda-filtro { flex-shrink: 0; }
 
     .lookbook-header { flex-direction: column; align-items: flex-start; }
     .galeria-grid { grid-template-columns: 1fr 1fr; }
