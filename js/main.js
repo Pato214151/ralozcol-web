@@ -26,6 +26,7 @@ import {
   initOfflineDetection,
   initWhatsAppThrottle,
   initImagePreload,
+  initContactForm,
 } from './modules/ui.js';
 import {
   abrirCarritoPanel,
@@ -66,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initOfflineDetection,
     initWhatsAppThrottle,
     initImagePreload,
+    initContactForm,
   ].forEach(fn => {
     try { fn(); } catch (e) { console.warn('[RALOZ]', fn.name, e); }
   });
@@ -84,4 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('checkoutForm')?.addEventListener('submit', procesarCheckout);
   document.getElementById('tallaCerrar')?.addEventListener('click', cerrarTallaModal);
   document.getElementById('tallaOverlay')?.addEventListener('click', cerrarTallaModal);
+  document.getElementById('tallaModal')?.addEventListener('click', e => {
+    if (!e.target.closest('.talla-modal-inner')) cerrarTallaModal();
+  });
 });

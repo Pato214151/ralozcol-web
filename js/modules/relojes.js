@@ -60,6 +60,9 @@ function renderRelojesGrid() {
 function initColorModal() {
   document.getElementById('colorCerrar')?.addEventListener('click', cerrarColorModal);
   document.getElementById('colorOverlay')?.addEventListener('click', cerrarColorModal);
+  document.getElementById('colorModal')?.addEventListener('click', e => {
+    if (!e.target.closest('.color-modal-inner')) cerrarColorModal();
+  });
 }
 
 function abrirColorModal(reloj) {

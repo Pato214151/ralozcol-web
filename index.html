@@ -18,11 +18,11 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>RALOZ COL S.A.S - Uniformes Escolares de Calidad en Bogotá – Colombia</title>
-    <link rel="stylesheet" href="css/base.css?v=20260321g">
-    <link rel="stylesheet" href="css/layout.css?v=20260321g">
-    <link rel="stylesheet" href="css/components.css?v=20260321g">
-    <link rel="stylesheet" href="css/pages.css?v=20260321g">
-    <link rel="stylesheet" href="css/responsive.css?v=20260321g">
+    <link rel="stylesheet" href="css/base.css?v=20260321h">
+    <link rel="stylesheet" href="css/layout.css?v=20260321h">
+    <link rel="stylesheet" href="css/components.css?v=20260321h">
+    <link rel="stylesheet" href="css/pages.css?v=20260321h">
+    <link rel="stylesheet" href="css/responsive.css?v=20260321h">
 </head>
 <body>
 
@@ -74,10 +74,10 @@
                 <h1>Calidad que se ve<br>y se <span>siente</span></h1>
                 <p>Confeccionamos uniformes escolares para los mejores colegios de Bogotá. También encuentra relojes y más — <strong>todo con el respaldo de RALOZ COL S.A.S.</strong></p>
                 <div class="hero-actions">
-                    <a href="#tienda-online" class="btn-primary">
+                    <a href="#colegios-aliados" class="btn-primary">
                         <i class="fa-solid fa-bag-shopping"></i> Comprar Ahora →
                     </a>
-                    <a href="#tienda-online" class="btn-secondary">
+                    <a href="#colegios-aliados" class="btn-secondary">
                         <i class="fa-solid fa-grid-2"></i> Ver Catálogo ▷
                     </a>
                 </div>
@@ -483,7 +483,7 @@
             </div>
 
             <div class="lookbook-cta">
-                <a href="#tienda-online" class="btn-primary"><i class="fa-solid fa-shirt"></i> Ver Catálogo Completo →</a>
+                <a href="#colegios-aliados" class="btn-primary"><i class="fa-solid fa-shirt"></i> Ver Catálogo Completo →</a>
             </div>
         </section>
 
@@ -647,26 +647,34 @@
             <p>¿Tienes preguntas o necesitas más información? Completa nuestro formulario:</p>
             <div class="contact-grid">
                 <div class="form-wrapper">
-                    <div class="form-container">
-                        <iframe
-                            src="https://forms.office.com/r/Tujv6uWRJP?embed=true"
-                            title="Formulario de contacto RALOZ COL"
-                            style="border: none; width: 100%; min-height: 600px;"
-                            allowfullscreen
-                            loading="lazy"
-                            aria-describedby="form-description">
-                        </iframe>
-                        <p id="form-description" class="sr-only">Formulario de contacto de RALOZ COL S.A.S para consultas sobre uniformes escolares.</p>
-                        <p class="form-fallback" hidden>El formulario no está disponible. Por favor, <a href="https://forms.office.com/r/Tujv6uWRJP" target="_blank" rel="noopener">abrir el link directo del forms</a>.</p>
-                    </div>
-                    <div class="form-external">
-                        <a href="https://forms.office.com/r/Tujv6uWRJP"
-                           target="_blank"
-                           rel="noopener"
-                           class="form-external-btn">
-                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir formulario en nueva pestaña
-                        </a>
-                    </div>
+                    <form id="contactoForm" class="native-contact-form" novalidate>
+                        <h3 class="ncf-title"><i class="fa-solid fa-paper-plane"></i> Escríbenos</h3>
+                        <p class="ncf-subtitle">Te responderemos por WhatsApp o correo.</p>
+                        <div class="ncf-field">
+                            <label for="ncf-nombre">Nombre *</label>
+                            <input type="text" id="ncf-nombre" name="nombre" placeholder="Tu nombre completo" autocomplete="name">
+                        </div>
+                        <div class="ncf-field">
+                            <label for="ncf-tel">Teléfono / WhatsApp</label>
+                            <input type="tel" id="ncf-tel" name="telefono" placeholder="Ej: 300 123 4567" autocomplete="tel">
+                        </div>
+                        <div class="ncf-field">
+                            <label for="ncf-colegio">Colegio (opcional)</label>
+                            <input type="text" id="ncf-colegio" name="colegio" placeholder="Ej: Colegio Marillac">
+                        </div>
+                        <div class="ncf-field">
+                            <label for="ncf-msg">Mensaje *</label>
+                            <textarea id="ncf-msg" name="mensaje" rows="4" placeholder="¿En qué te podemos ayudar?"></textarea>
+                        </div>
+                        <div class="ncf-actions">
+                            <button type="button" id="btnEnviarWA" class="btn-ncf-wa">
+                                <i class="fa-brands fa-whatsapp"></i> Enviar por WhatsApp
+                            </button>
+                            <a href="mailto:creacionesraloz@hotmail.com" class="btn-ncf-email">
+                                <i class="fa-solid fa-envelope"></i> Enviar por correo
+                            </a>
+                        </div>
+                    </form>
                 </div>
                 <div class="contact-info">
                     <h3><i class="fa-solid fa-address-card"></i> Información de Contacto</h3>
@@ -760,7 +768,7 @@
         </div>
     </footer>
 
-    <script type="module" src="js/main.js?v=20260321g"></script>
+    <script type="module" src="js/main.js?v=20260321h"></script>
 
     <!-- Carousel autoplay -->
     <script>

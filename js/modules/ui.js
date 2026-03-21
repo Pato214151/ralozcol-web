@@ -238,6 +238,26 @@ export function initOfflineDetection() {
   window.addEventListener('offline', () => showNotification('⚠️ Sin conexión a internet', 'error'));
 }
 
+export function initContactForm() {
+  const btn = document.getElementById('btnEnviarWA');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    const nombre  = document.getElementById('ncf-nombre')?.value.trim();
+    const tel     = document.getElementById('ncf-tel')?.value.trim();
+    const colegio = document.getElementById('ncf-colegio')?.value.trim();
+    const msg     = document.getElementById('ncf-msg')?.value.trim();
+    if (!nombre || !msg) {
+      showNotification('Por favor completa tu nombre y mensaje.', 'error');
+      return;
+    }
+    let text = `Hola RALOZ COL 👋\n\nNombre: ${nombre}`;
+    if (tel)     text += `\nTeléfono: ${tel}`;
+    if (colegio) text += `\nColegio: ${colegio}`;
+    text += `\n\nMensaje: ${msg}`;
+    window.open(`https://wa.me/573213412903?text=${encodeURIComponent(text)}`, '_blank');
+  });
+}
+
 export function initWhatsAppThrottle() {
   const btn = document.querySelector('.whatsapp-float');
   if (!btn) return;
