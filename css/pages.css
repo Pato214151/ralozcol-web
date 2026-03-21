@@ -2,6 +2,52 @@
    PAGES.CSS — Page-Specific Styles (Tienda, Catálogo, Cotizador, etc.)
 ═══════════════════════════════════════════════════════════════ */
 
+/* ===== CÓMO PEDIR STRIP ===== */
+.como-pedir-strip {
+    background: white;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 0.9rem var(--space-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+.cp-step {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+.cp-num {
+    width: 26px; height: 26px;
+    background: var(--blue);
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.78rem; font-weight: 700;
+    flex-shrink: 0;
+}
+.cp-text strong {
+    display: block;
+    color: var(--text-dark);
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+.cp-text span {
+    color: var(--text-muted);
+    font-size: 0.73rem;
+}
+.cp-arrow {
+    color: var(--border);
+    font-size: 0.65rem;
+}
+@media (max-width: 560px) {
+    .cp-arrow { display: none; }
+    .como-pedir-strip { justify-content: flex-start; gap: 1rem; padding: 0.75rem var(--space-sm); }
+}
+
 /* ===== BIENVENIDA ===== */
 #bienvenida {
     background: white;
@@ -2138,8 +2184,9 @@ nav.scrolled .nav-tienda-btn { background: var(--ml-yellow) !important; border: 
 
 .categorias-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 440px));
     gap: var(--space-md);
+    justify-content: center;
     margin-top: var(--space-md);
 }
 
@@ -2287,7 +2334,6 @@ nav.scrolled .nav-tienda-btn { background: var(--ml-yellow) !important; border: 
 }
 
 @media (max-width: 900px) {
-    .categorias-grid { grid-template-columns: repeat(2,1fr); }
     .carousel-wrapper { height: 320px; }
     .carousel-slide-overlay { padding: 1.2rem 1.5rem; }
 }
