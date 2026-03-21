@@ -23,7 +23,7 @@
 
 .ann-cta {
     background: var(--yellow);
-    color: white;
+    color: var(--blue-dark);
     padding: 0.3rem 1rem;
     border-radius: 20px;
     font-weight: 700;
