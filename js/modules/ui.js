@@ -79,14 +79,29 @@ export function initScrollAnimations() {
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: 0.01, rootMargin: '60px 0px 60px 0px' });
 
   document.querySelectorAll('section, .uniforme-card, .producto-card').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(28px)';
-    el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+    const rect = el.getBoundingClientRect();
+    const alreadyVisible = rect.top < window.innerHeight && rect.bottom > 0;
+    if (!alreadyVisible) {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(28px)';
+      el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+    }
     observer.observe(el);
   });
+
+  // Fallback: garantizar visibilidad de todas las secciones después de 3s
+  setTimeout(() => {
+    document.querySelectorAll('section, .uniforme-card, .producto-card').forEach(el => {
+      if (el.style.opacity === '0') {
+        el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      }
+    });
+  }, 3000);
 }
 
 export function initActiveNavIndicator() {
