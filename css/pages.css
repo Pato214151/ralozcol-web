@@ -278,8 +278,8 @@
     display: flex; align-items: center; justify-content: center;
 }
 .step-icon { font-size: 2.2rem; color: var(--blue-xlight); margin: 0.5rem 0 var(--space-sm); }
-.proceso-step h3 { color: var(--yellow); font-size: 1.05rem; margin-bottom: 0.5rem; }
-.proceso-step p { color: var(--text-muted); font-size: 0.875rem; line-height: 1.6; margin: 0; }
+.proceso-step h3 { color: var(--blue); font-size: 1.05rem; margin-bottom: 0.5rem; }
+.proceso-step p { color: var(--text-body); font-size: 0.875rem; line-height: 1.6; margin: 0; }
 
 /* ===== CATÁLOGO ===== */
 #catalogo { background: var(--bg-section); }
@@ -470,7 +470,7 @@
 .prod-card:hover .prod-icon-area { transform: scale(1.08); }
 
 .prod-card h4 {
-    color: white; font-size: 0.9rem; font-weight: 600;
+    color: var(--text-dark); font-size: 0.9rem; font-weight: 600;
     padding: 0 var(--space-sm); margin-bottom: 0.5rem;
     line-height: 1.3;
 }
@@ -487,7 +487,7 @@
     width: 100%;
     background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.12);
     border-radius: var(--radius-sm); padding: 0.45rem 0.6rem;
-    color: var(--text-light); font-size: 0.85rem; font-family: inherit;
+    color: var(--text-dark); font-size: 0.85rem; font-family: inherit;
     cursor: pointer; transition: border-color 0.2s;
     appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M6 8L0 0h12z' fill='%23FFC107'/%3E%3C/svg%3E");
@@ -513,7 +513,7 @@
     display: flex; align-items: center; justify-content: center; gap: 0.35rem;
     margin: auto var(--space-sm) var(--space-sm);
     background: rgba(0,61,165,0.25); border: 1px solid rgba(0,86,214,0.4);
-    color: var(--text-light); padding: 0.55rem;
+    color: var(--blue); padding: 0.55rem;
     border-radius: var(--radius-sm); cursor: pointer;
     font-size: 0.82rem; font-weight: 600;
     transition: var(--transition);
@@ -703,7 +703,7 @@
 .cot-field textarea {
     background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
     border-radius: var(--radius-sm); padding: 0.75rem 1rem;
-    color: var(--text-light); font-size: 0.95rem; font-family: inherit;
+    color: var(--text-dark); font-size: 0.95rem; font-family: inherit;
     transition: var(--transition);
 }
 .cot-field input:focus,
@@ -764,12 +764,12 @@
     border-radius: var(--radius-sm); padding: var(--space-md);
 }
 .cot-info-card h3 {
-    color: var(--yellow); font-size: 0.95rem; font-weight: 600;
+    color: var(--blue); font-size: 0.95rem; font-weight: 600;
     margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem;
 }
-.cot-info-card p, .cot-info-card ul li { font-size: 0.85rem; color: var(--text-muted); }
+.cot-info-card p, .cot-info-card ul li { font-size: 0.85rem; color: var(--text-body); }
 .cot-info-card ul li::before { width: 4px; height: 4px; }
-.cot-info-card strong { color: var(--text-light); }
+.cot-info-card strong { color: var(--text-dark); }
 
 /* ===== COTIZADOR V2 ===== */
 .cotizador-v2 {
@@ -811,7 +811,7 @@
     border: 1px solid rgba(255,255,255,0.15);
     border-radius: 8px;
     padding: 0.45rem 0.6rem;
-    color: var(--text-light);
+    color: var(--text-body);
     font-size: 0.82rem;
     cursor: pointer;
     transition: var(--transition);
@@ -913,13 +913,13 @@
     margin-bottom: 0.75rem;
 }
 .info-card h3 {
-    color: white;
+    color: var(--text-dark);
     font-size: 1.1rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
 }
 .info-card p {
-    color: var(--text-muted);
+    color: var(--text-body);
     font-size: 0.88rem;
     line-height: 1.5;
 }
@@ -932,7 +932,7 @@
     gap: 0.4rem;
 }
 .datos-list li {
-    color: var(--text-light);
+    color: var(--text-body);
     font-size: 0.82rem;
     display: flex;
     align-items: center;
@@ -979,7 +979,7 @@
 .disp-espera > i    { color: #fbbf24; }
 .disp-domicilio > i { color: #60a5fa; }
 .disp-item strong {
-    color: white;
+    color: var(--text-dark);
     font-size: 0.85rem;
     display: block;
     margin-bottom: 0.15rem;
@@ -1020,7 +1020,7 @@
 .horario-horas p {
     margin: 0.2rem 0;
     font-size: 0.85rem !important;
-    color: white !important;
+    color: var(--text-dark) !important;
 }
 .horario-horas i {
     color: var(--yellow);
@@ -1043,7 +1043,7 @@
     margin-top: 0.1rem;
 }
 .ubicacion-mini strong {
-    color: white;
+    color: var(--text-dark);
     font-size: 0.82rem;
     display: block;
 }
@@ -1111,12 +1111,12 @@
     flex-shrink: 0;
 }
 .pago-mini strong {
-    color: white;
+    color: var(--text-dark);
     font-size: 0.82rem;
     display: block;
 }
 .pago-mini span {
-    color: var(--text-muted);
+    color: var(--text-body);
     font-size: 0.75rem;
     display: block;
 }
@@ -1145,24 +1145,24 @@
 }
 .form-external-btn:hover, .form-external-btn:focus { background: var(--yellow); color: var(--blue); border-color: var(--yellow); transform: translateY(-2px); box-shadow: var(--shadow-yellow); }
 
-.contact-info h3 { color: var(--yellow); font-size: 1.2rem; font-weight: 600; margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem; }
+.contact-info h3 { color: var(--blue); font-size: 1.2rem; font-weight: 600; margin-bottom: var(--space-md); display: flex; align-items: center; gap: 0.5rem; }
 
 address {
     background: rgba(228,0,43,0.07); border: 1px solid rgba(228,0,43,0.18);
     border-radius: var(--radius); padding: var(--space-md); font-style: normal;
 }
-address p { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: var(--space-sm); font-size: 0.95rem; color: var(--text-light); }
+address p { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: var(--space-sm); font-size: 0.95rem; color: var(--text-body); }
 address p i { color: var(--yellow); width: 16px; flex-shrink: 0; margin-top: 3px; }
-address a { color: var(--text-light); text-decoration: none; transition: color 0.3s; }
-address a:hover, address a:focus { color: var(--yellow); }
+address a { color: var(--text-body); text-decoration: none; transition: color 0.3s; }
+address a:hover, address a:focus { color: var(--blue); }
 
 .horario-card {
     background: rgba(0,61,165,0.1); border: 1px solid rgba(0,61,165,0.2);
     border-radius: var(--radius-sm); padding: var(--space-md);
     margin-top: var(--space-sm);
 }
-.horario-card h4 { color: var(--yellow); font-size: 0.95rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
-.horario-card p { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.25rem; }
+.horario-card h4 { color: var(--blue); font-size: 0.95rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
+.horario-card p { font-size: 0.875rem; color: var(--text-body); margin-bottom: 0.25rem; }
 
 /* ===== PRODUCTS (SERVICIOS) ===== */
 .products-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--space-md); margin-top: var(--space-md); }
@@ -1182,7 +1182,7 @@ article.product-card:hover { background: rgba(0,61,165,0.2); border-color: rgba(
     box-shadow: var(--shadow-blue); transition: var(--transition);
 }
 article.product-card:hover .product-icon { background: linear-gradient(135deg, var(--yellow-dark), var(--yellow)); color: var(--blue); box-shadow: var(--shadow-yellow); transform: scale(1.1); }
-article.product-card h3 { color: var(--yellow); font-size: 1.1rem; margin-bottom: var(--space-sm); }
+article.product-card h3 { color: var(--blue); font-size: 1.1rem; margin-bottom: var(--space-sm); }
 article.product-card ul { text-align: left; }
 
 /* ===== COLEGIOS ===== */
@@ -1197,7 +1197,7 @@ article.product-card ul { text-align: left; }
 .colegio-card.prev { opacity: 0.65; border-style: dashed; }
 .colegio-icon { font-size: 2rem; color: var(--blue-light); }
 .colegio-card.active .colegio-icon { color: var(--yellow); }
-.colegio-card p { font-weight: 600; margin: 0; color: var(--text-light); }
+.colegio-card p { font-weight: 600; margin: 0; color: var(--text-body); }
 .badge { font-size: 0.75rem; font-weight: 600; background: rgba(0,200,100,0.18); color: #4ade80; border: 1px solid rgba(0,200,100,0.28); border-radius: 20px; padding: 0.2rem 0.75rem; }
 .badge-prev { background: rgba(255,255,255,0.05); color: var(--text-muted); border-color: rgba(255,255,255,0.1); }
 .colegio-cta { margin-top: var(--space-md); padding: var(--space-md); background: rgba(0,61,165,0.14); border-radius: var(--radius-sm); border-left: 4px solid var(--yellow); }
