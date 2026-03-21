@@ -13,6 +13,7 @@ import { initRalozIntegration } from './core/api.js';
 import { initTiendaOnline } from './modules/tienda.js';
 import { actualizarContadoresEscuelas, initCatalogo } from './modules/catalogo.js';
 import {
+  initNavDropdown,
   initMobileMenu,
   initSmoothScroll,
   initScrollAnimations,
@@ -51,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Módulos de UI (síncrono)
   [
+    initNavDropdown,
     initMobileMenu,
     initSmoothScroll,
     initScrollAnimations,

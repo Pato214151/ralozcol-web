@@ -4,6 +4,31 @@
 
 import { scrollToSection, showNotification } from '../core/utils.js';
 
+export function initNavDropdown() {
+  const dropdown = document.querySelector('.nav-dropdown');
+  if (!dropdown) return;
+
+  const btn  = dropdown.querySelector('.nav-dropdown-btn');
+  const menu = dropdown.querySelector('.nav-dropdown-menu');
+
+  const open  = () => { dropdown.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); };
+  const close = () => { dropdown.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); };
+  const toggle = () => dropdown.classList.contains('open') ? close() : open();
+
+  btn.addEventListener('click', e => { e.stopPropagation(); toggle(); });
+
+  // Cerrar al hacer clic en un link del menú
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+
+  // Cerrar al hacer clic fuera
+  document.addEventListener('click', e => {
+    if (!dropdown.contains(e.target)) close();
+  });
+
+  // Cerrar con Escape
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+}
+
 export function initMobileMenu() {
   const toggle = document.querySelector('.nav-toggle');
   const menu   = document.querySelector('nav ul');

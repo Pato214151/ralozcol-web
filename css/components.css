@@ -2,6 +2,17 @@
    COMPONENTS.CSS — Buttons, Cards, Modals, Notifications, etc.
 ═══════════════════════════════════════════════════════════════ */
 
+/* ===== TIENDA API INDICATOR ===== */
+.tienda-api-ind {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.78rem; font-weight: 500; padding: 0.25rem 0.75rem;
+    border-radius: 20px; transition: opacity 1s ease;
+    margin-top: 0.5rem;
+}
+.tienda-api-ind.conectando { background: #FFF8E1; color: #B45309; border: 1px solid #FDE68A; }
+.tienda-api-ind.online     { background: #D1FAE5; color: #065F46; border: 1px solid #6EE7B7; }
+.tienda-api-ind.offline    { background: #F1F5F9; color: var(--text-muted); border: 1px solid var(--border); }
+
 /* ===== STAT CARD ===== */
 .stat-card {
     background: white;

@@ -18,11 +18,11 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>RALOZ COL S.A.S - Uniformes Escolares de Calidad en Bogotá – Colombia</title>
-    <link rel="stylesheet" href="css/base.css?v=20260319">
-    <link rel="stylesheet" href="css/layout.css?v=20260319">
-    <link rel="stylesheet" href="css/components.css?v=20260319">
-    <link rel="stylesheet" href="css/pages.css?v=20260319">
-    <link rel="stylesheet" href="css/responsive.css?v=20260319">
+    <link rel="stylesheet" href="css/base.css?v=20260321c">
+    <link rel="stylesheet" href="css/layout.css?v=20260321c">
+    <link rel="stylesheet" href="css/components.css?v=20260321c">
+    <link rel="stylesheet" href="css/pages.css?v=20260321c">
+    <link rel="stylesheet" href="css/responsive.css?v=20260321c">
 </head>
 <body>
 
@@ -54,14 +54,14 @@
                     <a href="#tienda-online" class="btn-primary">
                         <i class="fa-solid fa-bag-shopping"></i> Comprar Ahora →
                     </a>
-                    <a href="#catalogo" class="btn-secondary">
+                    <a href="#tienda-online" class="btn-secondary">
                         <i class="fa-solid fa-grid-2"></i> Ver Catálogo ▷
                     </a>
                 </div>
                 <div class="hero-stats-strip">
                     <div class="hero-stat"><strong>5<span>+</span></strong><span>Años</span></div>
                     <div class="hero-stat-div"></div>
-                    <div class="hero-stat"><strong>1000<span>+</span></strong><span>Clientes</span></div>
+                    <div class="hero-stat"><strong>1000<span>+</span></strong><span>Estudiantes</span></div>
                     <div class="hero-stat-div"></div>
                     <div class="hero-stat"><strong>3<span>+</span></strong><span>Colegios</span></div>
                 </div>
@@ -100,10 +100,18 @@
             <li><a href="#inicio"><i class="fa-solid fa-house"></i> Inicio</a></li>
             <li><a href="#quienes-somos"><i class="fa-solid fa-users"></i> Nosotros</a></li>
             <li><a href="#lookbook"><i class="fa-solid fa-images"></i> Lookbook</a></li>
-            <li><a href="#categorias"><i class="fa-solid fa-layer-group"></i> Categorías</a></li>
-            <li><a href="#catalogo"><i class="fa-solid fa-grid-2"></i> Catálogo</a></li>
-            <li><a href="#tienda-relojes"><i class="fa-solid fa-clock"></i> Relojes</a></li>
-            <li><a href="#productos"><i class="fa-solid fa-shirt"></i> Servicios</a></li>
+            <li class="nav-dropdown">
+                <button class="nav-dropdown-btn" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa-solid fa-grid-2"></i> Productos
+                    <i class="fa-solid fa-chevron-down nav-dd-arrow"></i>
+                </button>
+                <ul class="nav-dropdown-menu" role="menu">
+                    <li><a href="#categorias" role="menuitem"><i class="fa-solid fa-layer-group"></i> Categorías</a></li>
+                    <li><a href="#tienda-online" role="menuitem"><i class="fa-solid fa-shirt"></i> Uniformes</a></li>
+                    <li><a href="#tienda-relojes" role="menuitem"><i class="fa-solid fa-clock"></i> Relojes</a></li>
+                    <li><a href="#productos" role="menuitem"><i class="fa-solid fa-star"></i> Servicios</a></li>
+                </ul>
+            </li>
             <li><a href="#colegios"><i class="fa-solid fa-school"></i> Colegios</a></li>
             <li>
                 <a href="#tienda-online" class="nav-tienda-btn">
@@ -327,7 +335,7 @@
             </div>
 
             <div class="lookbook-cta">
-                <a href="#catalogo" class="btn-primary"><i class="fa-solid fa-shirt"></i> Ver Catálogo Completo →</a>
+                <a href="#tienda-online" class="btn-primary"><i class="fa-solid fa-shirt"></i> Ver Catálogo Completo →</a>
             </div>
         </section>
 
@@ -430,92 +438,6 @@
             </div>
         </section>
 
-        <!-- Catálogo estilo Shein -->
-        <section id="catalogo">
-            <h2><i class="fa-solid fa-grid-2"></i> Catálogo de Uniformes</h2>
-            <p class="section-subtitle">Elige tu colegio y ve todos los uniformes disponibles con precios reales.</p>
-
-            <!-- PASO 1: Selector de colegio tipo Shein -->
-            <div class="school-selector" id="selectorEscuelas">
-                <p class="school-selector-hint"><i class="fa-solid fa-hand-pointer"></i> Paso 1 — Selecciona tu colegio</p>
-                <div class="school-cards">
-                    <button class="school-card" data-school="MARILLAC" onclick="selectSchool('MARILLAC')">
-                        <div class="sc-icon sc-marillac"><i class="fa-solid fa-school-flag"></i></div>
-                        <div class="sc-info">
-                            <span class="sc-name">Colegio Marillac</span>
-                            <span class="sc-count">15 productos</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right sc-arrow"></i>
-                    </button>
-                    <button class="school-card" data-school="ADVENTISTA" onclick="selectSchool('ADVENTISTA')">
-                        <div class="sc-icon sc-adventista"><i class="fa-solid fa-school-flag"></i></div>
-                        <div class="sc-info">
-                            <span class="sc-name">Colegio Adventista</span>
-                            <span class="sc-count">13 productos</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right sc-arrow"></i>
-                    </button>
-                    <button class="school-card" data-school="MANYANET" onclick="selectSchool('MANYANET')">
-                        <div class="sc-icon sc-manyanet"><i class="fa-solid fa-school-flag"></i></div>
-                        <div class="sc-info">
-                            <span class="sc-name">Colegio Manyanet</span>
-                            <span class="sc-count">13 productos</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right sc-arrow"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- PASO 2: Productos del colegio seleccionado -->
-            <div class="productos-section" id="productosSection" style="display:none;">
-                <!-- Breadcrumb + back -->
-                <div class="productos-header">
-                    <button class="btn-back-school" onclick="clearSchool()">
-                        <i class="fa-solid fa-arrow-left"></i> Cambiar colegio
-                    </button>
-                    <div class="productos-colegio-tag" id="escuelaTag"></div>
-                </div>
-
-                <!-- Filtros por tipo -->
-                <div class="tipo-filters" id="tipoFilters" role="tablist">
-                    <button class="tipo-btn active" onclick="limpiarFiltros()" role="tab">
-                        <i class="fa-solid fa-layer-group"></i> Todos
-                    </button>
-                    <button class="tipo-btn" onclick="filtrarPorTipo('Completo')" role="tab">
-                        <i class="fa-solid fa-box-open"></i> Completos
-                    </button>
-                    <button class="tipo-btn" onclick="filtrarPorTipo('Diario Niño')" role="tab">
-                        <i class="fa-solid fa-person"></i> Diario Niño
-                    </button>
-                    <button class="tipo-btn" onclick="filtrarPorTipo('Diario Niña')" role="tab">
-                        <i class="fa-solid fa-person-dress"></i> Diario Niña
-                    </button>
-                    <button class="tipo-btn" onclick="filtrarPorTipo('Diario')" role="tab">
-                        <i class="fa-solid fa-vest"></i> Diario (ambos)
-                    </button>
-                    <button class="tipo-btn" onclick="filtrarPorTipo('Ed. Física')" role="tab">
-                        <i class="fa-solid fa-person-running"></i> Ed. Física
-                    </button>
-                    <button class="tipo-btn" onclick="filtrarPorTipo('Medias')" role="tab">
-                        <i class="fa-solid fa-socks"></i> Medias
-                    </button>
-                    <button class="tipo-btn" onclick="filtrarPorTipo('accesorio')" role="tab">
-                        <i class="fa-solid fa-star"></i> Accesorios
-                    </button>
-                </div>
-
-                <!-- Conteo de resultados -->
-                <p class="productos-count" id="contadorProductos"></p>
-
-                <!-- Grid de productos dinámico -->
-                <div class="productos-grid" id="productosGrid"></div>
-            </div>
-
-            <div class="catalogo-cta">
-                <p>¿Tu colegio no está en la lista? <a href="#contacto">Contáctanos</a> — confeccionamos para cualquier institución educativa.</p>
-            </div>
-        </section>
-
         <!-- Servicios -->
         <section id="productos">
             <h2><i class="fa-solid fa-shirt"></i> Nuestros Servicios</h2>
@@ -566,7 +488,7 @@
                         <span><i class="fa-solid fa-shirt"></i> 15+ prendas</span>
                         <span><i class="fa-solid fa-ruler"></i> Tallas 4–XL</span>
                     </div>
-                    <a href="#catalogo" class="btn-colegio-ver" onclick="setTimeout(()=>selectSchool('MANYANET'),300)">Ver catálogo →</a>
+                    <a href="#tienda-online" class="btn-colegio-ver" onclick="abrirTiendaColegio('MANYANET')">Ver catálogo →</a>
                 </div>
                 <div class="colegio-card active">
                     <div class="colegio-card-header">
@@ -579,7 +501,7 @@
                         <span><i class="fa-solid fa-shirt"></i> 18+ prendas</span>
                         <span><i class="fa-solid fa-ruler"></i> Tallas 4–XL</span>
                     </div>
-                    <a href="#catalogo" class="btn-colegio-ver" onclick="setTimeout(()=>selectSchool('MARILLAC'),300)">Ver catálogo →</a>
+                    <a href="#tienda-online" class="btn-colegio-ver" onclick="abrirTiendaColegio('MARILLAC')">Ver catálogo →</a>
                 </div>
                 <div class="colegio-card prev">
                     <div class="colegio-card-header">
@@ -592,7 +514,7 @@
                         <span><i class="fa-solid fa-shirt"></i> 13+ prendas</span>
                         <span><i class="fa-solid fa-ruler"></i> Tallas 6–XL</span>
                     </div>
-                    <a href="#catalogo" class="btn-colegio-ver" onclick="setTimeout(()=>selectSchool('ADVENTISTA'),300)">Ver catálogo →</a>
+                    <a href="#tienda-online" class="btn-colegio-ver" onclick="abrirTiendaColegio('ADVENTISTA')">Ver catálogo →</a>
                 </div>
             </div>
             <p class="colegio-cta"><strong>¿Tu colegio está interesado?</strong> <a href="#contacto">Contáctanos</a> para conocer nuestras soluciones personalizadas.</p>
@@ -757,15 +679,6 @@
             <div class="faq-list">
                 <div class="faq-item">
                     <button class="faq-question" aria-expanded="false">
-                        ¿Cuánto tiempo tarda la entrega de un pedido?
-                        <i class="fa-solid fa-chevron-down faq-icon"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Para pedidos en stock, la entrega es de 1 a 3 días hábiles en Bogotá. Para pedidos con personalización (bordados, diseños especiales) el tiempo es de 5 a 10 días hábiles. Los pedidos masivos de colegios requieren al menos 15 días de anticipación.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false">
                         ¿Puedo cambiar la talla si el uniforme no le queda a mi hijo/a?
                         <i class="fa-solid fa-chevron-down faq-icon"></i>
                     </button>
@@ -826,24 +739,16 @@
         <!-- ════════════════════════════════════════════════════ -->
         <section id="tienda-online" class="tienda-section">
             <div class="section-header">
-                <h2><i class="fa-solid fa-bag-shopping"></i> Tienda Online</h2>
-                <p class="section-subtitle">Selecciona tu colegio, elige los uniformes y paga de forma segura.</p>
+                <span class="section-label"><i class="fa-solid fa-bag-shopping"></i> Catálogo y Tienda Online</span>
+                <h2>Elige tu colegio y <span class="txt-gold">compra hoy</span></h2>
+                <p class="section-subtitle">Precios reales por talla, carrito de compras y pago seguro con MercadoPago.</p>
+                <span id="tiendaApiInd" class="tienda-api-ind" style="opacity:1;"></span>
             </div>
 
-            <!-- Cargando -->
+            <!-- Cargando (muy breve, solo mientras renderiza el DOM) -->
             <div id="tiendaLoading" class="tienda-loading">
                 <div class="tienda-spinner"></div>
-                <p>Cargando tienda...</p>
-            </div>
-
-            <!-- Error de conexión -->
-            <div id="tiendaError" class="tienda-error" style="display:none;">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                <h3>Tienda no disponible</h3>
-                <p>No se pudo conectar con el servidor. Por favor intenta más tarde o escríbenos directamente por WhatsApp.</p>
-                <a href="https://wa.me/573213412903" class="btn-whatsapp-tienda" target="_blank" rel="noopener">
-                    <i class="fa-brands fa-whatsapp"></i> Consultar disponibilidad por WhatsApp
-                </a>
+                <p>Preparando tienda...</p>
             </div>
 
             <!-- Contenido de la tienda -->
@@ -871,6 +776,12 @@
                     <div id="tiendaProductosGrid" class="tienda-productos-grid"></div>
                 </div>
 
+            </div>
+
+            <!-- Banner CTA inferior -->
+            <div class="tienda-cta-banner">
+                <i class="fa-solid fa-school"></i>
+                <p>¿Tu colegio no está en la lista? <a href="#contacto">Contáctanos</a> — confeccionamos para cualquier institución educativa.</p>
             </div>
         </section>
 
@@ -1149,8 +1060,7 @@
                     <li><a href="#inicio"><i class="fa-solid fa-chevron-right"></i> Inicio</a></li>
                     <li><a href="#quienes-somos"><i class="fa-solid fa-chevron-right"></i> Nosotros</a></li>
                     <li><a href="#lookbook"><i class="fa-solid fa-chevron-right"></i> Lookbook</a></li>
-                    <li><a href="#catalogo"><i class="fa-solid fa-chevron-right"></i> Catálogo</a></li>
-                    <li><a href="#tienda-online"><i class="fa-solid fa-chevron-right"></i> Tienda Online</a></li>
+                    <li><a href="#tienda-online"><i class="fa-solid fa-chevron-right"></i> Catálogo y Tienda</a></li>
                     <li><a href="#tienda-relojes"><i class="fa-solid fa-chevron-right"></i> Relojes</a></li>
                     <li><a href="#colegios"><i class="fa-solid fa-chevron-right"></i> Colegios</a></li>
                     <li><a href="#faq"><i class="fa-solid fa-chevron-right"></i> FAQ</a></li>
@@ -1183,7 +1093,7 @@
         </div>
     </footer>
 
-    <script type="module" src="js/main.js?v=20260319"></script>
+    <script type="module" src="js/main.js?v=20260321c"></script>
 
     <!-- Carousel autoplay -->
     <script>

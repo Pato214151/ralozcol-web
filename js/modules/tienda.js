@@ -16,68 +16,84 @@ let _productos     = [];   // lista completa mergeada (todas las tallas con stoc
 let _filtroActivo  = 'todos';
 let _refreshTimer  = null;
 
+// Colegios estáticos — se muestran de inmediato sin esperar la API
+const COLEGIOS_ESTATICOS = [
+  { id_colegio: 1, nombre: 'Colegio Marillac',            ciudad: 'Bogotá' },
+  { id_colegio: 2, nombre: 'Colegio Adventista del Norte', ciudad: 'Bogotá' },
+  { id_colegio: 3, nombre: 'Colegio Manyanet',             ciudad: 'Bogotá' },
+];
+
 export async function initTiendaOnline() {
   Carrito.cargar();
 
   const loading   = document.getElementById('tiendaLoading');
-  const error     = document.getElementById('tiendaError');
   const contenido = document.getElementById('tiendaContenido');
-
   if (!loading) return;
 
-  // Mensaje dinámico mientras el servidor Render despierta (plan gratuito, hasta 90s)
-  const loadingMsg = loading.querySelector('p');
-  let msgIdx = 0;
-  const mensajes = [
-    '🔄 Conectando con la tienda...',
-    '⏳ El servidor está despertando, puede tomar hasta 30 segundos...',
-    '☕ Mientras tanto, prepara tu café...',
-    '📦 Cargando catálogo de uniformes...',
-    '🏫 Ya casi está listo...',
-  ];
-  if (loadingMsg) loadingMsg.textContent = mensajes[0];
-  const intervalo = setInterval(() => {
-    msgIdx = (msgIdx + 1) % mensajes.length;
-    if (loadingMsg) loadingMsg.textContent = mensajes[msgIdx];
-  }, 6000);
-
-  let data = null;
-  const inicio = Date.now();
-  while (Date.now() - inicio < 90000) {
-    try {
-      const res = await fetch(`${RalozAPI.baseURL}/tienda/colegios`, {
-        signal: AbortSignal.timeout(10000),
-      });
-      if (res.ok) { data = await res.json(); break; }
-      if (res.status !== 503) break;
-    } catch { /* timeout de red, reintentar */ }
-    await new Promise(r => setTimeout(r, 3000));
-  }
-
-  clearInterval(intervalo);
-
-  if (!data || !data.colegios) {
-    loading.style.display = 'none';
-    error.style.display   = 'flex';
-    return;
-  }
-
-  renderTiendaColegios(data.colegios);
+  // ① Mostrar catálogo estático DE INMEDIATO — sin esperar la API
+  renderTiendaColegios(COLEGIOS_ESTATICOS);
   loading.style.display   = 'none';
   contenido.style.display = 'block';
-
-  // Keep-alive: ping cada 10 min para que Render no duerma mientras el usuario navega
-  setInterval(() => {
-    if (document.visibilityState === 'visible') {
-      fetch(`${RalozAPI.baseURL}/health`, { method: 'HEAD' }).catch(() => {});
-    }
-  }, 600000);
 
   document.getElementById('tiendaVolverColegios')?.addEventListener('click', () => {
     _detenerRefresh();
     document.getElementById('tiendaPaso2').style.display = 'none';
     document.getElementById('tiendaPaso1').style.display = 'block';
   });
+
+  // ② Intentar conectar con la API en segundo plano (Render tarda hasta 90s)
+  _sincronizarColegiosAPI();
+
+  // Keep-alive: ping cada 10 min para que Render no vuelva a dormir
+  setInterval(() => {
+    if (document.visibilityState === 'visible') {
+      fetch(`${RalozAPI.baseURL}/health`, { method: 'HEAD' }).catch(() => {});
+    }
+  }, 600000);
+}
+
+// Función global para que los botones de la sección Colegios abran directamente
+// la tienda con el colegio seleccionado (reemplaza el antiguo selectSchool del catálogo estático)
+window.abrirTiendaColegio = function(clave) {
+  const mapa = {
+    MARILLAC:   { id: 1, nombre: 'Colegio Marillac' },
+    ADVENTISTA: { id: 2, nombre: 'Colegio Adventista del Norte' },
+    MANYANET:   { id: 3, nombre: 'Colegio Manyanet' },
+  };
+  const c = mapa[clave];
+  if (!c) return;
+
+  document.getElementById('tienda-online')
+    ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Dar tiempo al scroll antes de cargar el catálogo
+  setTimeout(() => cargarCatalogoColegio(c.id, c.nombre), 350);
+};
+
+async function _sincronizarColegiosAPI() {
+  const ind = document.getElementById('tiendaApiInd');
+  if (ind) { ind.className = 'tienda-api-ind conectando'; ind.textContent = '⏳ Sincronizando precios en línea...'; }
+
+  try {
+    const res = await fetch(`${RalozAPI.baseURL}/tienda/colegios`, {
+      signal: AbortSignal.timeout(90000),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data?.colegios?.length) {
+        // Si el usuario aún está en el paso 1, actualizamos la lista de colegios
+        if (document.getElementById('tiendaPaso1')?.style.display !== 'none') {
+          renderTiendaColegios(data.colegios);
+        }
+        if (ind) { ind.className = 'tienda-api-ind online'; ind.textContent = '✓ Tienda en línea — precios en tiempo real'; }
+        setTimeout(() => { if (ind) ind.style.opacity = '0'; }, 4000);
+        return;
+      }
+    }
+  } catch { /* falla silenciosa — la tienda estática ya está visible */ }
+
+  if (ind) { ind.className = 'tienda-api-ind offline'; ind.textContent = '📦 Precios desde catálogo local'; }
+  setTimeout(() => { if (ind) ind.style.opacity = '0'; }, 5000);
 }
 
 // ─── Helpers de datos estáticos ───────────────────────────────────
@@ -103,10 +119,24 @@ function buildStaticProductos(escuelaStaticId) {
       id_producto: id,
       nombre: p.nombre,
       tipo: p.tipo === 'accesorio' ? 'Accesorios' : p.tipo,
+      icon: p.icon,
       tallas,
       _static: true,
     };
   }).filter(Boolean);
+}
+
+// Mapea p.tipo a clase CSS y a icono FontAwesome
+function tipoToStyle(tipo) {
+  const t = (tipo || '').toLowerCase().trim();
+  if (t.includes('completo'))          return { cls: 'tpc-tipo-completo',  icon: 'fa-solid fa-box-open' };
+  if (t.includes('niño') && !t.includes('físi')) return { cls: 'tpc-tipo-nino',      icon: 'fa-solid fa-person' };
+  if (t.includes('niña') && !t.includes('físi')) return { cls: 'tpc-tipo-nina',      icon: 'fa-solid fa-person-dress' };
+  if (t.includes('física') || t.includes('fisica')) return { cls: 'tpc-tipo-edu',   icon: 'fa-solid fa-person-running' };
+  if (t.includes('diario'))            return { cls: 'tpc-tipo-diario',    icon: 'fa-solid fa-vest' };
+  if (t.includes('media') || t.includes('calcet')) return { cls: 'tpc-tipo-medias', icon: 'fa-solid fa-socks' };
+  if (t.includes('accesorio') || t.includes('delantal')) return { cls: 'tpc-tipo-accesorio', icon: 'fa-solid fa-star' };
+  return { cls: 'tpc-tipo-default', icon: 'fa-solid fa-shirt' };
 }
 
 // ─── Normalización de nombres (para merge) ────────────────────────
@@ -283,8 +313,10 @@ function renderProductos(productos) {
     const precioMin      = preciosValidos.length > 0 ? Math.min(...preciosValidos) : null;
     const stockTotal     = p.tallas.reduce((s, t) => s + (t.stock || 0), 0);
     const esFab          = p.fabricacion === true;
-    // "anticipo" = producto que se pide sin stock (fabricación pura o estático)
     const esAnticipo     = esFab || p._static;
+
+    const { cls: tipoCls, icon: tipoIcon } = tipoToStyle(p.tipo);
+    const iconFinal = p.icon || tipoIcon;
 
     let badgeStock = '';
     if (esFab) {
@@ -299,20 +331,18 @@ function renderProductos(productos) {
       badgeStock = `<span class="tpc-stock-ok"><i class="fa-solid fa-check"></i> ${stockTotal} disponibles</span>`;
     }
 
-    // Botón NUNCA deshabilitado
-    const btnClass = esAnticipo
-      ? 'btn-agregar-carrito btn-fab'
-      : 'btn-agregar-carrito';
+    const btnClass = esAnticipo ? 'btn-agregar-carrito btn-fab' : 'btn-agregar-carrito';
     const btnLabel = esAnticipo
       ? '<i class="fa-solid fa-scissors"></i> Pedir con anticipación'
       : '<i class="fa-solid fa-cart-plus"></i> Agregar al carrito';
 
     return `
       <div class="tienda-producto-card${esAnticipo ? ' tpc-fabricacion' : ''}">
-        <div class="tpc-imagen">
-          <i class="fa-solid fa-shirt tpc-icon"></i>
+        <div class="tpc-imagen ${tipoCls}">
+          <i class="${iconFinal} tpc-icon"></i>
           ${!esAnticipo && stockTotal > 0 && stockTotal < 5 ? '<span class="tpc-badge-poco">¡Últimas unidades!</span>' : ''}
           ${esAnticipo ? '<span class="tpc-badge-fab">🪡</span>' : ''}
+          <span class="tpc-img-soon">📷 Imagen próximamente</span>
         </div>
         <div class="tpc-info">
           <p class="tpc-nombre">${p.nombre}</p>

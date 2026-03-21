@@ -228,6 +228,19 @@
     border-radius: var(--radius-sm); border: 1px dashed rgba(0,86,214,0.3);
 }
 
+.tienda-cta-banner {
+    display: flex; align-items: center; gap: 1rem;
+    margin-top: var(--space-lg);
+    padding: 1rem 1.5rem;
+    background: var(--yellow-light);
+    border: 1px solid rgba(255,193,7,0.4);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+}
+.tienda-cta-banner i { color: var(--yellow-dark); font-size: 1.2rem; flex-shrink: 0; }
+.tienda-cta-banner p { margin: 0; color: var(--text-body); }
+.tienda-cta-banner a { color: var(--blue); font-weight: 600; }
+
 /* ===== SCHOOL SELECTOR ===== */
 .school-selector { margin-bottom: var(--space-lg); }
 .school-selector-hint {
@@ -1454,18 +1467,65 @@ nav.scrolled .nav-tienda-btn { background: var(--ml-yellow) !important; border: 
     box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
-/* Imagen placeholder */
+/* ── Imagen placeholder (versión diseñada) ───────────────────── */
 .tpc-imagen {
-    background: var(--ml-light);
-    padding: 24px 20px;
-    text-align: center;
-    position: relative;
+    height: 170px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
     border-bottom: 1px solid var(--ml-border);
+    /* fallback */
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
 }
+
+/* Patrón de puntos superpuesto — textura sutil */
+.tpc-imagen::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 0;
+    background-image:
+        radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+    background-size: 18px 18px;
+    pointer-events: none;
+}
+
+/* Brillo de esquina */
+.tpc-imagen::after {
+    content: '';
+    position: absolute; top: -30px; right: -30px;
+    width: 100px; height: 100px; z-index: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+/* Icono principal */
 .tpc-icon {
-    font-size: 4rem;
-    color: #c0c0c0;
+    font-size: 3.8rem;
+    color: rgba(255,255,255,0.85);
+    filter: drop-shadow(0 4px 16px rgba(0,0,0,0.35));
+    z-index: 1;
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
 }
+.tienda-producto-card:hover .tpc-icon {
+    transform: scale(1.15) translateY(-5px);
+}
+
+/* Badge "imagen próximamente" — pequeño y discreto */
+.tpc-img-soon {
+    position: absolute; bottom: 7px;
+    font-size: 0.62rem; color: rgba(255,255,255,0.4);
+    background: rgba(0,0,0,0.25); border-radius: 20px;
+    padding: 2px 9px; z-index: 1; letter-spacing: 0.02em;
+}
+
+/* ── Colores por tipo de prenda ──────────────────────────────── */
+.tpc-tipo-completo  { background: linear-gradient(135deg, #312e81 0%, #4f46e5 100%); }
+.tpc-tipo-nino      { background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); }
+.tpc-tipo-nina      { background: linear-gradient(135deg, #831843 0%, #db2777 100%); }
+.tpc-tipo-diario    { background: linear-gradient(135deg, #1e3a5f 0%, #1d4ed8 100%); }
+.tpc-tipo-edu       { background: linear-gradient(135deg, #14532d 0%, #16a34a 100%); }
+.tpc-tipo-medias    { background: linear-gradient(135deg, #0c4a6e 0%, #0284c7 100%); }
+.tpc-tipo-accesorio { background: linear-gradient(135deg, #78350f 0%, #d97706 100%); }
+.tpc-tipo-default   { background: linear-gradient(135deg, #1e293b 0%, #475569 100%); }
 .tpc-badge-poco {
     position: absolute; top: 8px; left: 8px;
     background: var(--ml-red); color: #fff;
@@ -2102,11 +2162,48 @@ nav.scrolled .nav-tienda-btn { background: var(--ml-yellow) !important; border: 
     letter-spacing: 0.04em;
 }
 
-/* Solid color bg for soon cards */
-.cat-card-uniformes .cat-card-bg  { background: linear-gradient(135deg, #001d5c 0%, #003da5 100%); }
-.cat-card-relojes .cat-card-bg    { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); }
-.cat-card-sudaderas .cat-card-bg  { background: linear-gradient(135deg, #0f3460 0%, #1a1a4e 100%); }
-.cat-card-articulos .cat-card-bg  { background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%); }
+/* Fondos con patrón geométrico por categoría */
+.cat-card-uniformes .cat-card-bg {
+    background: linear-gradient(135deg, #001d5c 0%, #003da5 100%);
+}
+.cat-card-uniformes .cat-card-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+        repeating-linear-gradient(45deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 18px),
+        repeating-linear-gradient(-45deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 18px);
+}
+
+.cat-card-relojes .cat-card-bg {
+    background: linear-gradient(135deg, #0f0f1e 0%, #1a1a3e 100%);
+}
+.cat-card-relojes .cat-card-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(255,193,7,0.07) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.cat-card-sudaderas .cat-card-bg {
+    background: linear-gradient(135deg, #0f3460 0%, #1a1a4e 100%);
+}
+.cat-card-sudaderas .cat-card-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 20px);
+}
+
+.cat-card-articulos .cat-card-bg {
+    background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%);
+}
+.cat-card-articulos .cat-card-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 22px),
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 22px);
+}
 
 @media (max-width: 900px) {
     .categorias-grid { grid-template-columns: repeat(2,1fr); }
@@ -2235,13 +2332,40 @@ nav.scrolled .nav-tienda-btn { background: var(--ml-yellow) !important; border: 
 
 .reloj-img-box {
     position: relative;
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
-    height: 160px;
+    background: linear-gradient(135deg, #0f0f1e 0%, #1a1a3e 50%, #0d1b2e 100%);
+    height: 180px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 4rem; color: rgba(255,193,7,0.3);
+    font-size: 3.2rem; color: rgba(255,193,7,0.5);
     border-bottom: 1px solid rgba(255,255,255,0.06);
+    overflow: hidden;
 }
-.reloj-card:hover .reloj-img-box i { color: rgba(255,193,7,0.6); transition: color 0.25s; }
+
+/* Patrón de puntos de fondo */
+.reloj-img-box::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 16px 16px;
+}
+
+/* Círculo estilo carátula de reloj */
+.reloj-img-box::after {
+    content: '';
+    position: absolute;
+    width: 110px; height: 110px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,193,7,0.2);
+    box-shadow:
+        0 0 0 12px rgba(255,193,7,0.04),
+        0 0 0 24px rgba(255,193,7,0.02),
+        inset 0 0 30px rgba(255,193,7,0.03);
+}
+
+.reloj-img-box i { z-index: 1; transition: color 0.25s, transform 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+.reloj-card:hover .reloj-img-box i {
+    color: rgba(255,193,7,0.9);
+    transform: scale(1.2) rotate(-8deg);
+}
 
 .reloj-badge-dest {
     position: absolute; top: 10px; left: 10px;
