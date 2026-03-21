@@ -1,0 +1,306 @@
+Hice un análisis comparativo de nuestro sitio (ralozcol-web.pages.dev) con Conintec Uniformes (https://conintecuniformes.com), un competidor directo. Identifiqué varias áreas donde podemos mejorar para ser más competitivos.
+
+Te detallo los cambios necesarios, priorizados por impacto.
+
+🔴 Prioridad 1: Navbar visible desde el inicio
+Dónde: En el frontend (ralozcol-web), archivo styles.css y index.html.
+
+Qué: Actualmente el navbar solo aparece cuando el usuario hace scroll hacia abajo. En Conintec, el navbar es visible desde el momento en que carga la página, lo que da una sensación de seguridad y facilita la navegación.
+
+Cómo debe quedar:
+
+El navbar debe estar fijo en la parte superior desde el primer momento (no solo al hacer scroll).
+
+Debe tener un fondo semitransparente (background: rgba(255,255,255,0.95)) o blanco sólido con sombra suave.
+
+El contenido del hero debe tener padding-top suficiente para que no quede tapado por el navbar.
+
+Ejemplo de cambio en CSS:
+
+css
+nav {
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    z-index: 1000;
+}
+No cambiar: El logo, los colores ni la estructura de los enlaces (por ahora).
+
+🔴 Prioridad 2: Reducir la cantidad de enlaces en el navbar
+Dónde: En index.html, dentro de la etiqueta <nav>.
+
+Qué: Actualmente tenemos 8 enlaces + 2 botones (Tienda Online y Portal RALOZ). Esto se siente sobrecargado y confunde al usuario. Conintec tiene solo 5 enlaces principales.
+
+Cómo debe quedar:
+
+Dejar solo los 5 más importantes: Inicio, Nosotros, Catálogo (o Tienda), Colegios, Contacto.
+
+Mover "Lookbook", "Productos", y "Portal RALOZ" al footer (o a un menú secundario).
+
+El botón "Tienda Online" debe ser el principal (en amarillo, destacado).
+
+El botón "Portal RALOZ" debe ser un enlace pequeño al final (sin botón destacado).
+
+Estructura nueva del navbar:
+
+text
+[Logo] | Inicio | Nosotros | Catálogo | Colegios | Contacto | [Tienda Online (botón)] | [Portal RALOZ (link pequeño)]
+No cambiar: El logo, los colores ni el estilo de los botones.
+
+🔴 Prioridad 3: Crear un grid de colegios aliados en la home
+Dónde: En index.html, después de la sección "Bienvenida" o antes del catálogo. Crear una nueva sección con id="colegios-destacados".
+
+Qué: Conintec tiene un grid con los escudos de cada colegio aliado, con un botón "Ver más" por cada uno. Esto es muy poderoso porque el cliente llega buscando "el uniforme de mi colegio", no un catálogo genérico.
+
+Cómo debe verse:
+
+Título: "Nuestros Colegios Aliados".
+
+Grid de 2-4 columnas (responsive).
+
+Cada tarjeta debe mostrar:
+
+Escudo del colegio (imagen real, no ícono genérico).
+
+Nombre del colegio.
+
+Un botón "Ver uniformes" que lleve a la tienda filtrada por ese colegio.
+
+Ejemplo visual:
+
+text
+┌─────────────────────────────┐   ┌─────────────────────────────┐
+│  [Escudo Manyanet]          │   │  [Escudo Marillac]          │
+│  Colegio Manyanet           │   │  Colegio Marillac           │
+│  [Ver uniformes →]          │   │  [Ver uniformes →]          │
+└─────────────────────────────┘   └─────────────────────────────┘
+No cambiar: La estructura de la tienda online (debe seguir funcionando con el mismo endpoint /api/tienda/catalogo/{id}).
+
+🟡 Prioridad 4: Reemplazar íconos SVG por fotos reales de productos
+Dónde: En el frontend (tienda.js y styles.css), en la sección del catálogo de la tienda online.
+
+Qué: Actualmente usamos íconos SVG genéricos (ej. un reloj para "Sudaderas"). Conintec usa fotos reales de productos sobre fondo blanco, lo que da mucha más confianza.
+
+Cómo debe verse:
+
+Cada producto debe tener una imagen real (puede ser la misma para todas las tallas, pero debe ser foto del producto, no un ícono).
+
+Si no hay fotos disponibles aún, usar una imagen placeholder que diga "Próximamente foto real".
+
+Las imágenes deben tener fondo blanco o liso, bien iluminadas.
+
+Acción necesaria: Necesito que me ayudes a definir el formato de las imágenes (tamaño, formato) para que podamos empezar a subirlas. Mientras tanto, podemos dejar los íconos pero con un aviso de "Próximamente foto real".
+
+No cambiar: La estructura de las tarjetas (nombre, precio, stock, botón).
+
+🟡 Prioridad 5: Agregar buscador en el navbar
+Dónde: En index.html, dentro de la etiqueta <nav>, al final antes de los botones.
+
+Qué: Conintec tiene un ícono de lupa que abre un buscador. En un sitio con muchos productos y tallas, es esencial.
+
+Cómo debe verse:
+
+Un ícono de lupa (🔍) al final del navbar.
+
+Al hacer clic, debe abrir un pequeño modal o una barra de búsqueda que permita buscar productos por nombre, colegio o talla.
+
+La búsqueda debe filtrar los productos en la tienda (o redirigir a la tienda con el término de búsqueda).
+
+Implementación: Podemos empezar con una búsqueda simple que filtre los productos en la tienda actual (usando JavaScript). Si es complejo, podemos dejarlo para una segunda fase.
+
+No cambiar: El resto de la funcionalidad de la tienda.
+
+🟢 Prioridad 6: Corregir inconsistencias en los contadores de estadísticas
+Dónde: En index.html, en la sección de estadísticas.
+
+Qué: En el hero dice "3+ colegios" y "5+ años", pero en la sección "Nosotros" aparecen "0 colegios aliados" y "1 año en el mercado". Esto daña la credibilidad.
+
+Cómo debe quedar:
+
+Unificar los números en todo el sitio.
+
+Los datos reales son:
+
+Colegios aliados: 3 (Manyanet, Marillac, Adventista)
+
+Años en el mercado: 5+
+
+Asegurar que aparezcan igual en todas las secciones.
+
+No cambiar: El diseño de las tarjetas de estadísticas.
+
+🟢 Prioridad 7: Quitar productos confusos del catálogo principal (ej. relojes)
+Dónde: En el catálogo de la home (sección "¿Qué estás buscando?").
+
+Qué: Vender relojes junto con uniformes escolares confunde al visitante sobre el enfoque de la marca. Conintec vende uniformes escolares y médicos, que son productos complementarios. Los relojes no son parte del core.
+
+Cómo debe verse:
+
+Si los relojes son un producto adicional, crear una sección separada al final de la home, con un título "Accesorios" o "Productos Especiales".
+
+No mezclarlos con las categorías principales de uniformes.
+
+No cambiar: La lógica de la tienda (los relojes pueden seguir existiendo como productos, pero su visibilidad debe reducirse).
+
+📋 Resumen de prioridades
+Prioridad	Tarea	Tiempo estimado
+🔴 Alta	Navbar visible desde inicio	15 min
+🔴 Alta	Reducir enlaces del navbar	20 min
+🔴 Alta	Grid de colegios aliados en home	1-2 horas
+🟡 Media	Fotos reales de productos	Variable (depende de imágenes)
+🟡 Media	Buscador en navbar	1-2 horas
+🟢 Baja	Corregir contadores	10 min
+🟢 Baja	Reorganizar productos confusos	30 min
+✅ CheckList de verificación
+markdown
+[ ] Navbar visible desde el top.
+[ ] Enlaces del navbar reducidos a 5 principales.
+[ ] Sección "Nuestros Colegios Aliados" con grid de escudos.
+[ ] Al hacer clic en un colegio, redirige a tienda filtrada.
+[ ] Productos con fotos reales (o al menos placeholder).
+[ ] Ícono de búsqueda en navbar (funcional).
+[ ] Contadores de estadísticas unificados (3+ colegios, 5+ años).
+[ ] Relojes movidos a sección secundaria.
+
+Quiero rediseñar la estructura de la página principal (index.html) para que sea más clara, organizada y fácil de navegar. Actualmente es un scroll continuo donde todo se mezcla. Quiero convertirla en un sitio con secciones bien definidas, como una tienda online profesional, donde el usuario pueda explorar por categorías sin sentirse abrumado.
+
+Te explico la nueva estructura y los cambios visuales.
+
+🏗️ Nueva estructura de la página (orden de secciones)
+La página se dividirá en las siguientes secciones, en este orden:
+
+Hero (arriba) – igual que ahora, pero con el navbar visible desde el inicio.
+
+Nuestros Colegios Aliados – grid de colegios (nuevo).
+
+Nuestros Productos – aquí van los uniformes, organizados por categorías (Diario Niño, Diario Niña, Ed. Física, Accesorios). No mezclado con relojes ni cosas raras.
+
+Para Instituciones – si hay algo para colegios (pedidos masivos, alianzas), una sección aparte.
+
+Lookbook / Galería – fotos reales de estudiantes con uniformes (ya existe, pero mejor integrado).
+
+Preguntas Frecuentes – al final, como ahora.
+
+Contacto – antes del footer.
+
+No quiero:
+
+Productos que no sean uniformes (relojes) en las secciones principales.
+
+Secciones que no tengan un propósito claro (ej. "¿Qué estás buscando?" con iconos genéricos puede desaparecer o fusionarse).
+
+🎨 Diseño visual: menos scroll infinito, más "chismoseo"
+Quiero que la página se sienta como un lugar donde el usuario pueda explorar por interés, no bajar obligado hasta el final.
+
+1. Hero + Navbar visible desde inicio
+El navbar debe estar fijo arriba desde que carga la página (no esperar a que haga scroll).
+
+El hero debe tener menos altura, para que el usuario vea la siguiente sección sin tener que bajar tanto.
+
+2. Sección "Nuestros Colegios Aliados"
+Un título grande: "Uniformes para tu colegio".
+
+Grid de 3-4 columnas con los colegios (Manyanet, Marillac, Adventista). Cada tarjeta tiene:
+
+Escudo (imagen real).
+
+Nombre.
+
+Un botón "Ver uniformes →" que lleva a la tienda filtrada por ese colegio.
+
+Esta sección debe ser la segunda que se ve (inmediatamente después del hero). Así el usuario sabe que aquí encuentra lo que busca.
+
+3. Sección "Nuestros Productos" (catálogo por categorías)
+En lugar de un solo catálogo gigante, quiero que se muestren pestañas o botones para filtrar por tipo de uniforme.
+
+Ejemplo: botones horizontales: "Diario Niño", "Diario Niña", "Educación Física", "Accesorios".
+
+Al hacer clic, se muestran solo los productos de esa categoría, en un grid de tarjetas (como ya tenemos).
+
+Así el usuario no tiene que bajar infinitamente, sino que elige qué ver.
+
+Esto reemplaza la sección actual "Tienda Online" que estaba al final. La tienda online debe ser parte de esta sección, no un bloque aparte.
+
+4. Sección "Para Instituciones" (opcional)
+Un bloque pequeño con información para colegios que quieran alianzas. Puede ser una tarjeta con texto y botón "Contáctanos".
+
+5. Lookbook / Galería
+Mantener el lookbook actual, pero con fotos más grandes y un diseño más atractivo (tipo carrusel o grid).
+
+6. Preguntas Frecuentes y Contacto
+Al final, como está ahora, pero con menos elementos decorativos.
+
+🔧 Cambios técnicos concretos
+a) Reorganizar el HTML
+Crear secciones con <section id="colegios">, <section id="productos">, <section id="instituciones">, etc.
+
+Mover el contenido actual de "Tienda Online" a #productos.
+
+Eliminar la sección "¿Qué estás buscando?" (la de iconos de reloj, sudaderas, etc.) o fusionarla con #productos.
+
+b) Navbar
+Reducir enlaces a: Inicio, Colegios, Productos, Lookbook, Contacto.
+
+"Tienda Online" puede ser un botón en el hero o en la sección de productos, no un enlace fijo.
+
+"Portal RALOZ" moverlo al footer.
+
+c) Estilos
+Usar grid para las tarjetas de colegios (3 columnas en desktop, 2 en tablet, 1 en móvil).
+
+Botones de categorías con estilo similar a los filtros de la tienda (activo/inactivo).
+
+Las tarjetas de productos deben ser iguales a las que ya tienes (con precio, stock, botón "Agregar").
+
+✅ Ejemplo visual de cómo quiero que se vea
+text
+┌─────────────────────────────────────────────────────────────┐
+│  [Hero con imagen, título y CTA]                           │
+│  [Navbar visible: Inicio | Colegios | Productos | Lookbook | Contacto]
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│  Nuestros Colegios Aliados                                  │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
+│  │ [Escudo]     │  │ [Escudo]     │  │ [Escudo]     │      │
+│  │ Manyanet     │  │ Marillac     │  │ Adventista   │      │
+│  │ [Ver más]    │  │ [Ver más]    │  │ [Ver más]    │      │
+│  └──────────────┘  └──────────────┘  └──────────────┘      │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│  Nuestros Productos                                         │
+│  [Diario Niño] [Diario Niña] [Ed. Física] [Accesorios]    │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
+│  │ [Imagen]     │  │ [Imagen]     │  │ [Imagen]     │      │
+│  │ Pantalón     │  │ Camisa       │  │ Chaqueta     │      │
+│  │ $56.000      │  │ $40.000      │  │ $140.000     │      │
+│  │ 20 disponibles│  │ Sin stock    │  │ 10 disponibles│     │
+│  └──────────────┘  └──────────────┘  └──────────────┘      │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│  Lookbook                                                   │
+│  [fotos reales de estudiantes]                              │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│  Preguntas Frecuentes                                       │
+│  Contacto                                                   │
+│  Footer                                                     │
+└─────────────────────────────────────────────────────────────┘
+🗂️ Archivos a modificar
+Archivo	Cambios necesarios
+index.html	Reestructurar secciones, mover contenido, actualizar navbar.
+styles.css	Ajustar estilos de las nuevas secciones (grid, botones, espaciado).
+js/modules/tienda.js	Adaptar la lógica de carga de productos por categoría (debe funcionar igual que antes, pero con los filtros).
+js/modules/checkout.js	No debería cambiar (solo lógica de carrito).
+🧪 Pruebas que haré después
+Navegar por las pestañas de categorías y ver que carguen los productos correctos.
+
+Hacer clic en un colegio y que me lleve a la tienda filtrada.
+
+Ver que la página se vea bien en móvil (responsive).
+
+Confirmar que el stock y los precios sean los correctos.

@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:ralozcol-web.pages.dev)"
+      "WebFetch(domain:ralozcol-web.pages.dev)",
+      "Bash(claude:*)"
     ]
   }
 }

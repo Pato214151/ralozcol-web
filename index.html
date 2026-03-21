@@ -18,11 +18,11 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>RALOZ COL S.A.S - Uniformes Escolares de Calidad en Bogotá – Colombia</title>
-    <link rel="stylesheet" href="css/base.css?v=20260321c">
-    <link rel="stylesheet" href="css/layout.css?v=20260321c">
-    <link rel="stylesheet" href="css/components.css?v=20260321c">
-    <link rel="stylesheet" href="css/pages.css?v=20260321c">
-    <link rel="stylesheet" href="css/responsive.css?v=20260321c">
+    <link rel="stylesheet" href="css/base.css?v=20260321d">
+    <link rel="stylesheet" href="css/layout.css?v=20260321d">
+    <link rel="stylesheet" href="css/components.css?v=20260321d">
+    <link rel="stylesheet" href="css/pages.css?v=20260321d">
+    <link rel="stylesheet" href="css/responsive.css?v=20260321d">
 </head>
 <body>
 
@@ -41,6 +41,34 @@
        aria-label="Contactar por WhatsApp">
         <img src="whatsapp.webp" alt="WhatsApp" width="40" height="40" loading="lazy">
     </a>
+
+    <!-- Navegación -->
+    <nav id="main-nav">
+        <div class="nav-brand">
+            <a href="#inicio" class="nav-logo-link">
+                <img src="logo.svg" alt="RALOZ" class="nav-logo-img">
+                <span class="nav-logo">RALOZ</span>
+            </a>
+        </div>
+        <button class="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">☰</button>
+        <ul>
+            <li><a href="#inicio"><i class="fa-solid fa-house"></i> Inicio</a></li>
+            <li><a href="#quienes-somos"><i class="fa-solid fa-users"></i> Nosotros</a></li>
+            <li><a href="#tienda-online"><i class="fa-solid fa-shirt"></i> Catálogo</a></li>
+            <li><a href="#colegios-aliados"><i class="fa-solid fa-school"></i> Colegios</a></li>
+            <li><a href="#contacto"><i class="fa-solid fa-envelope"></i> Contacto</a></li>
+            <li>
+                <a href="#tienda-online" class="nav-tienda-btn">
+                    <i class="fa-solid fa-bag-shopping"></i> Tienda Online
+                </a>
+            </li>
+            <li>
+                <a href="https://raloz-web.onrender.com" target="_blank" rel="noopener" class="nav-portal-link">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Portal RALOZ
+                </a>
+            </li>
+        </ul>
+    </nav>
 
     <!-- Hero / Header -->
     <header id="inicio">
@@ -86,46 +114,6 @@
             <i class="fa-solid fa-chevron-down"></i>
         </a>
     </header>
-
-    <!-- Navegación -->
-    <nav id="main-nav">
-        <div class="nav-brand">
-            <a href="#inicio" class="nav-logo-link">
-                <img src="logo.svg" alt="RALOZ" class="nav-logo-img">
-                <span class="nav-logo">RALOZ</span>
-            </a>
-        </div>
-        <button class="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">☰</button>
-        <ul>
-            <li><a href="#inicio"><i class="fa-solid fa-house"></i> Inicio</a></li>
-            <li><a href="#quienes-somos"><i class="fa-solid fa-users"></i> Nosotros</a></li>
-            <li><a href="#lookbook"><i class="fa-solid fa-images"></i> Lookbook</a></li>
-            <li class="nav-dropdown">
-                <button class="nav-dropdown-btn" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa-solid fa-grid-2"></i> Productos
-                    <i class="fa-solid fa-chevron-down nav-dd-arrow"></i>
-                </button>
-                <ul class="nav-dropdown-menu" role="menu">
-                    <li><a href="#categorias" role="menuitem"><i class="fa-solid fa-layer-group"></i> Categorías</a></li>
-                    <li><a href="#tienda-online" role="menuitem"><i class="fa-solid fa-shirt"></i> Uniformes</a></li>
-                    <li><a href="#tienda-relojes" role="menuitem"><i class="fa-solid fa-clock"></i> Relojes</a></li>
-                    <li><a href="#productos" role="menuitem"><i class="fa-solid fa-star"></i> Servicios</a></li>
-                </ul>
-            </li>
-            <li><a href="#colegios"><i class="fa-solid fa-school"></i> Colegios</a></li>
-            <li>
-                <a href="#tienda-online" class="nav-tienda-btn">
-                    <i class="fa-solid fa-bag-shopping"></i> Tienda Online
-                </a>
-            </li>
-            <li><a href="#contacto"><i class="fa-solid fa-envelope"></i> Contacto</a></li>
-            <li>
-                <a href="https://raloz-web.onrender.com" target="_blank" rel="noopener" class="nav-portal-btn">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Portal RALOZ
-                </a>
-            </li>
-        </ul>
-    </nav>
 
     <main>
 
@@ -195,6 +183,48 @@
             </div>
         </section>
 
+        <!-- Colegios Aliados -->
+        <section id="colegios-aliados">
+            <div class="colegios-aliados-header">
+                <span class="section-label"><i class="fa-solid fa-school"></i> Colegios Aliados</span>
+                <h2>Uniformes para <span class="txt-gold">tu colegio</span></h2>
+                <p class="section-subtitle">Selecciona tu colegio y encuentra todos los uniformes con precios y tallas.</p>
+            </div>
+            <div class="colegios-aliados-grid">
+                <div class="col-aliado-card">
+                    <div class="col-aliado-escudo">
+                        <i class="fa-solid fa-school-flag"></i>
+                    </div>
+                    <h3>Colegio Manyanet</h3>
+                    <p>15+ prendas · Tallas 4–XL</p>
+                    <a href="#tienda-online" class="btn-col-aliado" onclick="abrirTiendaColegio('MANYANET')">
+                        Ver uniformes <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="col-aliado-card">
+                    <div class="col-aliado-escudo">
+                        <i class="fa-solid fa-school-flag"></i>
+                    </div>
+                    <h3>Colegio Marillac</h3>
+                    <p>18+ prendas · Tallas 4–XL</p>
+                    <a href="#tienda-online" class="btn-col-aliado" onclick="abrirTiendaColegio('MARILLAC')">
+                        Ver uniformes <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="col-aliado-card">
+                    <div class="col-aliado-escudo">
+                        <i class="fa-solid fa-school"></i>
+                    </div>
+                    <h3>Colegio Adventista del Norte</h3>
+                    <p>13+ prendas · Tallas 6–XL</p>
+                    <a href="#tienda-online" class="btn-col-aliado" onclick="abrirTiendaColegio('ADVENTISTA')">
+                        Ver uniformes <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            <p class="col-aliados-cta"><i class="fa-solid fa-plus-circle"></i> ¿Tu colegio no está aquí? <a href="#contacto">Contáctanos</a> — confeccionamos para cualquier institución.</p>
+        </section>
+
         <!-- Estadísticas -->
         <section id="estadisticas" class="section-stats">
             <h2>Nuestros <span class="txt-gold">Números</span></h2>
@@ -203,7 +233,7 @@
                 <div class="stat-card">
                     <div class="stat-icon-box"><i class="fa-solid fa-calendar-check"></i></div>
                     <div class="stat-value">
-                        <span class="stat-number" data-target="5">0</span>
+                        <span class="stat-number" data-target="5">5</span>
                         <span class="stat-suffix">+</span>
                     </div>
                     <p class="stat-label">Años en el Mercado</p>
@@ -211,7 +241,7 @@
                 <div class="stat-card">
                     <div class="stat-icon-box"><i class="fa-solid fa-user-graduate"></i></div>
                     <div class="stat-value">
-                        <span class="stat-number" data-target="1000">0</span>
+                        <span class="stat-number" data-target="1000">1000</span>
                         <span class="stat-suffix">+</span>
                     </div>
                     <p class="stat-label">Estudiantes Uniformados</p>
@@ -219,7 +249,7 @@
                 <div class="stat-card">
                     <div class="stat-icon-box"><i class="fa-solid fa-school"></i></div>
                     <div class="stat-value">
-                        <span class="stat-number" data-target="3">0</span>
+                        <span class="stat-number" data-target="3">3</span>
                         <span class="stat-suffix">+</span>
                     </div>
                     <p class="stat-label">Colegios Aliados</p>
@@ -227,7 +257,7 @@
                 <div class="stat-card">
                     <div class="stat-icon-box"><i class="fa-solid fa-medal"></i></div>
                     <div class="stat-value">
-                        <span class="stat-number" data-target="100">0</span>
+                        <span class="stat-number" data-target="100">100</span>
                         <span class="stat-suffix">%</span>
                     </div>
                     <p class="stat-label">Compromiso y Calidad</p>
@@ -251,17 +281,6 @@
                         <div class="cat-card-icon"><i class="fa-solid fa-shirt"></i></div>
                         <h3>Uniformes Escolares</h3>
                         <p>Diarios, deportivos y de gala para todos los colegios</p>
-                        <span class="cat-badge-active">Disponible</span>
-                    </div>
-                </a>
-                <!-- Relojes — activo -->
-                <a href="#tienda-relojes" class="cat-card cat-card-relojes" title="Ver catálogo de relojes">
-                    <div class="cat-card-bg"></div>
-                    <div class="cat-card-overlay"></div>
-                    <div class="cat-card-body">
-                        <div class="cat-card-icon"><i class="fa-solid fa-clock"></i></div>
-                        <h3>Relojes</h3>
-                        <p>Modelos exclusivos para hombre y mujer. Calidad y estilo a tu alcance</p>
                         <span class="cat-badge-active">Disponible</span>
                     </div>
                 </a>
@@ -1065,6 +1084,7 @@
                     <li><a href="#colegios"><i class="fa-solid fa-chevron-right"></i> Colegios</a></li>
                     <li><a href="#faq"><i class="fa-solid fa-chevron-right"></i> FAQ</a></li>
                     <li><a href="#contacto"><i class="fa-solid fa-chevron-right"></i> Contacto</a></li>
+                    <li><a href="https://raloz-web.onrender.com" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Portal RALOZ</a></li>
                 </ul>
             </div>
             <div>
@@ -1093,7 +1113,7 @@
         </div>
     </footer>
 
-    <script type="module" src="js/main.js?v=20260321c"></script>
+    <script type="module" src="js/main.js?v=20260321d"></script>
 
     <!-- Carousel autoplay -->
     <script>

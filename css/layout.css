@@ -358,6 +358,18 @@ nav.scrolled .nav-portal-btn { background: rgba(0,61,165,0.06) !important; borde
 .nav-portal-btn:hover { background: var(--blue) !important; color: white !important; }
 .nav-portal-btn::after { display: none !important; }
 
+/* Portal link — versión discreta (texto pequeño, sin botón) */
+.nav-portal-link {
+    color: rgba(255,255,255,0.45) !important;
+    font-size: 0.78rem !important;
+    padding: 0.5rem 0.6rem !important;
+}
+.nav-portal-link i { font-size: 0.68rem !important; }
+.nav-portal-link::after { display: none !important; }
+.nav-portal-link:hover { color: rgba(255,255,255,0.85) !important; }
+nav.scrolled .nav-portal-link { color: var(--text-muted) !important; }
+nav.scrolled .nav-portal-link:hover { color: var(--blue) !important; }
+
 /* ===== NAV DROPDOWN ===== */
 .nav-dropdown { position: relative; }
 
