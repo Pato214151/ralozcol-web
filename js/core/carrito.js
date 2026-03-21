@@ -47,10 +47,14 @@ export const Carrito = {
   renderBadge() {
     const badge = document.getElementById('carritoBadge');
     const float = document.getElementById('carritoFloat');
-    if (!badge || !float) return;
+    const navBadge = document.getElementById('navCarritoBadge');
     const n = this.count();
-    badge.textContent = n;
-    float.style.display = n > 0 ? 'block' : 'none';
+    if (badge) badge.textContent = n;
+    if (float) float.style.display = n > 0 ? 'block' : 'none';
+    if (navBadge) {
+      navBadge.textContent = n;
+      navBadge.style.display = n > 0 ? 'inline-flex' : 'none';
+    }
   },
 
   guardar() {

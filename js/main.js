@@ -79,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Event listeners del carrito y checkout
   document.getElementById('carritoBtn')?.addEventListener('click', abrirCarritoPanel);
+  document.getElementById('navCarritoBtn')?.addEventListener('click', abrirCarritoPanel);
   document.getElementById('carritoCerrar')?.addEventListener('click', cerrarCarritoPanel);
   document.getElementById('checkoutCerrar')?.addEventListener('click', cerrarCheckout);
   document.getElementById('checkoutOverlay')?.addEventListener('click', cerrarCheckout);

@@ -18,11 +18,11 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>RALOZ COL S.A.S - Uniformes Escolares de Calidad en Bogotá – Colombia</title>
-    <link rel="stylesheet" href="css/base.css?v=20260321h">
-    <link rel="stylesheet" href="css/layout.css?v=20260321h">
-    <link rel="stylesheet" href="css/components.css?v=20260321h">
-    <link rel="stylesheet" href="css/pages.css?v=20260321h">
-    <link rel="stylesheet" href="css/responsive.css?v=20260321h">
+    <link rel="stylesheet" href="css/base.css?v=20260321i">
+    <link rel="stylesheet" href="css/layout.css?v=20260321i">
+    <link rel="stylesheet" href="css/components.css?v=20260321i">
+    <link rel="stylesheet" href="css/pages.css?v=20260321i">
+    <link rel="stylesheet" href="css/responsive.css?v=20260321i">
 </head>
 <body>
 
@@ -61,6 +61,12 @@
                 <a href="#tienda-online" class="nav-tienda-btn">
                     <i class="fa-solid fa-bag-shopping"></i> Tienda Online
                 </a>
+            </li>
+            <li>
+                <button id="navCarritoBtn" class="nav-carrito-btn" aria-label="Ver carrito">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="navCarritoBadge" class="nav-carrito-badge" style="display:none;">0</span>
+                </button>
             </li>
         </ul>
     </nav>
@@ -232,27 +238,6 @@
         </section>
 
         <!-- Categorías -->
-        <section id="categorias">
-            <div class="categorias-label">
-                <span class="pill-tag"><i class="fa-solid fa-layer-group"></i> Nuestras Categorías</span>
-            </div>
-            <h2 style="text-align:center;">¿Qué estás <span class="txt-gold">buscando?</span></h2>
-            <p class="section-subtitle" style="text-align:center;margin-bottom:0;">Uniformes, accesorios y más — todo en un solo lugar.</p>
-            <div class="categorias-grid">
-                <!-- Uniformes Escolares — activo -->
-                <a href="#tienda-online" class="cat-card cat-card-uniformes" title="Ver uniformes escolares">
-                    <div class="cat-card-bg"></div>
-                    <div class="cat-card-overlay"></div>
-                    <div class="cat-card-body">
-                        <div class="cat-card-icon"><i class="fa-solid fa-shirt"></i></div>
-                        <h3>Uniformes Escolares</h3>
-                        <p>Diarios, deportivos y de gala para todos los colegios</p>
-                        <span class="cat-badge-active">Disponible</span>
-                    </div>
-                </a>
-            </div>
-        </section>
-
         <!-- ════════════════════════════════════════════════════ -->
         <!-- TIENDA ONLINE                                       -->
         <!-- ════════════════════════════════════════════════════ -->
@@ -733,13 +718,9 @@
                 <ul>
                     <li><a href="#inicio"><i class="fa-solid fa-chevron-right"></i> Inicio</a></li>
                     <li><a href="#quienes-somos"><i class="fa-solid fa-chevron-right"></i> Nosotros</a></li>
-                    <li><a href="#lookbook"><i class="fa-solid fa-chevron-right"></i> Lookbook</a></li>
                     <li><a href="#tienda-online"><i class="fa-solid fa-chevron-right"></i> Catálogo y Tienda</a></li>
-                    <li><a href="#tienda-relojes"><i class="fa-solid fa-chevron-right"></i> Relojes</a></li>
                     <li><a href="#colegios-aliados"><i class="fa-solid fa-chevron-right"></i> Colegios</a></li>
-                    <li><a href="#faq"><i class="fa-solid fa-chevron-right"></i> FAQ</a></li>
                     <li><a href="#contacto"><i class="fa-solid fa-chevron-right"></i> Contacto</a></li>
-                    <li><a href="https://raloz-web.onrender.com" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Portal RALOZ</a></li>
                 </ul>
             </div>
             <div>
@@ -768,7 +749,7 @@
         </div>
     </footer>
 
-    <script type="module" src="js/main.js?v=20260321h"></script>
+    <script type="module" src="js/main.js?v=20260321i"></script>
 
     <!-- Carousel autoplay -->
     <script>
