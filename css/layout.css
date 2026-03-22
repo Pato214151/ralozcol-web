@@ -20,7 +20,7 @@
 
 .announcement-bar span { display: flex; align-items: center; gap: 0.5rem; }
 .announcement-bar span i { color: var(--yellow); }
-.ann-text-short { display: none; }
+.announcement-bar .ann-text-short { display: none; }
 
 .ann-cta {
     background: var(--yellow);
