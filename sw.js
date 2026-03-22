@@ -3,7 +3,7 @@
 // Caché offline para estáticos + respaldo de API (colegios/productos)
 // ===================================================================
 
-const CACHE_STATIC = 'raloz-static-v3';
+const CACHE_STATIC = 'raloz-static-v4';
 const CACHE_API    = 'raloz-api-v1';
 
 const STATIC_FILES = [

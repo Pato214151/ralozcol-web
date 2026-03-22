@@ -200,16 +200,21 @@ function renderTiendaColegios(colegios) {
   const grid = document.getElementById('tiendaColegiosGrid');
   if (!grid) return;
 
-  grid.innerHTML = colegios.map(c => `
+  grid.innerHTML = colegios.map(c => {
+    const count = (PRODUCTOS_POR_ESCUELA[c.id_colegio] || []).length;
+    return `
     <button class="tienda-colegio-card" data-id="${c.id_colegio}" data-nombre="${c.nombre}">
-      <div class="tc-icon-wrap"><i class="fa-solid fa-school"></i></div>
+      <div class="tc-icon-wrap"><i class="fa-solid fa-school-flag"></i></div>
       <div class="tc-text">
         <span class="tc-nombre">${c.nombre}</span>
-        ${c.ciudad ? `<span class="tc-ciudad"><i class="fa-solid fa-location-dot"></i> ${c.ciudad}</span>` : ''}
+        <span class="tc-meta">
+          ${c.ciudad ? `<span class="tc-ciudad"><i class="fa-solid fa-location-dot"></i> ${c.ciudad}</span>` : ''}
+          ${count ? `<span class="tc-count"><i class="fa-solid fa-shirt"></i> ${count} prendas</span>` : ''}
+        </span>
       </div>
       <i class="fa-solid fa-chevron-right tc-arrow"></i>
     </button>
-  `).join('');
+  `}).join('');
 
   grid.querySelectorAll('.tienda-colegio-card').forEach(btn => {
     btn.addEventListener('click', () => cargarCatalogoColegio(
@@ -219,57 +224,21 @@ function renderTiendaColegios(colegios) {
   });
 }
 
-// ─── Carga del catálogo (estático + merge stock API) ──────────────
+// ─── Helper: construye y monta los filtros por tipo ───────────────
 
-async function cargarCatalogoColegio(id, nombre) {
-  const paso1    = document.getElementById('tiendaPaso1');
-  const paso2    = document.getElementById('tiendaPaso2');
-  const nombreEl = document.getElementById('tiendaColegioNombre');
-  const grid     = document.getElementById('tiendaProductosGrid');
-  const filtros  = document.getElementById('tiendaTipoFiltros');
-
-  paso1.style.display = 'none';
-  paso2.style.display = 'block';
-  nombreEl.textContent = nombre;
-  grid.innerHTML = '<div class="tienda-loading-cat"><div class="tienda-spinner"></div><p>Cargando uniformes...</p></div>';
-  filtros.innerHTML = '';
-
-  Carrito.colegio_id = id;
-  Carrito.colegio_nombre = nombre;
-  Carrito.guardar();
-
-  // Guardar estado del módulo
-  _colegioId     = id;
-  _colegioNombre = nombre;
-  _filtroActivo  = 'todos';
-  _detenerRefresh();
-
-  // Base estática + merge con API
-  const escuelaId = getEscuelaStaticId(nombre);
-  const base      = escuelaId ? buildStaticProductos(escuelaId) : [];
-  const data      = await RalozAPI.getCatalogoTienda(id);
-  _productos      = mergeConAPI(base, data?.productos);
-
-  if (!_productos.length) {
-    grid.innerHTML = '<p class="tienda-empty">No hay productos disponibles para este colegio por el momento.</p>';
-    return;
-  }
-
-  // Filtros por tipo (deduplicados y ordenados)
-  const tiposRaw = _productos.map(p => (p.tipo || 'Otros').trim());
+function _renderFiltros(filtros, productos) {
+  const tiposRaw = productos.map(p => (p.tipo || 'Otros').trim());
   const tipos = [...new Map(tiposRaw.map(t => [t.toLowerCase(), t])).values()].sort();
-  const horaInicio = new Date().toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
   filtros.innerHTML = `
-    <button class="tienda-filtro active" data-tipo="todos">Todos (${_productos.length})</button>
+    <button class="tienda-filtro active" data-tipo="todos">Todos (${productos.length})</button>
     ${tipos.map(t => {
-      const count = _productos.filter(p => (p.tipo || 'Otros').trim().toLowerCase() === t.toLowerCase()).length;
+      const count = productos.filter(p => (p.tipo || 'Otros').trim().toLowerCase() === t.toLowerCase()).length;
       return `<button class="tienda-filtro" data-tipo="${t}">${t} (${count})</button>`;
     }).join('')}
     <span id="stockRefreshInd" style="font-size:0.72rem;color:#4caf50;margin-left:auto;opacity:0;transition:opacity 0.6s;align-self:center;white-space:nowrap;">
-      <i class="fa-solid fa-circle-check"></i> Actualizado ${horaInicio}
+      <i class="fa-solid fa-circle-check"></i>
     </span>
   `;
-
   filtros.querySelectorAll('.tienda-filtro').forEach(btn => {
     btn.addEventListener('click', () => {
       filtros.querySelectorAll('.tienda-filtro').forEach(b => b.classList.remove('active'));
@@ -278,12 +247,77 @@ async function cargarCatalogoColegio(id, nombre) {
       filtrarProductos(_filtroActivo, _productos);
     });
   });
+}
 
-  window._tiendaProductos = _productos;
-  renderProductos(_productos);
+// ─── Sincronización silenciosa con la API ─────────────────────────
+
+async function _sincronizarCatalogoAPI(id, base) {
+  try {
+    const data = await RalozAPI.getCatalogoTienda(id);
+    if (!data?.productos?.length) return;
+
+    _productos = mergeConAPI(base, data.productos);
+    window._tiendaProductos = _productos;
+
+    const filtros = document.getElementById('tiendaTipoFiltros');
+    if (filtros) {
+      _renderFiltros(filtros, _productos);
+      const activeBtn = filtros.querySelector(`[data-tipo="${_filtroActivo}"]`);
+      if (activeBtn) activeBtn.classList.add('active');
+    }
+    filtrarProductos(_filtroActivo, _productos);
+
+    const ind = document.getElementById('stockRefreshInd');
+    if (ind) {
+      const hora = new Date().toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
+      ind.textContent = `✓ Precios en tiempo real · ${hora}`;
+      ind.style.opacity = '1';
+      setTimeout(() => { if (ind) ind.style.opacity = '0'; }, 5000);
+    }
+  } catch { /* falla silenciosa — el catálogo estático ya está visible */ }
+}
+
+// ─── Carga del catálogo (estático inmediato + merge API en background) ─
+
+async function cargarCatalogoColegio(id, nombre) {
+  const paso1    = document.getElementById('tiendaPaso1');
+  const paso2    = document.getElementById('tiendaPaso2');
+  const nombreEl = document.getElementById('tiendaColegioNombre');
+  const filtros  = document.getElementById('tiendaTipoFiltros');
+  const grid     = document.getElementById('tiendaProductosGrid');
+
+  paso1.style.display = 'none';
+  paso2.style.display = 'block';
+  nombreEl.textContent = nombre;
+
+  Carrito.colegio_id = id;
+  Carrito.colegio_nombre = nombre;
+  Carrito.guardar();
+
+  _colegioId     = id;
+  _colegioNombre = nombre;
+  _filtroActivo  = 'todos';
+  _detenerRefresh();
+
+  // ① Render estático INMEDIATO — sin esperar la API
+  const escuelaId = getEscuelaStaticId(nombre);
+  const base      = escuelaId ? buildStaticProductos(escuelaId) : [];
+  _productos      = base;
+
+  if (!_productos.length) {
+    grid.innerHTML = '<p class="tienda-empty">No hay productos disponibles para este colegio por el momento.</p>';
+    filtros.innerHTML = '';
+    return;
+  }
+
+  _renderFiltros(filtros, base);
+  renderProductos(base);
   scrollToSection(document.getElementById('tienda-online'));
 
-  // Auto-refresh de stock cada 60 segundos (solo si la pestaña está activa)
+  // ② API en segundo plano — actualiza stock y precios reales sin spinner
+  _sincronizarCatalogoAPI(id, base);
+
+  // Auto-refresh de stock cada 60 segundos
   _refreshTimer = setInterval(() => {
     if (document.getElementById('tiendaPaso2')?.style.display !== 'none'
         && document.visibilityState === 'visible') {
@@ -336,13 +370,16 @@ function renderProductos(productos) {
       ? '<i class="fa-solid fa-scissors"></i> Pedir con anticipación'
       : '<i class="fa-solid fa-cart-plus"></i> Agregar al carrito';
 
+    const tallasTexto = p.tallas.length > 0
+      ? `Tallas: ${[...new Set(p.tallas.map(t => t.talla))].join(', ')}`
+      : '';
+
     return `
       <div class="tienda-producto-card${esAnticipo ? ' tpc-fabricacion' : ''}">
         <div class="tpc-imagen ${tipoCls}">
           <i class="${iconFinal} tpc-icon"></i>
           ${!esAnticipo && stockTotal > 0 && stockTotal < 5 ? '<span class="tpc-badge-poco">¡Últimas unidades!</span>' : ''}
           ${esAnticipo ? '<span class="tpc-badge-fab">🪡</span>' : ''}
-          <span class="tpc-img-soon">📷 Imagen próximamente</span>
         </div>
         <div class="tpc-info">
           <p class="tpc-nombre">${p.nombre}</p>
@@ -354,9 +391,8 @@ function renderProductos(productos) {
               : `<span class="tpc-precio-desde">Precio a consultar</span>`
             }
           </div>
-          <span class="tpc-cuotas">Pago seguro con MercadoPago</span>
-          <span class="tpc-envio"><i class="fa-solid fa-truck"></i> Envío a domicilio</span>
-          ${esAnticipo ? '<span class="tpc-fab-tiempo"><i class="fa-solid fa-clock"></i> Entrega en 1-2 meses · Abono del 50%</span>' : ''}
+          ${tallasTexto ? `<span class="tpc-tallas-hint">${tallasTexto}</span>` : ''}
+          ${esAnticipo ? '<span class="tpc-fab-tiempo"><i class="fa-solid fa-clock"></i> Entrega 1-2 meses · 50% abono</span>' : ''}
           ${badgeStock}
         </div>
         <button class="${btnClass}" data-id="${p.id_producto}" data-nombre="${p.nombre}"
