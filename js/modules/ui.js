@@ -1,5 +1,5 @@
 // ===================================================================
-// MÓDULO — Inicializaciones de UI y comportamiento general
+// MÓDULO — Inicializaciones de UI y comportamiento general — v2026.03.21
 // ===================================================================
 
 import { scrollToSection, showNotification } from '../core/utils.js';
