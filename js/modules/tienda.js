@@ -81,9 +81,17 @@ async function _sincronizarColegiosAPI() {
     if (res.ok) {
       const data = await res.json();
       if (data?.colegios?.length) {
+        // Normalizar nombres: la API devuelve en MAYÚSCULAS, usar el nombre bonito del mapa estático
+        const nombreBonito = Object.fromEntries(
+          COLEGIOS_ESTATICOS.map(c => [c.id_colegio, c.nombre])
+        );
+        const colegiosNormalizados = data.colegios.map(c => ({
+          ...c,
+          nombre: nombreBonito[c.id_colegio] ?? c.nombre,
+        }));
         // Si el usuario aún está en el paso 1, actualizamos la lista de colegios
         if (document.getElementById('tiendaPaso1')?.style.display !== 'none') {
-          renderTiendaColegios(data.colegios);
+          renderTiendaColegios(colegiosNormalizados);
         }
         if (ind) { ind.className = 'tienda-api-ind online'; ind.textContent = '✓ Tienda en línea — precios en tiempo real'; }
         setTimeout(() => { if (ind) ind.style.opacity = '0'; }, 4000);

@@ -332,6 +332,7 @@ export function abrirCheckout() {
               <span class="abono-monto">${formatCOP(totalCompleto)} ahora</span>
             </button>
           </div>
+          <p class="ck-politica-nota"><i class="fa-solid fa-circle-info"></i> El saldo restante se paga <strong>antes del envío o al recoger en tienda</strong>. Recibirás confirmación por WhatsApp con tu número de pedido.</p>
         </div>
       `;
     }
@@ -344,6 +345,15 @@ export function abrirCheckout() {
           btn.closest('.ck-abono-opciones').querySelectorAll('.ck-abono-btn')
             .forEach(b => b.classList.remove('selected'));
           btn.classList.add('selected');
+          // Actualizar "Total a pagar" cuando cambia la opción de abono
+          if ('pct' in btn.dataset) {
+            const pct = parseInt(btn.dataset.pct);
+            const abono50 = Math.round(montoFab * 0.5);
+            const nuevoTotal = pct === 50
+              ? totalNormal + totalMixtoInm + abono50
+              : totalGeneral;
+            document.getElementById('checkoutTotalDisplay').textContent = formatCOP(nuevoTotal);
+          }
         });
       });
     } else {
@@ -351,7 +361,11 @@ export function abrirCheckout() {
     }
   }
 
-  document.getElementById('checkoutTotalDisplay').textContent = formatCOP(totalGeneral);
+  // Inicializar total: si hay fabricación y el abono 50% está pre-seleccionado, mostrar el monto de ahora
+  const totalInicial = tieneFab
+    ? totalNormal + totalMixtoInm + Math.round(montoFab * 0.5)
+    : totalGeneral;
+  document.getElementById('checkoutTotalDisplay').textContent = formatCOP(totalInicial);
   document.getElementById('checkoutModal').style.display   = 'flex';
   document.getElementById('checkoutOverlay').style.display = 'block';
   document.getElementById('checkoutError').style.display   = 'none';

@@ -1708,6 +1708,12 @@ nav.scrolled .nav-tienda-btn { background: var(--ml-yellow) !important; border: 
 .ck-abono-btn.selected { border-color: #e65100; background: #fff3e0; }
 .ck-abono-btn .abono-pct  { font-size: 1.1rem; font-weight: 700; color: #e65100; display: block; }
 .ck-abono-btn .abono-monto{ font-size: 0.82rem; color: #555; display: block; margin-top: 2px; }
+.ck-politica-nota {
+    font-size: 0.8rem; color: #6d4c41; margin: 10px 0 0 !important;
+    padding: 8px 10px; background: rgba(255,255,255,0.6); border-radius: 6px;
+    font-weight: 400 !important;
+}
+.ck-politica-nota strong { color: #bf360c; }
 
 /* ─── Modal de tallas ─────────────────────────────────────────── */
 .talla-overlay {
@@ -1965,27 +1971,32 @@ nav.scrolled .nav-tienda-btn { background: var(--ml-yellow) !important; border: 
    =================================================== */
 .hero-brand-name {
     font-family: 'DM Sans', sans-serif;
-    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    font-size: clamp(3.2rem, 9vw, 6rem);
     font-weight: 800;
-    letter-spacing: 0.18em;
+    letter-spacing: -0.02em;
     text-transform: uppercase;
-    color: var(--yellow);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.6rem;
+    color: #fff;
+    line-height: 1;
+    display: block;
+    margin-bottom: 0.25rem;
     position: relative;
+    text-shadow: 0 4px 40px rgba(0,0,0,0.5);
 }
-.hero-brand-name::before,
+.hero-brand-name .txt-gold {
+    color: var(--yellow);
+    text-shadow: 0 0 48px rgba(255,193,7,0.55);
+}
+/* Línea dorada decorativa bajo el nombre */
 .hero-brand-name::after {
     content: '';
     display: block;
-    height: 2px;
-    width: 28px;
-    background: var(--yellow);
+    height: 3px;
+    width: clamp(60px, 12vw, 100px);
+    background: linear-gradient(90deg, var(--yellow), transparent);
     border-radius: 2px;
-    opacity: 0.7;
+    margin-top: 0.45rem;
 }
+.hero-brand-name::before { display: none; }
 
 /* ===================================================
    CAROUSEL SECTION
