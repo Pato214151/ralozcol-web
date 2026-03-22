@@ -7,6 +7,11 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js').catch(() => {});
   });
+  // Cuando el SW se actualiza avisa con SW_UPDATED → recarga para
+  // que el usuario vea inmediatamente el CSS/JS nuevo sin Ctrl+Shift+R
+  navigator.serviceWorker.addEventListener('message', e => {
+    if (e.data?.type === 'SW_UPDATED') window.location.reload();
+  });
 }
 
 import { initRalozIntegration } from './core/api.js';

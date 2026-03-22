@@ -1,25 +1,22 @@
 // ===================================================================
-// RALOZ COL S.A.S — Service Worker v1.0
+// RALOZ COL S.A.S — Service Worker v2.0
 // Caché offline para estáticos + respaldo de API (colegios/productos)
 // ===================================================================
 
-const CACHE_STATIC = 'raloz-static-v4';
+const CACHE_STATIC = 'raloz-static-v5';
 const CACHE_API    = 'raloz-api-v1';
 
+// Solo los archivos mínimos para modo offline.
+// CSS/JS NO se pre-cachean aquí porque usan ?v= versioning:
+// se cachean automáticamente en el primer fetch con su URL versionada.
 const STATIC_FILES = [
   '/',
   '/index.html',
-  '/css/base.css',
-  '/css/layout.css',
-  '/css/components.css',
-  '/css/pages.css',
-  '/css/responsive.css',
-  '/js/main.js',
   '/logo.svg',
   '/favicon.ico',
 ];
 
-// ─── Install: pre-caché de archivos estáticos ─────────────────────
+// ─── Install: pre-caché mínimo ────────────────────────────────────
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE_STATIC)
@@ -28,16 +25,20 @@ self.addEventListener('install', e => {
   );
 });
 
-// ─── Activate: limpiar cachés antiguas ───────────────────────────
+// ─── Activate: limpiar cachés antiguas + notificar tabs ──────────
+// Cuando se activa una nueva versión del SW, se avisa a todos los
+// tabs abiertos para que recarguen y obtengan el CSS/JS nuevo.
 self.addEventListener('activate', e => {
   e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
+    caches.keys()
+      .then(keys => Promise.all(
         keys
           .filter(k => k !== CACHE_STATIC && k !== CACHE_API)
           .map(k => caches.delete(k))
-      )
-    ).then(() => self.clients.claim())
+      ))
+      .then(() => self.clients.claim())
+      .then(() => self.clients.matchAll({ type: 'window' }))
+      .then(clients => clients.forEach(c => c.postMessage({ type: 'SW_UPDATED' })))
   );
 });
 
@@ -57,7 +58,9 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // CSS/JS/imágenes: cache-first (el ?v= en la URL ya garantiza frescura)
+  // CSS/JS/imágenes: cache-first
+  // Para CSS/JS versionados (?v=...) cada versión tiene URL única,
+  // por lo que un cambio de versión siempre genera un cache miss → red.
   e.respondWith(cacheFirstStatic(e.request));
 });
 
@@ -84,7 +87,6 @@ async function networkFirstAPI(req) {
   } catch {
     const cached = await cache.match(req);
     if (cached) {
-      // Inyectar flag para que el frontend sepa que viene de caché
       const data = await cached.json().catch(() => null);
       if (data) {
         return new Response(JSON.stringify({ ...data, _fromCache: true }), {
@@ -112,9 +114,6 @@ async function cacheFirstStatic(req) {
     }
     return res;
   } catch {
-    if (req.mode === 'navigate') {
-      return caches.match('/index.html');
-    }
     return new Response('', { status: 503 });
   }
 }
