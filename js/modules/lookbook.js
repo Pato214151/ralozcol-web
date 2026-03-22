@@ -4,9 +4,7 @@
 
 const galeriaImagenes = [
   { src: 'estudiantes-marillac.png', alt: 'Estudiantes del Colegio Marillac con uniformes RALOZ COL S.A.S', tag: 'Colegio Marillac' },
-  { src: 'fundadora.png',            alt: 'Proceso de confección de uniformes en el taller de RALOZ COL S.A.S', tag: 'Confección Propia' },
   { src: 'uniforme-nina.png',        alt: 'Uniforme diario niña RALOZ COL S.A.S – jardinera y blusa', tag: 'Colección Especial' },
-  { src: 'fundadora2.png',           alt: 'Equipo de RALOZ COL S.A.S en el taller de confección de uniformes escolares', tag: 'Nuestro Equipo' },
 ];
 
 let galeriaIdx = 0;
