@@ -30,5 +30,5 @@ export const PRODUCTOS = {
 export const PRODUCTOS_POR_ESCUELA = {
   1: [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 18],
   2: [1, 2, 3, 4, 6, 7, 8, 9, 10, 12, 13, 14, 15],
-  3: [1, 2, 5, 6, 7, 8, 9, 10, 11, 12, 15, 16, 17],
+  3: [1, 2, 5, 6, 7, 8, 19, 20, 21, 22, 11, 12, 15, 16, 17],  // Manyanet: camiseta/chaqueta por género
 };
