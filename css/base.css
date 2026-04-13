@@ -3,7 +3,7 @@
 ═══════════════════════════════════════════════════════════════ */
 
 /* Tipografía: DM Sans (encabezados) + Inter (cuerpo) */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
     --blue: #1A237E;
@@ -59,13 +59,14 @@ html { scroll-behavior: smooth; }
 
 body {
     font-family: 'Inter', 'DM Sans', sans-serif;
-    line-height: 1.7;
+    line-height: 1.75;
     color: var(--text-body);
     background: var(--bg-main);
     overflow-x: hidden;
-    font-size: 15px;
+    font-size: 15.5px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 h1, h2, h3, h4, h5,
@@ -93,8 +94,12 @@ header, nav, main, footer, .whatsapp-float, .announcement-bar {
 
 /* Modern animations */
 @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(24px); }
     to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
 }
 @keyframes fadeIn {
     from { opacity: 0; }
@@ -102,11 +107,23 @@ header, nav, main, footer, .whatsapp-float, .announcement-bar {
 }
 @keyframes float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    50% { transform: translateY(-8px); }
 }
 @keyframes shimmer {
     0% { background-position: -200% center; }
     100% { background-position: 200% center; }
 }
-.animate-fade-in-up { animation: fadeInUp 0.6s ease forwards; }
-.animate-float { animation: float 3s ease-in-out infinite; }
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.94); }
+    to { opacity: 1; transform: scale(1); }
+}
+.animate-fade-in-up { animation: fadeInUp 0.6s cubic-bezier(0.22,1,0.36,1) forwards; }
+.animate-fade-in-left { animation: fadeInLeft 0.55s cubic-bezier(0.22,1,0.36,1) forwards; }
+.animate-scale-in { animation: scaleIn 0.45s cubic-bezier(0.22,1,0.36,1) forwards; }
+.animate-float { animation: float 4s ease-in-out infinite; }
+
+/* Stagger utility classes */
+.stagger-1 { animation-delay: 50ms; }
+.stagger-2 { animation-delay: 100ms; }
+.stagger-3 { animation-delay: 150ms; }
+.stagger-4 { animation-delay: 200ms; }

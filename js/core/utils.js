@@ -58,6 +58,29 @@ export function showNotification(message, type = 'info') {
   }, 4000);
 }
 
+/**
+ * Escapa caracteres HTML para evitar XSS al insertar texto en innerHTML.
+ * Usar SIEMPRE que datos externos (API, usuario) se inserten con innerHTML.
+ */
+export function escapeHTML(str) {
+  const div = document.createElement('div');
+  div.textContent = String(str ?? '');
+  return div.innerHTML;
+}
+
+/** Valida que una URL sea de dominio MercadoPago / MercadoLibre */
+export function esPagoUrlSegura(url) {
+  try {
+    const { hostname } = new URL(url);
+    return hostname === 'www.mercadopago.com.co'
+      || hostname === 'www.mercadopago.com'
+      || hostname.endsWith('.mercadopago.com')
+      || hostname.endsWith('.mercadolibre.com');
+  } catch {
+    return false;
+  }
+}
+
 /** Muestra un toast de confirmación */
 export function mostrarToast(msg) {
   let toast = document.getElementById('ralozToast');

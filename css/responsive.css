@@ -23,6 +23,7 @@
     .cotizador-info { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--space-sm); }
     .school-cards { grid-template-columns: 1fr; }
     .productos-grid { grid-template-columns: repeat(2, 1fr); }
+    .aliados-grid { grid-template-columns: 1fr 1fr; }
 }
 
 /* ===== 900px BREAKPOINT ===== */
@@ -134,6 +135,10 @@
 }
 
 /* ===== 480px BREAKPOINT ===== */
+@media (max-width: 600px) {
+    .aliados-grid { grid-template-columns: 1fr; max-width: 360px; }
+}
+
 @media (max-width: 480px) {
     .stats-grid    { grid-template-columns: 1fr; }
     .proceso-grid  { grid-template-columns: 1fr; }

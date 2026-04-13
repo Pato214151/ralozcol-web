@@ -68,10 +68,15 @@
 .uniforme-card {
     background: white; border: 1px solid var(--border);
     border-radius: var(--radius); overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column;
+    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease, border-color 0.2s ease;
+    display: flex; flex-direction: column;
     box-shadow: var(--shadow-card);
 }
-.uniforme-card:hover { border-color: rgba(255,193,7,0.4); transform: translateY(-8px); box-shadow: var(--shadow-md); }
+.uniforme-card:hover {
+    border-color: rgba(255,193,7,0.45);
+    transform: translateY(-8px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.1), 0 4px 12px rgba(255,193,7,0.12);
+}
 
 .uc-header {
     padding: 0.7rem 1rem; display: flex; justify-content: space-between; align-items: center;
@@ -116,18 +121,20 @@
     padding: 0 var(--space-md) var(--space-sm);
 }
 .precio-label { color: var(--text-muted); font-size: 0.78rem; }
-.precio-valor { color: var(--blue); font-size: 1.25rem; font-weight: 800; }
+.precio-valor { color: var(--blue); font-size: 1.35rem; font-weight: 800; letter-spacing: -0.5px; }
 
 .btn-cotizar-item {
     display: flex; align-items: center; justify-content: center; gap: 0.4rem;
     margin: auto var(--space-md) var(--space-md);
     background: var(--blue); border: none;
-    color: #fff; padding: 0.7rem 1.2rem; border-radius: 10px;
+    color: #fff; padding: 0.75rem 1.2rem; border-radius: 10px;
     cursor: pointer; font-size: 0.85rem; font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); width: calc(100% - 2*var(--space-md));
-    box-shadow: var(--shadow-card);
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    width: calc(100% - 2*var(--space-md));
+    box-shadow: 0 2px 8px rgba(26,35,126,0.18);
 }
-.btn-cotizar-item:hover { background: var(--yellow); color: var(--blue); box-shadow: var(--shadow-md); }
+.btn-cotizar-item:hover { background: var(--yellow); color: var(--blue); box-shadow: var(--shadow-yellow); }
+.btn-cotizar-item:active { transform: scale(0.97); }
 
 /* ===== QUIENES FEATURE ===== */
 .quienes-feature {
@@ -378,28 +385,43 @@
 
 /* ===== TESTIMONIOS ===== */
 .testimonio-card {
-    background: white; border: 1px solid var(--border);
+    background: white;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--yellow);
     border-radius: var(--radius); padding: var(--space-lg);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease, border-color 0.2s ease;
     box-shadow: var(--shadow-card);
 }
-.testimonio-card:hover { border-color: rgba(26,35,126,0.2); transform: translateY(-6px); box-shadow: var(--shadow-md); }
+.testimonio-card:hover {
+    border-left-color: var(--yellow);
+    border-color: rgba(26,35,126,0.15);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
 
-.test-stars { color: var(--yellow); font-size: 1.1rem; margin-bottom: var(--space-sm); letter-spacing: 2px; }
+.test-stars { color: var(--yellow); font-size: 1rem; margin-bottom: var(--space-sm); letter-spacing: 3px; }
 
 .testimonio-card > p {
-    color: var(--text-muted); font-size: 0.9rem; line-height: 1.7;
+    color: var(--text-body); font-size: 0.9rem; line-height: 1.75;
     font-style: italic; margin-bottom: var(--space-md);
+    position: relative; padding-left: 1.25rem;
 }
-.testimonio-card > p::before { content: '"'; color: var(--yellow); font-size: 1.5rem; font-style: normal; }
+.testimonio-card > p::before {
+    content: '"';
+    color: var(--yellow); font-size: 2.5rem; font-style: normal;
+    position: absolute; left: -0.25rem; top: -0.5rem;
+    line-height: 1; font-family: Georgia, serif;
+}
 
 .test-autor { display: flex; align-items: center; gap: 0.75rem; }
 .test-avatar {
-    width: 40px; height: 40px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--blue), var(--blue-light));
+    width: 42px; height: 42px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     color: white; font-weight: 700; font-size: 0.85rem; flex-shrink: 0;
 }
+.test-avatar-1 { background: linear-gradient(135deg, var(--blue), #3F51B5); }
+.test-avatar-2 { background: linear-gradient(135deg, #7B1FA2, #AB47BC); }
+.test-avatar-3 { background: linear-gradient(135deg, #00695C, #26A69A); }
 .test-autor strong { color: var(--text-dark); font-size: 0.9rem; display: block; }
 .test-autor span { color: var(--text-muted); font-size: 0.78rem; }
 

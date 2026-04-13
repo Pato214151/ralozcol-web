@@ -81,20 +81,37 @@ export function initScrollAnimations() {
     });
   }, { threshold: 0.01, rootMargin: '60px 0px 60px 0px' });
 
-  document.querySelectorAll('section, .uniforme-card, .producto-card').forEach(el => {
+  const animTargets = [
+    'section',
+    '.uniforme-card',
+    '.producto-card',
+    '.aliado-card',
+    '.stat-card',
+    '.testimonio-card',
+    '.section-header',
+    '.quienes-feature',
+    '.info-card',
+    '.proceso-step',
+  ].join(', ');
+
+  document.querySelectorAll(animTargets).forEach((el, i) => {
     const rect = el.getBoundingClientRect();
     const alreadyVisible = rect.top < window.innerHeight && rect.bottom > 0;
     if (!alreadyVisible) {
       el.style.opacity = '0';
-      el.style.transform = 'translateY(28px)';
-      el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+      el.style.transform = 'translateY(24px)';
+      // stagger sibling cards within the same parent
+      const siblings = el.parentElement ? [...el.parentElement.children].filter(c => c.matches && c.matches(animTargets)) : [];
+      const sibIdx = siblings.indexOf(el);
+      const delay = sibIdx > 0 ? Math.min(sibIdx * 60, 300) : 0;
+      el.style.transition = `opacity 0.5s ease ${delay}ms, transform 0.5s cubic-bezier(0.22,1,0.36,1) ${delay}ms`;
     }
     observer.observe(el);
   });
 
   // Fallback: garantizar visibilidad de todas las secciones después de 3s
   setTimeout(() => {
-    document.querySelectorAll('section, .uniforme-card, .producto-card').forEach(el => {
+    document.querySelectorAll(animTargets).forEach(el => {
       if (el.style.opacity === '0') {
         el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
         el.style.opacity = '1';

@@ -4,7 +4,7 @@
 
 import { RalozAPI } from '../core/api.js';
 import { Carrito } from '../core/carrito.js';
-import { formatCOP, mostrarToast } from '../core/utils.js';
+import { formatCOP, mostrarToast, escapeHTML, esPagoUrlSegura } from '../core/utils.js';
 
 // ─── Modal de selección de talla ─────────────────────────────────
 
@@ -112,8 +112,10 @@ export function abrirTallaModal(producto, opts = {}) {
     if (v > 1) el.textContent = v - 1;
   });
   document.getElementById('tallaMas').addEventListener('click', () => {
-    const el = document.getElementById('tallaCantVal');
-    el.textContent = parseInt(el.textContent) + 1;  // sin límite — permite pedir más del stock
+    const el  = document.getElementById('tallaCantVal');
+    const cur = parseInt(el.textContent);
+    const max = selectedStock > 0 ? Math.min(selectedStock, 20) : 20;
+    if (cur < max) el.textContent = cur + 1;
   });
 
   document.getElementById('btnTallaAdd').addEventListener('click', async () => {
@@ -391,6 +393,18 @@ export async function procesarCheckout(e) {
     return;
   }
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  if (!emailRegex.test(email)) {
+    _checkoutError(errorEl, 'El correo electrónico no parece válido.');
+    return;
+  }
+
+  const telRegex = /^[\d\s\+\-\(\)]{7,15}$/;
+  if (!telRegex.test(telefono)) {
+    _checkoutError(errorEl, 'El teléfono debe tener entre 7 y 15 dígitos.');
+    return;
+  }
+
   btn.disabled = true;
   btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creando tu pedido...';
   errorEl.style.display = 'none';
@@ -410,11 +424,14 @@ export async function procesarCheckout(e) {
   const entregaBtn = document.querySelector('.ck-abono-btn[data-entrega].selected');
   const tipoEntrega = entregaBtn ? entregaBtn.dataset.entrega : 'completa';
 
+  const direccion = document.getElementById('ck-direccion')?.value?.trim() || '';
+
   const payload = {
     nombre_cliente:    nombre,
     email_cliente:     email,
     telefono_cliente:  telefono,
     documento_cliente: documento,
+    direccion_envio:   direccion,
     id_colegio:        Carrito.colegio_id,
     abono_porcentaje:  abonoPct,
     tipo_entrega:      tipoEntrega,
@@ -465,6 +482,13 @@ export async function procesarCheckout(e) {
   Carrito.vaciar();
 
   if (resp.pago_url) {
+    if (!esPagoUrlSegura(resp.pago_url)) {
+      console.error('[SECURITY] pago_url inválida rechazada:', resp.pago_url);
+      _checkoutError(errorEl, 'Error de seguridad: URL de pago inválida. Por favor contáctanos.', true);
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-lock"></i> Ir a pagar con MercadoPago';
+      return;
+    }
     btn.innerHTML = '<i class="fa-solid fa-arrow-right"></i> Redirigiendo a MercadoPago...';
     window.location.href = resp.pago_url;
   } else {
@@ -478,9 +502,17 @@ export async function procesarCheckout(e) {
 
 function _checkoutError(el, msg, withWA = false) {
   el.style.cssText = '';
-  el.innerHTML = msg + (withWA
-    ? ' <a href="https://wa.me/573213412903" target="_blank" rel="noopener" style="color:inherit;font-weight:700;">Escribir por WhatsApp →</a>'
-    : '');
+  el.textContent = msg;
+  if (withWA) {
+    el.textContent += ' ';
+    const a = document.createElement('a');
+    a.href = 'https://wa.me/573213412903';
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.style.cssText = 'color:inherit;font-weight:700;';
+    a.textContent = 'Escribir por WhatsApp →';
+    el.appendChild(a);
+  }
   el.style.display = 'block';
 }
 

@@ -5,7 +5,7 @@
 import { PRODUCTOS, PRODUCTOS_POR_ESCUELA } from '../data/productos.js';
 import { PRECIOS } from '../data/precios.js';
 import { RalozAPI } from '../core/api.js';
-import { formatCOP, scrollToSection } from '../core/utils.js';
+import { formatCOP, scrollToSection, escapeHTML } from '../core/utils.js';
 import { Carrito } from '../core/carrito.js';
 import { abrirTallaModal } from './checkout.js';
 
@@ -209,14 +209,16 @@ function renderTiendaColegios(colegios) {
   if (!grid) return;
 
   grid.innerHTML = colegios.map(c => {
-    const count = (PRODUCTOS_POR_ESCUELA[c.id_colegio] || []).length;
+    const count  = (PRODUCTOS_POR_ESCUELA[c.id_colegio] || []).length;
+    const nombre = escapeHTML(c.nombre);
+    const ciudad = escapeHTML(c.ciudad || '');
     return `
-    <button class="tienda-colegio-card" data-id="${c.id_colegio}" data-nombre="${c.nombre}">
+    <button class="tienda-colegio-card" data-id="${c.id_colegio}" data-nombre="${nombre}">
       <div class="tc-icon-wrap"><i class="fa-solid fa-school-flag"></i></div>
       <div class="tc-text">
-        <span class="tc-nombre">${c.nombre}</span>
+        <span class="tc-nombre">${nombre}</span>
         <span class="tc-meta">
-          ${c.ciudad ? `<span class="tc-ciudad"><i class="fa-solid fa-location-dot"></i> ${c.ciudad}</span>` : ''}
+          ${ciudad ? `<span class="tc-ciudad"><i class="fa-solid fa-location-dot"></i> ${ciudad}</span>` : ''}
           ${count ? `<span class="tc-count"><i class="fa-solid fa-shirt"></i> ${count} prendas</span>` : ''}
         </span>
       </div>
@@ -241,7 +243,8 @@ function _renderFiltros(filtros, productos) {
     <button class="tienda-filtro active" data-tipo="todos">Todos (${productos.length})</button>
     ${tipos.map(t => {
       const count = productos.filter(p => (p.tipo || 'Otros').trim().toLowerCase() === t.toLowerCase()).length;
-      return `<button class="tienda-filtro" data-tipo="${t}">${t} (${count})</button>`;
+      const tSafe = escapeHTML(t);
+      return `<button class="tienda-filtro" data-tipo="${tSafe}">${tSafe} (${count})</button>`;
     }).join('')}
     <span id="stockRefreshInd" style="font-size:0.72rem;color:#4caf50;margin-left:auto;opacity:0;transition:opacity 0.6s;align-self:center;white-space:nowrap;">
       <i class="fa-solid fa-circle-check"></i>
@@ -382,6 +385,8 @@ function renderProductos(productos) {
       ? `Tallas: ${[...new Set(p.tallas.map(t => t.talla))].join(', ')}`
       : '';
 
+    const nombreSafe = escapeHTML(p.nombre);
+    const tipoSafe   = escapeHTML(p.tipo || '');
     return `
       <div class="tienda-producto-card${esAnticipo ? ' tpc-fabricacion' : ''}">
         <div class="tpc-imagen ${tipoCls}">
@@ -390,8 +395,8 @@ function renderProductos(productos) {
           ${esAnticipo ? '<span class="tpc-badge-fab">🪡</span>' : ''}
         </div>
         <div class="tpc-info">
-          <p class="tpc-nombre">${p.nombre}</p>
-          ${p.tipo ? `<span class="tpc-tipo-tag">${p.tipo}</span>` : ''}
+          <p class="tpc-nombre">${nombreSafe}</p>
+          ${tipoSafe ? `<span class="tpc-tipo-tag">${tipoSafe}</span>` : ''}
           <div class="tpc-precio-wrap">
             ${precioMin !== null
               ? `<span class="tpc-precio-desde">Desde</span>
@@ -399,11 +404,11 @@ function renderProductos(productos) {
               : `<span class="tpc-precio-desde">Precio a consultar</span>`
             }
           </div>
-          ${tallasTexto ? `<span class="tpc-tallas-hint">${tallasTexto}</span>` : ''}
+          ${tallasTexto ? `<span class="tpc-tallas-hint">${escapeHTML(tallasTexto)}</span>` : ''}
           ${esAnticipo ? '<span class="tpc-fab-tiempo"><i class="fa-solid fa-clock"></i> Entrega 1-2 meses · 50% abono</span>' : ''}
           ${badgeStock}
         </div>
-        <button class="${btnClass}" data-id="${p.id_producto}" data-nombre="${p.nombre}"
+        <button class="${btnClass}" data-id="${p.id_producto}" data-nombre="${nombreSafe}"
           data-fab="${esFab}" data-anticipo="${esAnticipo}">
           ${btnLabel}
         </button>
