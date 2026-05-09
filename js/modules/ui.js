@@ -30,16 +30,21 @@ export function initNavDropdown() {
 }
 
 export function initMobileMenu() {
+  const nav    = document.querySelector('#main-nav');
   const toggle = document.querySelector('.nav-toggle');
-  const menu   = document.querySelector('nav ul');
-  if (!toggle || !menu) return;
+  const menu   = document.querySelector('#main-nav .nav-links');
+  if (!nav || !toggle || !menu) return;
+
+  const isOpen = () => nav.classList.contains('nav-open');
 
   const toggleMenu = (forceClose = false) => {
-    menu.classList.toggle('active', !forceClose);
-    const isOpen = menu.classList.contains('active');
-    toggle.textContent = isOpen ? '✕' : '☰';
-    toggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
-    toggle.setAttribute('aria-expanded', isOpen);
+    const opening = forceClose ? false : !isOpen();
+    nav.classList.toggle('nav-open', opening);
+    toggle.innerHTML = opening
+      ? '<i class="fa-solid fa-xmark"></i>'
+      : '<i class="fa-solid fa-bars"></i>';
+    toggle.setAttribute('aria-label', opening ? 'Cerrar menú' : 'Abrir menú');
+    toggle.setAttribute('aria-expanded', opening);
   };
 
   toggle.addEventListener('click', () => toggleMenu());
@@ -47,104 +52,64 @@ export function initMobileMenu() {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleMenu(); }
   });
   document.querySelectorAll('nav a').forEach(l => {
-    l.addEventListener('click', () => { if (window.innerWidth <= 768) toggleMenu(true); });
+    l.addEventListener('click', () => { if (window.innerWidth <= 980) toggleMenu(true); });
   });
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 768 && menu.classList.contains('active')) toggleMenu(true);
+    if (window.innerWidth > 980 && isOpen()) toggleMenu(true);
   }, { passive: true });
   document.addEventListener('click', e => {
-    if (menu.classList.contains('active') && !menu.contains(e.target) && !toggle.contains(e.target)) toggleMenu(true);
+    if (isOpen() && !nav.contains(e.target)) toggleMenu(true);
   }, { passive: true });
 }
 
-export function initSmoothScroll() {
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', e => {
-      const href = anchor.getAttribute('href');
-      if (href === '#' || href === '#!') return;
-      const target = document.querySelector(href);
-      if (target) { e.preventDefault(); scrollToSection(target); }
-    });
-  });
-}
+export function initSPARouter() {
+  const views = document.querySelectorAll('.spa-view');
+  const navLinks = document.querySelectorAll('nav a[href^="#view-"]');
+  const allLinks = document.querySelectorAll('a[href^="#view-"]');
 
-export function initScrollAnimations() {
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        requestAnimationFrame(() => {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-        });
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.01, rootMargin: '60px 0px 60px 0px' });
-
-  const animTargets = [
-    'section',
-    '.uniforme-card',
-    '.producto-card',
-    '.aliado-card',
-    '.stat-card',
-    '.testimonio-card',
-    '.section-header',
-    '.quienes-feature',
-    '.info-card',
-    '.proceso-step',
-  ].join(', ');
-
-  document.querySelectorAll(animTargets).forEach((el, i) => {
-    const rect = el.getBoundingClientRect();
-    const alreadyVisible = rect.top < window.innerHeight && rect.bottom > 0;
-    if (!alreadyVisible) {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(24px)';
-      // stagger sibling cards within the same parent
-      const siblings = el.parentElement ? [...el.parentElement.children].filter(c => c.matches && c.matches(animTargets)) : [];
-      const sibIdx = siblings.indexOf(el);
-      const delay = sibIdx > 0 ? Math.min(sibIdx * 60, 300) : 0;
-      el.style.transition = `opacity 0.5s ease ${delay}ms, transform 0.5s cubic-bezier(0.22,1,0.36,1) ${delay}ms`;
+  function showView(hash) {
+    if (!hash || !hash.startsWith('#view-')) hash = '#view-inicio';
+    
+    const targetView = document.querySelector(hash);
+    if (!targetView) {
+      if (hash !== '#view-inicio') window.location.hash = '#view-inicio';
+      return;
     }
-    observer.observe(el);
-  });
 
-  // Fallback: garantizar visibilidad de todas las secciones después de 3s
-  setTimeout(() => {
-    document.querySelectorAll(animTargets).forEach(el => {
-      if (el.style.opacity === '0') {
-        el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-        el.style.opacity = '1';
-        el.style.transform = 'translateY(0)';
+    views.forEach(v => {
+      if (v !== targetView && v.classList.contains('active')) {
+        v.classList.remove('active');
       }
     });
-  }, 3000);
-}
+    
+    if (!targetView.classList.contains('active')) {
+        targetView.classList.add('active');
+    }
 
-export function initActiveNavIndicator() {
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('nav a[href^="#"]');
-  if (!sections.length || !navLinks.length) return;
+    window.scrollTo({ top: 0, behavior: 'instant' });
 
-  let ticking = false;
-  const nav   = document.querySelector('nav');
-
-  const update = () => {
-    const navH      = nav ? nav.offsetHeight : 64;
-    const scrollMid = window.scrollY + navH + 60;
-    let current = '';
-    sections.forEach(s => {
-      const absTop = s.getBoundingClientRect().top + window.scrollY;
-      if (scrollMid >= absTop) current = s.id;
+    navLinks.forEach(l => {
+      l.classList.toggle('active', l.getAttribute('href') === hash);
     });
-    navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === `#${current}`));
-    ticking = false;
-  };
+  }
 
-  window.addEventListener('scroll', () => {
-    if (!ticking) { requestAnimationFrame(update); ticking = true; }
-  }, { passive: true });
-  update();
+  window.addEventListener('hashchange', () => showView(window.location.hash));
+
+  allLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const targetHash = link.getAttribute('href');
+      if (window.location.hash !== targetHash) {
+        history.pushState(null, null, targetHash);
+        showView(targetHash);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+  });
+
+  // Ejecutar al inicio para mostrar la vista correcta
+  setTimeout(() => showView(window.location.hash), 50);
 }
 
 export function initNavScroll() {

@@ -52,10 +52,12 @@ export async function initTiendaOnline() {
   }, 600000);
 }
 
-// Función global para que los botones de la sección Colegios abran directamente
-// la tienda con el colegio seleccionado (reemplaza el antiguo selectSchool del catálogo estático)
+// Función global — acepta ID numérico (1/2/3) o clave string ('MARILLAC'…)
 window.abrirTiendaColegio = function(clave) {
   const mapa = {
+    1: { id: 1, nombre: 'Colegio Marillac' },
+    2: { id: 2, nombre: 'Colegio Adventista del Norte' },
+    3: { id: 3, nombre: 'Colegio Manyanet' },
     MARILLAC:   { id: 1, nombre: 'Colegio Marillac' },
     ADVENTISTA: { id: 2, nombre: 'Colegio Adventista del Norte' },
     MANYANET:   { id: 3, nombre: 'Colegio Manyanet' },
@@ -63,11 +65,11 @@ window.abrirTiendaColegio = function(clave) {
   const c = mapa[clave];
   if (!c) return;
 
-  document.getElementById('tienda-online')
-    ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-  // Dar tiempo al scroll antes de cargar el catálogo
-  setTimeout(() => cargarCatalogoColegio(c.id, c.nombre), 350);
+  // Navegar al view de colegios via SPA router, luego cargar catálogo
+  if (window.location.hash !== '#view-colegios') {
+    window.location.hash = '#view-colegios';
+  }
+  setTimeout(() => cargarCatalogoColegio(c.id, c.nombre), 120);
 };
 
 async function _sincronizarColegiosAPI() {
@@ -378,8 +380,8 @@ function renderProductos(productos) {
 
     const btnClass = esAnticipo ? 'btn-agregar-carrito btn-fab' : 'btn-agregar-carrito';
     const btnLabel = esAnticipo
-      ? '<i class="fa-solid fa-scissors"></i> Pedir con anticipación'
-      : '<i class="fa-solid fa-cart-plus"></i> Agregar al carrito';
+      ? '<i class="fa-solid fa-scissors"></i><span class="btn-lbl"> Pedir con anticipación</span>'
+      : '<i class="fa-solid fa-cart-plus"></i><span class="btn-lbl"> Agregar al carrito</span>';
 
     const tallasTexto = p.tallas.length > 0
       ? `Tallas: ${[...new Set(p.tallas.map(t => t.talla))].join(', ')}`

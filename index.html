@@ -3,15 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="RALOZ COL S.A.S - Uniformes escolares de calidad en Colombia. Cotiza en línea, catálogo por colegio y pedidos personalizados. Más de 5 años de experiencia.">
-    <meta name="keywords" content="uniformes escolares, uniformes Colombia, confección uniformes, RALOZ COL, colegios Bogotá, uniformes Manyanet, uniformes Marillac, chaqueta prom, dotaciones">
-    <meta name="author" content="RALOZ COL S.A.S">
-    <meta property="og:title" content="RALOZ COL S.A.S - Uniformes Escolares de Calidad">
-    <meta property="og:description" content="Confeccionamos uniformes escolares de alta calidad para colegios en Colombia. Cotiza en línea.">
+    <meta name="description" content="RALOZ COL S.A.S — Uniformes escolares de calidad en Bogotá. Marillac, Adventista, Manyanet. Compra online con MercadoPago.">
+    <meta property="og:title" content="RALOZ COL S.A.S — Uniformes Escolares">
+    <meta property="og:description" content="Confeccionamos en Bogotá los uniformes oficiales de tres colegios. Pago seguro con MercadoPago.">
     <meta property="og:image" content="https://ralozcol-web.pages.dev/banner.webp">
     <meta property="og:url" content="https://ralozcol-web.pages.dev">
     <meta name="twitter:card" content="summary_large_image">
-    <!-- Content Security Policy: restringe qué recursos puede cargar la página -->
     <meta http-equiv="Content-Security-Policy" content="
       default-src 'self';
       script-src 'self' 'unsafe-inline';
@@ -29,788 +26,933 @@
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <title>RALOZ COL S.A.S - Uniformes Escolares de Calidad en Bogotá – Colombia</title>
-    <link rel="stylesheet" href="css/base.css?v=20260413d">
-    <link rel="stylesheet" href="css/layout.css?v=20260413d">
-    <link rel="stylesheet" href="css/components.css?v=20260413d">
-    <link rel="stylesheet" href="css/pages.css?v=20260413d">
-    <link rel="stylesheet" href="css/responsive.css?v=20260413d">
+    <title>RALOZ COL S.A.S — Uniformes Escolares Bogotá</title>
+    <link rel="stylesheet" href="css/base.css?v=20260509a">
+    <link rel="stylesheet" href="css/layout.css?v=20260509a">
+    <link rel="stylesheet" href="css/components.css?v=20260509a">
+    <link rel="stylesheet" href="css/pages.css?v=20260509a">
+    <link rel="stylesheet" href="css/responsive.css?v=20260509a">
 </head>
 <body>
 
-    <!-- Barra de anuncio temporada -->
-    <div class="announcement-bar" id="announcementBar">
-        <span class="ann-text-long"><i class="fa-solid fa-graduation-cap"></i> Temporada 2026 — <strong>Uniformes escolares + Relojes disponibles.</strong> Elige tu colegio y compra hoy →</span>
-        <span class="ann-text-short"><i class="fa-solid fa-graduation-cap"></i> Temporada 2026 🎒</span>
-        <a href="#tienda-online" class="ann-cta">Comprar ahora →</a>
-        <button class="ann-close" aria-label="Cerrar anuncio" onclick="this.parentElement.style.display='none'">✕</button>
+<!-- ── Announcement bar ── -->
+<div class="announcement-bar" id="announcementBar">
+    <span class="ann-text-long">
+        <i class="fa-solid fa-graduation-cap"></i>
+        Temporada 2026 — <strong>Uniformes en stock</strong> para Marillac, Adventista y Manyanet
+    </span>
+    <span class="ann-text-short"><i class="fa-solid fa-graduation-cap"></i> Temporada 2026 🎒</span>
+    <a href="#view-colegios" class="ann-cta">Comprar ahora →</a>
+    <button class="ann-close" aria-label="Cerrar anuncio" onclick="this.parentElement.style.display='none'">✕</button>
+</div>
+
+<!-- ── WhatsApp flotante ── -->
+<a href="https://wa.me/573213412903?text=Hola,%20estoy%20interesado%20en%20cotizar%20uniformes%20escolares"
+   class="whatsapp-float" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+    <img src="whatsapp.webp" alt="WhatsApp" width="30" height="30" loading="lazy">
+</a>
+
+<!-- ── Navegación ── -->
+<nav id="main-nav">
+    <div class="nav-brand nav-logo-wrap">
+        <a href="#view-inicio" class="nav-logo-link">
+            <span class="logo-mark">R</span>
+            <span class="nav-logo logo-wordmark">RALOZ</span>
+        </a>
     </div>
 
-    <!-- WhatsApp flotante -->
-    <a href="https://wa.me/573213412903?text=Hola,%20estoy%20interesado%20en%20cotizar%20uniformes%20escolares"
-       class="whatsapp-float"
-       target="_blank"
-       rel="noopener"
-       aria-label="Contactar por WhatsApp">
-        <img src="whatsapp.webp" alt="WhatsApp" width="40" height="40" loading="lazy">
+    <ul class="nav-links">
+        <li><a href="#view-inicio">Inicio</a></li>
+        <li><a href="#view-colegios"><i class="fa-solid fa-school"></i> Colegios</a></li>
+        <li><a href="#view-tienda"><i class="fa-solid fa-clock"></i> Relojes</a></li>
+        <li><a href="#view-contacto"><i class="fa-solid fa-envelope"></i> Contáctanos</a></li>
+    </ul>
+
+    <div class="nav-spacer"></div>
+
+    <button class="nav-search-bar" aria-label="Buscar uniforme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
+            <circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        Buscar...
+    </button>
+
+    <a href="#view-colegios" class="nav-tienda-btn">
+        <i class="fa-solid fa-bag-shopping"></i> Comprar
     </a>
 
-    <!-- Navegación -->
-    <nav id="main-nav">
-        <div class="nav-brand">
-            <a href="#inicio" class="nav-logo-link">
-                <img src="logo.svg" alt="RALOZ" class="nav-logo-img">
-                <span class="nav-logo">RALOZ</span>
-            </a>
-        </div>
-        <button class="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">☰</button>
-        <ul>
-            <li><a href="#inicio"><i class="fa-solid fa-house"></i> Inicio</a></li>
-            <li><a href="#quienes-somos"><i class="fa-solid fa-users"></i> Nosotros</a></li>
-            <li><a href="#tienda-online"><i class="fa-solid fa-shirt"></i> Catálogo</a></li>
-            <li><a href="#tienda-online"><i class="fa-solid fa-school"></i> Colegios</a></li>
-            <li><a href="#contacto"><i class="fa-solid fa-envelope"></i> Contacto</a></li>
-            <li>
-                <a href="#tienda-online" class="nav-tienda-btn">
-                    <i class="fa-solid fa-bag-shopping"></i> Tienda Online
-                </a>
-            </li>
-            <li>
-                <button id="navCarritoBtn" class="nav-carrito-btn" aria-label="Ver carrito">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span id="navCarritoBadge" class="nav-carrito-badge" style="display:none;">0</span>
-                </button>
-            </li>
-        </ul>
-    </nav>
+    <button id="navCarritoBtn" class="nav-carrito-btn" aria-label="Ver carrito">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span id="navCarritoBadge" class="nav-carrito-badge" style="display:none;">0</span>
+    </button>
 
-    <!-- Hero / Header -->
-    <header id="inicio">
-        <div class="hero-split">
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+</nav>
+
+<main id="app-main">
+
+<!-- ══════════════════════════════════════════════════════════
+     VISTA INICIO — Hero + Carousel
+══════════════════════════════════════════════════════════ -->
+<div id="view-inicio" class="spa-view active">
+
+    <!-- ── Hero ── -->
+    <header id="inicio" class="hero-section">
+        <div class="hero-wrap">
+
+            <!-- Left: copy -->
             <div class="hero-left">
-                <div class="hero-brand-name">RALOZ COL <span class="txt-gold">S.A.S</span></div>
-                <div class="hero-badge"><span class="hero-badge-dot"></span> Temporada 2026 · Bogotá, Colombia</div>
-                <h1>Calidad que se ve<br>y se <span>siente</span></h1>
-                <p>Confeccionamos uniformes escolares para los mejores colegios de Bogotá. También encuentra relojes y más — <strong>todo con el respaldo de RALOZ COL S.A.S.</strong></p>
+                <div class="hero-eyebrow">
+                    <span class="dot"></span> Temporada 2026 · Bogotá, Colombia
+                </div>
+                <h1>Uniformes que tu<br><em>colegio</em> elige, <span class="accent">con orgullo.</span></h1>
+                <p class="hero-lead">
+                    Confeccionamos en Bogotá los uniformes oficiales de tres colegios. Compra en línea, recibe en 7 días, paga seguro con MercadoPago.
+                </p>
                 <div class="hero-actions">
-                    <a href="#tienda-online" class="btn-primary">
-                        <i class="fa-solid fa-bag-shopping"></i> Comprar Ahora →
+                    <a href="#view-colegios" class="btn btn-primary">
+                        <i class="fa-solid fa-school"></i> Ver mi colegio
                     </a>
-                    <a href="#tienda-online" class="btn-secondary">
-                        <i class="fa-solid fa-grid-2"></i> Ver Catálogo ▷
-                    </a>
+                    <a href="#view-contacto" class="btn btn-ghost">Cotizar grupo →</a>
                 </div>
-                <div class="hero-stats-strip">
-                    <div class="hero-stat"><strong>5<span>+</span></strong><span>Años</span></div>
-                    <div class="hero-stat-div"></div>
-                    <div class="hero-stat"><strong>1000<span>+</span></strong><span>Estudiantes</span></div>
-                    <div class="hero-stat-div"></div>
-                    <div class="hero-stat"><strong>3<span>+</span></strong><span>Colegios</span></div>
+                <div class="trust-row">
+                    <div class="trust-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 6v6c0 5 3.5 9.4 8 10 4.5-.6 8-5 8-10V6l-8-4Z"/></svg>
+                        <div><strong>5+</strong> años</div>
+                    </div>
+                    <div class="trust-divider"></div>
+                    <div class="trust-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        <div><strong>1.000+</strong> familias</div>
+                    </div>
+                    <div class="trust-divider"></div>
+                    <div class="trust-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 10-10-5-10 5 10 5 10-5z"/><path d="M6 12v5c3 1.5 9 1.5 12 0v-5"/></svg>
+                        <div><strong>3</strong> colegios</div>
+                    </div>
+                    <div class="trust-divider"></div>
+                    <div class="trust-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        <div><strong>100%</strong> Colombia</div>
+                    </div>
                 </div>
             </div>
-            <div class="hero-right">
-                <div class="hero-photo-card">
+
+            <!-- Right: photo + quick school selector -->
+            <aside class="hero-right-card">
+                <div class="hero-photo-wrap">
                     <img src="estudiantes-marillac.png" alt="Estudiantes Colegio Marillac" loading="eager">
-                    <div class="hero-photo-label">
-                        <i class="fa-solid fa-school"></i> Colegio Marillac
+                    <div class="photo-tag" style="top:14px;left:14px;">
+                        <span class="dot"></span> Colegio Marillac · 2026
                     </div>
-                    <div class="hero-quality-badge">
-                        <i class="fa-solid fa-certificate"></i>
-                        <div>
-                            <strong>Calidad Garantizada</strong>
-                            <small>100% Colombiano</small>
-                        </div>
+                    <div class="photo-quality" style="bottom:14px;right:14px;">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <div><strong>Calidad garantizada</strong>Hecho en Colombia</div>
                     </div>
                 </div>
-            </div>
+                <div class="hero-quick">
+                    <p class="hero-quick-title">¿Para cuál colegio?</p>
+                    <div class="hero-quick-grid">
+                        <button class="quick-school" onclick="abrirTiendaColegio(1)">
+                            <span class="qs-flag b">M</span>
+                            <span class="qs-name">Marillac</span>
+                            <span class="qs-count">15 prendas</span>
+                        </button>
+                        <button class="quick-school" onclick="abrirTiendaColegio(2)">
+                            <span class="qs-flag r">A</span>
+                            <span class="qs-name">Adventista</span>
+                            <span class="qs-count">13 prendas</span>
+                        </button>
+                        <button class="quick-school" onclick="abrirTiendaColegio(3)">
+                            <span class="qs-flag y">M</span>
+                            <span class="qs-name">Manyanet</span>
+                            <span class="qs-count">13 prendas</span>
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
         </div>
-        <a href="#tienda-online" class="scroll-indicator" aria-label="Ir al contenido">
-            <i class="fa-solid fa-chevron-down"></i>
-        </a>
     </header>
 
-    <main>
+    <!-- ── Barra de stats ── -->
+    <div class="inicio-stats-bar">
+        <div class="inicio-stat"><strong>5+</strong><span>Años de experiencia</span></div>
+        <div class="inicio-stat"><strong>1.000+</strong><span>Familias atendidas</span></div>
+        <div class="inicio-stat"><strong>3</strong><span>Colegios aliados</span></div>
+        <div class="inicio-stat"><strong>100%</strong><span>Hecho en Colombia</span></div>
+    </div>
 
-        <!-- Carousel de imágenes -->
-        <section id="carousel-section" aria-label="Galería de imágenes RALOZ">
-            <div class="carousel-wrapper">
-                <div class="carousel-track" id="carouselTrack">
-                    <div class="carousel-slide">
-                        <img src="banner.webp" alt="RALOZ COL S.A.S - Uniformes Escolares" loading="eager">
-                        <div class="carousel-slide-overlay">
-                            <div class="carousel-slide-caption"><span>RALOZ COL S.A.S</span> — Más que uniformes</div>
-                            <div class="carousel-slide-sub">Calidad, identidad y orgullo escolar en cada prenda</div>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="estudiantes-marillac.png" alt="Estudiantes Colegio Marillac con uniformes RALOZ" loading="lazy">
-                        <div class="carousel-slide-overlay">
-                            <div class="carousel-slide-caption">Colegio <span>Marillac</span></div>
-                            <div class="carousel-slide-sub">Uniformes que reflejan la identidad de tu institución</div>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="uniforme-nina.png" alt="Uniforme niña RALOZ COL S.A.S" loading="lazy">
-                        <div class="carousel-slide-overlay">
-                            <div class="carousel-slide-caption">Diseños para <span>todos</span></div>
-                            <div class="carousel-slide-sub">Tallas desde la 4 hasta XL — pídela en nuestra tienda online</div>
-                        </div>
-                    </div>
-                </div>
-                <button class="carousel-btn carousel-prev" aria-label="Imagen anterior" onclick="carouselMove(-1)">
-                    <i class="fa-solid fa-chevron-left"></i>
-                </button>
-                <button class="carousel-btn carousel-next" aria-label="Siguiente imagen" onclick="carouselMove(1)">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
-                <div class="carousel-dots" id="carouselDots"></div>
+    <!-- ── Elige tu colegio ── -->
+    <section style="padding:48px 28px 56px;max-width:1280px;margin:0 auto;">
+        <div class="section-head" style="margin-bottom:28px;">
+            <div>
+                <span class="section-eyebrow">Elige tu colegio</span>
+                <h2 class="section-title">¿Para cuál <em>institución</em>?</h2>
             </div>
-        </section>
-
-        <!-- ════════════════════════════════════════════════════ -->
-        <!-- COLEGIOS ALIADOS                                   -->
-        <!-- ════════════════════════════════════════════════════ -->
-        <section id="colegios-aliados" aria-label="Colegios aliados">
-            <div class="section-header">
-                <span class="section-label"><i class="fa-solid fa-school"></i> Nuestros Colegios</span>
-                <h2>¿Para cuál <span class="txt-gold">colegio</span> necesitas uniformes?</h2>
-                <p class="section-subtitle">Selecciona tu institución y accede al catálogo completo con precios por talla.</p>
-            </div>
-            <div class="aliados-grid">
-                <div class="aliado-card aliado-marillac" onclick="abrirTiendaColegio(1)" role="button" tabindex="0" aria-label="Ver uniformes Colegio Marillac">
-                    <div class="aliado-icon-box"><i class="fa-solid fa-school"></i></div>
-                    <div class="aliado-info">
-                        <span class="aliado-nombre">Colegio Marillac</span>
-                        <span class="aliado-count"><i class="fa-solid fa-shirt" style="font-size:0.7rem;margin-right:3px;color:var(--yellow)"></i> 15 prendas disponibles</span>
-                    </div>
-                    <button class="btn-aliado-ver" tabindex="-1"><i class="fa-solid fa-arrow-right"></i> Ver uniformes</button>
-                </div>
-                <div class="aliado-card aliado-adventista" onclick="abrirTiendaColegio(2)" role="button" tabindex="0" aria-label="Ver uniformes Colegio Adventista">
-                    <div class="aliado-icon-box"><i class="fa-solid fa-star"></i></div>
-                    <div class="aliado-info">
-                        <span class="aliado-nombre">Colegio Adventista</span>
-                        <span class="aliado-count"><i class="fa-solid fa-shirt" style="font-size:0.7rem;margin-right:3px;color:var(--yellow)"></i> 13 prendas disponibles</span>
-                    </div>
-                    <button class="btn-aliado-ver" tabindex="-1"><i class="fa-solid fa-arrow-right"></i> Ver uniformes</button>
-                </div>
-                <div class="aliado-card aliado-manyanet" onclick="abrirTiendaColegio(3)" role="button" tabindex="0" aria-label="Ver uniformes Colegio Manyanet">
-                    <div class="aliado-icon-box"><i class="fa-solid fa-graduation-cap"></i></div>
-                    <div class="aliado-info">
-                        <span class="aliado-nombre">Colegio Manyanet</span>
-                        <span class="aliado-count"><i class="fa-solid fa-shirt" style="font-size:0.7rem;margin-right:3px;color:var(--yellow)"></i> 13 prendas disponibles</span>
-                    </div>
-                    <button class="btn-aliado-ver" tabindex="-1"><i class="fa-solid fa-arrow-right"></i> Ver uniformes</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Cómo Pedir Strip -->
-        <div class="como-pedir-strip" aria-label="Pasos para pedir">
-            <div class="cp-step">
-                <span class="cp-num">1</span>
-                <div class="cp-text">
-                    <strong>Elige tu colegio</strong>
-                    <span>Manyanet, Marillac u otro</span>
-                </div>
-            </div>
-            <i class="fa-solid fa-chevron-right cp-arrow" aria-hidden="true"></i>
-            <div class="cp-step">
-                <span class="cp-num">2</span>
-                <div class="cp-text">
-                    <strong>Selecciona tallas</strong>
-                    <span>Precios reales por prenda</span>
-                </div>
-            </div>
-            <i class="fa-solid fa-chevron-right cp-arrow" aria-hidden="true"></i>
-            <div class="cp-step">
-                <span class="cp-num">3</span>
-                <div class="cp-text">
-                    <strong>Paga seguro</strong>
-                    <span>MercadoPago, transferencia o efectivo</span>
-                </div>
-            </div>
+            <a href="#view-tienda" class="section-link">
+                <i class="fa-solid fa-clock"></i> Ver relojes →
+            </a>
         </div>
-
-        <!-- Categorías -->
-        <!-- ════════════════════════════════════════════════════ -->
-        <!-- TIENDA ONLINE                                       -->
-        <!-- ════════════════════════════════════════════════════ -->
-        <section id="tienda-online" class="tienda-section">
-            <div class="section-header">
-                <span class="section-label"><i class="fa-solid fa-bag-shopping"></i> Catálogo y Tienda Online</span>
-                <h2>Elige tu colegio y <span class="txt-gold">compra hoy</span></h2>
-                <p class="section-subtitle">Precios reales por talla, carrito de compras y pago seguro con MercadoPago.</p>
-                <span id="tiendaApiInd" class="tienda-api-ind" style="opacity:1;"></span>
-            </div>
-
-            <!-- Cargando (muy breve, solo mientras renderiza el DOM) -->
-            <div id="tiendaLoading" class="tienda-loading">
-                <div class="tienda-spinner"></div>
-                <p>Preparando tienda...</p>
-            </div>
-
-            <!-- Contenido de la tienda -->
-            <div id="tiendaContenido" style="display:none;">
-
-                <!-- Paso 1: Seleccionar colegio -->
-                <div id="tiendaPaso1" class="tienda-paso">
-                    <h3 class="tienda-paso-titulo"><span class="tienda-step-num">1</span> Selecciona tu colegio</h3>
-                    <div id="tiendaColegiosGrid" class="tienda-colegios-grid"></div>
+        <div class="colegios-grid">
+            <article class="colegio-card" onclick="abrirTiendaColegio(1)" role="button" tabindex="0" aria-label="Ver uniformes Colegio Marillac">
+                <img src="estudiantes-marillac.png" alt="Estudiantes Colegio Marillac" loading="eager">
+                <div class="colegio-shade"></div>
+                <div class="colegio-top">
+                    <div class="colegio-shield b">M</div>
+                    <span class="colegio-toplabel">Femenino · Pre-K a Media</span>
                 </div>
-
-                <!-- Paso 2: Catálogo -->
-                <div id="tiendaPaso2" class="tienda-paso" style="display:none;">
-                    <div class="tienda-paso2-header">
-                        <button id="tiendaVolverColegios" class="btn-volver">
-                            <i class="fa-solid fa-arrow-left"></i> Cambiar colegio
-                        </button>
-                        <h3 class="tienda-paso-titulo"><span class="tienda-step-num">2</span> Elige tus uniformes — <span id="tiendaColegioNombre"></span></h3>
-                    </div>
-
-                    <!-- Filtros por tipo -->
-                    <div id="tiendaTipoFiltros" class="tienda-tipo-filtros"></div>
-
-                    <!-- Grid de productos -->
-                    <div id="tiendaProductosGrid" class="tienda-productos-grid"></div>
+                <div class="colegio-bottom">
+                    <h3 class="colegio-name">Colegio Marillac</h3>
+                    <p class="colegio-meta">15 prendas · desde $40.000</p>
+                    <div class="colegio-cta">Ver y comprar <span class="arrow">→</span></div>
                 </div>
-
-            </div>
-
-            <!-- Banner CTA inferior -->
-            <div class="tienda-cta-banner">
-                <i class="fa-solid fa-school"></i>
-                <p>¿Tu colegio no está en la lista? <a href="#contacto">Contáctanos</a> — confeccionamos para cualquier institución educativa.</p>
-            </div>
-        </section>
-
-        <!-- ════ CARRITO FLOTANTE ════ -->
-        <div id="carritoFloat" class="carrito-float" style="display:none;">
-            <button id="carritoBtn" class="carrito-btn" aria-label="Ver carrito">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span id="carritoBadge" class="carrito-badge">0</span>
-            </button>
+            </article>
+            <article class="colegio-card" onclick="abrirTiendaColegio(2)" role="button" tabindex="0" aria-label="Ver uniformes Colegio Adventista">
+                <img src="uniforme-nina.png" alt="Estudiante Colegio Adventista" loading="lazy">
+                <div class="colegio-shade"></div>
+                <div class="colegio-top">
+                    <div class="colegio-shield r">A</div>
+                    <span class="colegio-toplabel">Mixto · Primaria + Bachillerato</span>
+                </div>
+                <div class="colegio-bottom">
+                    <h3 class="colegio-name">Colegio Adventista</h3>
+                    <p class="colegio-meta">13 prendas · desde $35.000</p>
+                    <div class="colegio-cta">Ver y comprar <span class="arrow">→</span></div>
+                </div>
+            </article>
+            <article class="colegio-card" onclick="abrirTiendaColegio(3)" role="button" tabindex="0" aria-label="Ver uniformes Colegio Manyanet">
+                <img src="banner.webp" alt="Estudiantes Colegio Manyanet" loading="lazy">
+                <div class="colegio-shade"></div>
+                <div class="colegio-top">
+                    <div class="colegio-shield y">M</div>
+                    <span class="colegio-toplabel">Mixto · Pre-K a Media</span>
+                </div>
+                <div class="colegio-bottom">
+                    <h3 class="colegio-name">Colegio Manyanet</h3>
+                    <p class="colegio-meta">13 prendas · desde $38.000</p>
+                    <div class="colegio-cta">Ver y comprar <span class="arrow">→</span></div>
+                </div>
+            </article>
         </div>
-
-        <!-- ════ PANEL DEL CARRITO ════ -->
-        <div id="carritoPanel" class="carrito-panel" role="dialog" aria-modal="true" aria-label="Carrito de compras" style="display:none;">
-            <div class="carrito-panel-header">
-                <h3><i class="fa-solid fa-cart-shopping"></i> Tu Carrito</h3>
-                <button id="carritoCerrar" class="carrito-cerrar" aria-label="Cerrar carrito">&times;</button>
+        <div class="colegios-extra" style="margin-top:24px;">
+            <i class="fa-solid fa-school" style="font-size:22px;color:var(--blue);flex-shrink:0;"></i>
+            <div class="cx-text">
+                <strong>¿Tu colegio no está?</strong>
+                <span>Cotizamos para cualquier institución. <a href="#view-contacto" style="color:var(--blue);font-weight:600;">Contáctanos</a></span>
             </div>
-            <div id="carritoItems" class="carrito-items"></div>
-            <div class="carrito-panel-footer" id="carritoPanelFooter" style="display:none;">
-                <div class="carrito-total-row">
-                    <span>Total:</span>
-                    <strong id="carritoTotal" class="carrito-total-num">$0</strong>
-                </div>
-                <button id="carritoCheckout" class="btn-checkout">
-                    <i class="fa-solid fa-credit-card"></i> Proceder al pago
-                </button>
-            </div>
+            <a href="#view-contacto" class="btn btn-dark">Cotizar →</a>
         </div>
+    </section>
 
-        <!-- ════ MODAL DE CHECKOUT ════ -->
-        <div id="checkoutModal" class="checkout-modal" role="dialog" aria-modal="true" style="display:none;">
-            <div class="checkout-modal-inner">
-                <button id="checkoutCerrar" class="checkout-cerrar" aria-label="Cerrar">&times;</button>
-                <h2><i class="fa-solid fa-shield-halved"></i> Pago Seguro</h2>
+    <!-- ── Nosotros + Testimonios ── -->
+    <section style="padding:56px 28px 72px;max-width:1280px;margin:0 auto;">
+        <div class="duo-grid">
 
-                <!-- Resumen del pedido -->
-                <div class="checkout-resumen">
-                    <h4>Resumen del pedido</h4>
-                    <div id="checkoutResumenItems"></div>
-                    <!-- Selector de abono (se activa solo si hay items de fabricación) -->
-                    <div id="checkoutAbonoWrap" style="display:none;"></div>
-                    <div class="checkout-total-row">
-                        <span>Total a pagar:</span>
-                        <strong id="checkoutTotalDisplay"></strong>
+            <!-- Testimonios -->
+            <div class="testimonios-block">
+                <span class="section-eyebrow test-eyebrow">Lo que dicen</span>
+                <h2 class="section-title test-title" style="font-size:clamp(24px,3vw,36px);">Familias que <em>confían</em> en RALOZ.</h2>
+                <div class="test-stars">★★★★★</div>
+                <p class="test-quote">"Excelente calidad. Mis hijos llevan 2 años con los uniformes de RALOZ y siguen como nuevos. Muy buenos precios y atención."</p>
+                <div class="test-author">
+                    <div class="test-avatar">MP</div>
+                    <div>
+                        <strong>María P.</strong>
+                        <span>Mamá · Colegio Manyanet</span>
                     </div>
                 </div>
-
-                <!-- Formulario datos del cliente -->
-                <form id="checkoutForm" class="checkout-form" novalidate>
-                    <h4>Tus datos</h4>
-                    <div class="checkout-campos">
-                        <div class="checkout-campo">
-                            <label for="ck-nombre">Nombre completo *</label>
-                            <input type="text" id="ck-nombre" placeholder="Tu nombre" required>
-                        </div>
-                        <div class="checkout-campo">
-                            <label for="ck-email">Correo electrónico *</label>
-                            <input type="email" id="ck-email" placeholder="correo@ejemplo.com" required>
-                        </div>
-                        <div class="checkout-campo">
-                            <label for="ck-telefono">Teléfono *</label>
-                            <input type="tel" id="ck-telefono" placeholder="+57 300 000 0000" required>
-                        </div>
-                        <div class="checkout-campo">
-                            <label for="ck-documento">Cédula / NIT (opcional)</label>
-                            <input type="text" id="ck-documento" placeholder="123456789">
-                        </div>
-                        <div class="checkout-campo checkout-campo--full">
-                            <label for="ck-direccion">Dirección de entrega <span style="font-weight:400;color:var(--text-muted)">(opcional)</span></label>
-                            <input type="text" id="ck-direccion" placeholder="Ej: Cra 15 #23-45, Bogotá" maxlength="300">
-                        </div>
-                    </div>
-
-                    <div class="checkout-pagos-info">
-                        <p><i class="fa-solid fa-lock"></i> Serás redirigido a <strong>MercadoPago</strong> para pagar de forma segura con tarjeta, PSE, Nequi, Daviplata o efectivo.</p>
-                    </div>
-
-                    <button type="submit" id="checkoutPagarBtn" class="btn-pagar">
-                        <i class="fa-solid fa-lock"></i> Ir a pagar con MercadoPago
-                    </button>
-                    <p id="checkoutError" class="checkout-error-msg" style="display:none;"></p>
-                </form>
-            </div>
-        </div>
-        <div id="checkoutOverlay" class="checkout-overlay" style="display:none;"></div>
-
-        <!-- Modal de selección de talla -->
-        <div id="tallaModal" class="talla-modal" role="dialog" aria-modal="true" style="display:none;">
-            <div class="talla-modal-inner">
-                <button id="tallaCerrar" class="talla-cerrar" aria-label="Cerrar">&times;</button>
-                <h3 id="tallaNombreProducto"></h3>
-                <p class="talla-instruccion">Selecciona la talla y cantidad:</p>
-                <div id="tallaOpciones" class="talla-opciones"></div>
-            </div>
-        </div>
-        <div id="tallaOverlay" class="talla-overlay" style="display:none;"></div>
-
-        <!-- ════════════════════════════════════════════════════ -->
-        <!-- TIENDA RELOJES                                      -->
-        <!-- ════════════════════════════════════════════════════ -->
-        <section id="tienda-relojes" class="tienda-relojes-section">
-            <div class="tienda-relojes-header">
-                <span class="section-label"><i class="fa-solid fa-clock"></i> Relojes</span>
-                <h2>Catálogo de <span class="txt-gold">Relojes</span></h2>
-                <p>Modelos exclusivos para hombre y mujer. Relojes de calidad a precios accesibles.</p>
-            </div>
-            <div id="relojesGrid" class="relojes-grid"></div>
-        </section>
-
-        <!-- Modal de color / modelo reloj -->
-        <div id="colorModal" class="color-modal" role="dialog" aria-modal="true" aria-label="Seleccionar color de reloj" style="display:none;">
-            <div class="color-modal-inner">
-                <button id="colorCerrar" class="color-cerrar" aria-label="Cerrar">&times;</button>
-                <div class="color-modal-img-box">
-                    <i id="colorModalIcon" class="fa-solid fa-clock"></i>
-                </div>
-                <h3 id="colorNombreProducto"></h3>
-                <p id="colorDescripcion"></p>
-                <p class="color-instruccion">Selecciona el color:</p>
-                <div id="colorOpciones" class="color-opciones"></div>
-                <div id="colorDetalle" style="display:none;">
-                    <div class="color-precio-row">
-                        <span>Precio:</span>
-                        <strong id="colorPrecioDisplay"></strong>
-                    </div>
-                    <div class="color-cantidad-row">
-                        <span>Cantidad:</span>
-                        <div class="color-cantidad">
-                            <button id="colorMenos">−</button>
-                            <span id="colorCantVal">1</span>
-                            <button id="colorMas">+</button>
-                        </div>
+                <div class="test-pagination">
+                    <div class="dots">
+                        <div class="dot active"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
                     </div>
                 </div>
-                <button id="btnColorAdd" class="btn-color-add" style="display:none;">
-                    <i class="fa-solid fa-cart-plus"></i> Agregar al carrito
-                </button>
-            </div>
-        </div>
-        <div id="colorOverlay" class="color-overlay" style="display:none;"></div>
-
-        <!-- Lookbook / Galería Visual -->
-        <section id="lookbook">
-            <div class="lookbook-header">
-                <div class="lookbook-header-left">
-                    <span class="lookbook-label"><i class="fa-solid fa-heart"></i> Galería de Productos</span>
-                    <h2>Nuestro <span class="txt-blue">Look</span><span class="txt-gold">book</span></h2>
-                    <p class="section-subtitle">Explora nuestros diseños en acción. Calidad que se ve y se siente.</p>
-                </div>
             </div>
 
-            <!-- Grid de imágenes -->
-            <div class="galeria-grid">
-                <div class="galeria-item" onclick="galeriaAbrir(0)">
-                    <img src="estudiantes-marillac.png" alt="Estudiantes del Colegio Marillac con uniformes RALOZ COL S.A.S" loading="lazy">
-                    <span class="galeria-tag">Colegio Marillac</span>
-                </div>
-                <div class="galeria-item" onclick="galeriaAbrir(1)">
-                    <img src="uniforme-nina.png" alt="Uniforme diario niña RALOZ COL S.A.S – jardinera y blusa" loading="lazy">
-                    <span class="galeria-tag">Colección Especial</span>
-                </div>
-            </div>
-
-            <!-- Lightbox -->
-            <div class="galeria-lightbox" id="galeriaLightbox" onclick="galeriaCerrar()">
-                <button class="galeria-lb-prev" onclick="event.stopPropagation(); galeriaNav(-1)" aria-label="Anterior">
-                    <i class="fa-solid fa-chevron-left"></i>
-                </button>
-                <img id="galeriaLbImg" src="" alt="">
-                <button class="galeria-lb-next" onclick="event.stopPropagation(); galeriaNav(1)" aria-label="Siguiente">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
-                <button class="galeria-lb-cerrar" onclick="galeriaCerrar()" aria-label="Cerrar">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
-            <div class="lookbook-cta">
-                <a href="#tienda-online" class="btn-primary"><i class="fa-solid fa-shirt"></i> Ver Catálogo Completo →</a>
-            </div>
-        </section>
-
-        <!-- ¿Quiénes Somos? -->
-        <section id="quienes-somos">
-            <div class="quienes-split">
-                <div class="quienes-photo-side">
+            <!-- Nosotros -->
+            <div class="nosotros-block">
+                <div class="nosotros-photo">
                     <img src="uniforme-nina.png" alt="Uniforme RALOZ COL" loading="lazy">
-                    <span class="quienes-made-badge">Hecho en Colombia</span>
-                    <div class="quienes-years-badge">
-                        <i class="fa-solid fa-award"></i>
-                        <div>
-                            <strong>5+</strong>
-                            <span>Años de experiencia en confección de uniformes</span>
-                        </div>
+                    <div class="nosotros-badge">
+                        <i class="fa-solid fa-award"></i> 5+ años de experiencia
                     </div>
                 </div>
-                <div class="quienes-content-side">
-                    <span class="section-label"><i class="fa-solid fa-users"></i> Sobre Nosotros</span>
-                    <h2>Pasión por la <span class="txt-gold">calidad</span></h2>
-                    <p><strong>RALOZ COL S.A.S</strong> nació del sueño de vestir a los estudiantes colombianos con uniformes que inspiren orgullo y confianza. Con más de <strong class="txt-blue">5 años de experiencia</strong>, nos hemos convertido en aliados de las principales instituciones educativas de Bogotá.</p>
-                    <p>Trabajamos directamente con el <strong>Colegio Manyanet</strong>, <strong>Colegio Marillac</strong> y hemos tenido el honor de vestir a miles de estudiantes en su camino educativo.</p>
-                    <div class="quienes-feature-grid">
-                        <div class="quienes-feature">
-                            <div class="feature-icon-box"><i class="fa-solid fa-scissors"></i></div>
-                            <div>
-                                <h4>Confección Propia</h4>
-                                <p>Fabricamos nuestros uniformes con control de calidad en cada etapa.</p>
-                            </div>
-                        </div>
-                        <div class="quienes-feature">
-                            <div class="feature-icon-box"><i class="fa-solid fa-ruler"></i></div>
-                            <div>
-                                <h4>A Medida</h4>
-                                <p>Todas las tallas disponibles con ajustes personalizados.</p>
-                            </div>
-                        </div>
-                        <div class="quienes-feature">
-                            <div class="feature-icon-box"><i class="fa-solid fa-handshake"></i></div>
-                            <div>
-                                <h4>Alianzas</h4>
-                                <p>Convenios de suministro continuo con colegios.</p>
-                            </div>
-                        </div>
-                        <div class="quienes-feature">
-                            <div class="feature-icon-box"><i class="fa-solid fa-rotate"></i></div>
-                            <div>
-                                <h4>Stock Permanente</h4>
-                                <p>Inventario constante durante todo el año escolar.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <h3>RALOZ COL S.A.S</h3>
+                <p>Nacimos del sueño de vestir a los estudiantes colombianos con uniformes que inspiren orgullo y confianza. Trabajamos directamente con el <strong>Colegio Manyanet</strong>, <strong>Colegio Marillac</strong> y <strong>Colegio Adventista</strong>.</p>
+                <a href="#view-contacto" class="nosotros-link">Contáctanos →</a>
             </div>
-        </section>
 
-        <!-- Testimonios -->
-        <section id="testimonios">
-            <h2><i class="fa-solid fa-comments"></i> Lo que Dicen Nuestros Clientes</h2>
-            <div class="testimonios-carousel">
-            <div class="testimonios-grid">
-                <div class="testimonio-card">
-                    <div class="test-stars">★★★★★</div>
-                    <p>"Excelente calidad de los uniformes. Mis hijos llevan 2 años con los uniformes de RALOZ y siguen como nuevos. Muy buenos precios y atención."</p>
-                    <div class="test-autor">
-                        <div class="test-avatar test-avatar-1">MP</div>
-                        <div>
-                            <strong>María P.</strong>
-                            <span>Mamá – Colegio Manyanet</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonio-card">
-                    <div class="test-stars">★★★★★</div>
-                    <p>"Hicimos el pedido de chaquetas prom para todo el grado y quedamos muy satisfechos. El proceso fue fácil, los tiempos de entrega cumplidos y el diseño hermoso."</p>
-                    <div class="test-autor">
-                        <div class="test-avatar test-avatar-2">CP</div>
-                        <div>
-                            <strong>Carlos R.</strong>
-                            <span>Coordinador – Grado 11</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonio-card">
-                    <div class="test-stars">★★★★☆</div>
-                    <p>"Muy buena atención. Los uniformes llegan bien presentados y a tiempo. Lo que más valoro es que se adaptan a las necesidades de cada colegio."</p>
-                    <div class="test-autor">
-                        <div class="test-avatar test-avatar-3">AL</div>
-                        <div>
-                            <strong>Andrea L.</strong>
-                            <span>Mamá – Colegio Marillac</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonios-dots" aria-hidden="true">
-                <span class="test-dot active"></span>
-                <span class="test-dot"></span>
-                <span class="test-dot"></span>
-            </div>
-            </div>
-        </section>
+        </div>
 
-        <!-- FAQ -->
-        <section id="faq">
-            <h2><i class="fa-solid fa-circle-question"></i> Preguntas Frecuentes</h2>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false">
-                        ¿Puedo cambiar la talla si el uniforme no le queda a mi hijo/a?
-                        <i class="fa-solid fa-chevron-down faq-icon"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Sí, aceptamos cambios de talla dentro de los 15 días siguientes a la compra, siempre que la prenda esté en perfecto estado, sin uso y con su etiqueta original. El cambio no tiene costo adicional si hay disponibilidad en la talla requerida.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false">
-                        ¿Hacen uniformes para colegios que no están en el catálogo?
-                        <i class="fa-solid fa-chevron-down faq-icon"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>¡Sí! Trabajamos con cualquier institución educativa o empresa. Puedes enviarnos los colores, diseño e insignias del colegio y nosotros confeccionamos los uniformes a medida. Contáctanos para una cotización personalizada.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false">
-                        ¿Cómo puedo hacer seguimiento a mi pedido?
-                        <i class="fa-solid fa-chevron-down faq-icon"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Una vez confirmado tu pedido, te enviamos un número de referencia. Puedes consultar el estado de tu pedido contactándonos por WhatsApp al <a href="tel:+573213412903">+57 321 341 2903</a> con tu número de referencia. Próximamente estará disponible el seguimiento en línea conectado con nuestro sistema RALOZ.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false">
-                        ¿Qué medidas necesito para pedir la talla correcta?
-                        <i class="fa-solid fa-chevron-down faq-icon"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Nuestras tallas están organizadas por grupos de edad y medidas corporales. Puedes consultar la guía de tallas en nuestra tabla:</p>
-                        <table class="tallas-table">
-                            <tr><th>Grupo</th><th>Edad Referencia</th><th>Talla Ropa</th></tr>
-                            <tr><td>6-8</td><td>6-8 años</td><td>XS</td></tr>
-                            <tr><td>10-12</td><td>10-12 años</td><td>S</td></tr>
-                            <tr><td>14-16</td><td>14-16 años</td><td>M</td></tr>
-                            <tr><td>S-M</td><td>Adulto pequeño</td><td>S-M</td></tr>
-                            <tr><td>L-XL</td><td>Adulto grande</td><td>L-XL</td></tr>
-                        </table>
-                        <p>Si tienes dudas, escríbenos y te asesoramos.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false">
-                        ¿Qué es el Portal RALOZ y cómo se conecta con la tienda?
-                        <i class="fa-solid fa-chevron-down faq-icon"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>RALOZ es nuestro sistema de gestión interno que controla el inventario, ventas, facturación y reportes de uniformes. Estamos integrando este sistema con la tienda web para que puedas ver disponibilidad de tallas en tiempo real, recibir confirmaciones automáticas de pedido y consultar el estado de tu compra en línea. Esta integración estará disponible próximamente.</p>
-                    </div>
+        <!-- Features grid -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:32px;" class="quienes-feature-grid">
+            <div class="quienes-feature">
+                <div class="feature-icon-box"><i class="fa-solid fa-scissors"></i></div>
+                <div>
+                    <h4>Confección Propia</h4>
+                    <p>Control de calidad en cada etapa del proceso.</p>
                 </div>
             </div>
-        </section>
+            <div class="quienes-feature">
+                <div class="feature-icon-box"><i class="fa-solid fa-ruler"></i></div>
+                <div>
+                    <h4>A Medida</h4>
+                    <p>Todas las tallas disponibles con ajustes personalizados.</p>
+                </div>
+            </div>
+            <div class="quienes-feature">
+                <div class="feature-icon-box"><i class="fa-solid fa-handshake"></i></div>
+                <div>
+                    <h4>Alianzas</h4>
+                    <p>Convenios de suministro continuo con colegios.</p>
+                </div>
+            </div>
+            <div class="quienes-feature">
+                <div class="feature-icon-box"><i class="fa-solid fa-rotate"></i></div>
+                <div>
+                    <h4>Stock Permanente</h4>
+                    <p>Inventario constante durante todo el año escolar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <!-- Contacto -->
-        <section id="contacto">
-            <h2><i class="fa-solid fa-envelope"></i> Contacto</h2>
-            <p>¿Tienes preguntas o necesitas más información? Completa nuestro formulario:</p>
-            <div class="contact-grid">
-                <div class="form-wrapper">
-                    <form id="contactoForm" class="native-contact-form" novalidate>
-                        <h3 class="ncf-title"><i class="fa-solid fa-paper-plane"></i> Escríbenos</h3>
-                        <p class="ncf-subtitle">Te responderemos por WhatsApp o correo.</p>
-                        <div class="ncf-field">
-                            <label for="ncf-nombre">Nombre *</label>
-                            <input type="text" id="ncf-nombre" name="nombre" placeholder="Tu nombre completo" autocomplete="name">
+    <!-- ── FAQ ── -->
+    <section id="faq" style="padding:56px 28px 40px;max-width:900px;margin:0 auto;">
+        <div class="faq-head">
+            <span class="section-eyebrow">FAQ</span>
+            <h2 class="section-title">Preguntas <em>frecuentes</em>.</h2>
+        </div>
+        <div class="faq-list">
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    ¿Cuánto tarda la entrega?
+                    <i class="fa-solid fa-chevron-down faq-icon"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Los pedidos con stock disponible se entregan en <strong>5 a 7 días hábiles</strong> en Bogotá. Para pedidos por fabricación, el tiempo es de 1 a 2 meses.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    ¿Qué métodos de pago aceptan?
+                    <i class="fa-solid fa-chevron-down faq-icon"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Aceptamos <strong>MercadoPago</strong> (tarjeta, PSE, Nequi, Daviplata, efectivo Efecty), <strong>transferencia bancaria</strong> y <strong>efectivo</strong> en punto de venta.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    ¿Qué es un pedido por fabricación?
+                    <i class="fa-solid fa-chevron-down faq-icon"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Cuando una prenda o talla no tiene stock la confeccionamos especialmente. Requiere un <strong>abono del 50%</strong> y el resto se paga al entregar. Tiempo: 1–2 meses.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    ¿Hacen cambios o devoluciones?
+                    <i class="fa-solid fa-chevron-down faq-icon"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Sí, aceptamos cambios de talla dentro de los <strong>15 días</strong> posteriores a la entrega, si la prenda está sin uso ni alteraciones.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    ¿Cuáles son sus horarios de atención?
+                    <i class="fa-solid fa-chevron-down faq-icon"></i>
+                </button>
+                <div class="faq-answer">
+                    <p><strong>CC San Andresito de la 68, Local M14 (2° piso)</strong> — <strong>Miércoles a Domingo</strong>, 10:00–12:00 y 14:00–17:00. Lunes y martes cerrado.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ── Políticas ── -->
+    <section style="padding:24px 28px 56px;max-width:900px;margin:0 auto;text-align:center;border-top:1px solid var(--border,#eee);">
+        <p style="font-size:14px;color:var(--muted);">
+            <a href="politicas.html" style="color:var(--blue);font-weight:600;">Política de Privacidad</a>
+            <span style="margin:0 12px;color:var(--muted);">·</span>
+            <a href="terminos.html" style="color:var(--blue);font-weight:600;">Términos y Condiciones</a>
+        </p>
+    </section>
+
+</div><!-- /view-inicio -->
+
+
+<!-- ══════════════════════════════════════════════════════════
+     VISTA COLEGIOS — Catálogo de uniformes
+══════════════════════════════════════════════════════════ -->
+<div id="view-colegios" class="spa-view">
+
+    <!-- ── Tienda Online (JS-driven) ── -->
+    <section id="tienda-online" style="padding:40px 28px 72px;max-width:1280px;margin:0 auto;">
+        <span id="tiendaApiInd" class="tienda-api-ind" style="opacity:1;"></span>
+
+        <!-- Loading -->
+        <div id="tiendaLoading" class="tienda-loading-inner">
+            <div class="spinner"></div>
+            <p>Preparando tienda...</p>
+        </div>
+
+        <!-- Contenido JS -->
+        <div id="tiendaContenido" style="display:none;">
+
+            <!-- Paso 1: elegir colegio -->
+            <div id="tiendaPaso1">
+                <h3 style="font-family:'Fraunces',serif;font-size:20px;font-weight:600;margin:0 0 16px;color:var(--ink);">Selecciona tu colegio</h3>
+                <div id="tiendaColegiosGrid" class="tienda-colegios-grid"></div>
+            </div>
+
+            <!-- Paso 2: catálogo -->
+            <div id="tiendaPaso2" style="display:none;">
+                <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap;">
+                    <button id="tiendaVolverColegios">
+                        <i class="fa-solid fa-arrow-left"></i> Cambiar colegio
+                    </button>
+                    <span class="tienda-colegio-titulo" id="tiendaColegioNombre"></span>
+                </div>
+                <div id="tiendaTipoFiltros" class="filter-chips" style="margin-bottom:20px;"></div>
+                <div id="tiendaProductosGrid" class="tienda-grid-productos"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ── Carrito flotante ── -->
+    <div id="carritoFloat" class="carrito-float" style="display:none;">
+        <button id="carritoBtn" class="carrito-btn" aria-label="Ver carrito">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="carritoBadge" class="carrito-badge">0</span>
+        </button>
+    </div>
+
+</div><!-- /view-colegios -->
+
+
+<!-- ══════════════════════════════════════════════════════════
+     VISTA TIENDA — Relojes
+══════════════════════════════════════════════════════════ -->
+<div id="view-tienda" class="spa-view">
+
+    <section id="tienda-relojes" style="padding:56px 28px 72px;max-width:1280px;margin:0 auto;">
+        <div class="section-head">
+            <div>
+                <span class="section-eyebrow">Relojes</span>
+                <h2 class="section-title">Catálogo de <em>relojes</em>.</h2>
+                <p class="section-sub">Modelos exclusivos para hombre y mujer. Calidad a precios accesibles.</p>
+            </div>
+        </div>
+
+        <div class="relojes-side-banner">
+            <i class="fa-solid fa-clock" style="font-size:52px;color:var(--yellow);flex-shrink:0;"></i>
+            <div class="rsb-content">
+                <h3>Relojes de Calidad</h3>
+                <p>Colección exclusiva. Disponibles en múltiples colores y estilos.</p>
+                <span style="font-size:13px;color:rgba(255,255,255,0.55);">
+                    <i class="fa-solid fa-shield-halved"></i> Garantía incluida · Entrega inmediata
+                </span>
+            </div>
+        </div>
+
+        <div id="relojesGrid" class="relojes-grid"></div>
+    </section>
+
+</div><!-- /view-tienda -->
+
+
+
+<!-- ══════════════════════════════════════════════════════════
+     VISTA CONTACTO — FAQ + Formulario
+══════════════════════════════════════════════════════════ -->
+<div id="view-contacto" class="spa-view">
+
+    <!-- Contacto -->
+    <section id="contacto" style="padding:0 28px 72px;max-width:1280px;margin:0 auto;">
+        <div class="section-head" style="margin-bottom:32px;">
+            <div>
+                <span class="section-eyebrow">Contacto</span>
+                <h2 class="section-title">Escríbenos, <em>te respondemos</em>.</h2>
+            </div>
+        </div>
+
+        <div class="contacto-grid">
+
+            <!-- Info -->
+            <div class="contacto-info">
+                <div class="contacto-channels">
+                    <div class="contacto-channel">
+                        <div class="contacto-channel-icon wa"><i class="fa-brands fa-whatsapp"></i></div>
+                        <div>
+                            <strong>WhatsApp (pedidos)</strong>
+                            <span><a href="tel:+573213412903" style="color:var(--muted);">+57 321 341 2903</a></span>
                         </div>
-                        <div class="ncf-field">
-                            <label for="ncf-tel">Teléfono / WhatsApp</label>
-                            <input type="tel" id="ncf-tel" name="telefono" placeholder="Ej: 300 123 4567" autocomplete="tel">
+                    </div>
+                    <div class="contacto-channel">
+                        <div class="contacto-channel-icon wa"><i class="fa-brands fa-whatsapp"></i></div>
+                        <div>
+                            <strong>WhatsApp (asociaciones)</strong>
+                            <span><a href="tel:+573106503630" style="color:var(--muted);">+57 310 650 3630</a></span>
                         </div>
-                        <div class="ncf-field">
-                            <label for="ncf-colegio">Colegio (opcional)</label>
-                            <input type="text" id="ncf-colegio" name="colegio" placeholder="Ej: Colegio Marillac">
+                    </div>
+                    <div class="contacto-channel">
+                        <div class="contacto-channel-icon mail"><i class="fa-solid fa-envelope"></i></div>
+                        <div>
+                            <strong>Correo</strong>
+                            <span><a href="mailto:creacionesraloz@hotmail.com" style="color:var(--muted);">creacionesraloz@hotmail.com</a></span>
                         </div>
-                        <div class="ncf-field">
-                            <label for="ncf-msg">Mensaje *</label>
-                            <textarea id="ncf-msg" name="mensaje" rows="4" placeholder="¿En qué te podemos ayudar?"></textarea>
+                    </div>
+                    <div class="contacto-channel">
+                        <div class="contacto-channel-icon map"><i class="fa-solid fa-location-dot"></i></div>
+                        <div>
+                            <strong>Punto de venta</strong>
+                            <span>CC San Andresito de la 68 · Local M14, 2° piso · Calle 72 # 70-35, Bogotá</span>
                         </div>
-                        <div class="ncf-actions">
-                            <button type="button" id="btnEnviarWA" class="btn-ncf-wa">
+                    </div>
+                </div>
+
+                <div style="background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:20px;">
+                    <h4 style="font-size:14px;font-weight:700;margin:0 0 10px;display:flex;align-items:center;gap:8px;">
+                        <i class="fa-solid fa-clock" style="color:var(--blue);"></i> Horario
+                    </h4>
+                    <p style="font-size:14px;font-weight:600;margin:0 0 4px;">Miércoles a Domingo</p>
+                    <p style="font-size:14px;color:var(--ink-2);margin:0 0 8px;">10:00 – 12:00 h &nbsp;|&nbsp; 14:00 – 17:00 h</p>
+                    <p style="font-size:13px;color:var(--red);display:flex;align-items:center;gap:6px;margin:0;">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Lunes y martes cerrado
+                    </p>
+                </div>
+            </div>
+
+            <!-- Formulario -->
+            <div class="contacto-form-wrap">
+                <h4>Escríbenos</h4>
+                <form id="contactoForm" novalidate>
+                    <div style="display:flex;flex-direction:column;gap:14px;">
+                        <div>
+                            <label style="display:block;font-size:13px;font-weight:600;color:var(--ink-2);margin-bottom:5px;">Nombre *</label>
+                            <input type="text" id="ncf-nombre" name="nombre" placeholder="Tu nombre completo" autocomplete="name"
+                                   style="width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:8px;font-family:inherit;font-size:14px;outline:none;background:var(--white);">
+                        </div>
+                        <div>
+                            <label style="display:block;font-size:13px;font-weight:600;color:var(--ink-2);margin-bottom:5px;">Teléfono / WhatsApp</label>
+                            <input type="tel" id="ncf-tel" name="telefono" placeholder="300 123 4567" autocomplete="tel"
+                                   style="width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:8px;font-family:inherit;font-size:14px;outline:none;background:var(--white);">
+                        </div>
+                        <div>
+                            <label style="display:block;font-size:13px;font-weight:600;color:var(--ink-2);margin-bottom:5px;">Colegio (opcional)</label>
+                            <input type="text" id="ncf-colegio" name="colegio" placeholder="Ej: Colegio Marillac"
+                                   style="width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:8px;font-family:inherit;font-size:14px;outline:none;background:var(--white);">
+                        </div>
+                        <div>
+                            <label style="display:block;font-size:13px;font-weight:600;color:var(--ink-2);margin-bottom:5px;">Mensaje *</label>
+                            <textarea id="ncf-msg" name="mensaje" rows="4" placeholder="¿En qué te podemos ayudar?"
+                                      style="width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:8px;font-family:inherit;font-size:14px;outline:none;background:var(--white);resize:vertical;min-height:100px;"></textarea>
+                        </div>
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                            <button type="button" id="btnEnviarWA" class="btn btn-primary" style="flex:1;min-width:140px;justify-content:center;">
                                 <i class="fa-brands fa-whatsapp"></i> Enviar por WhatsApp
                             </button>
-                            <a href="mailto:creacionesraloz@hotmail.com" class="btn-ncf-email">
-                                <i class="fa-solid fa-envelope"></i> Enviar por correo
+                            <a href="mailto:creacionesraloz@hotmail.com" class="btn btn-ghost" style="flex:1;min-width:140px;justify-content:center;">
+                                <i class="fa-solid fa-envelope"></i> Por correo
                             </a>
                         </div>
-                    </form>
-                </div>
-                <div class="contact-info">
-                    <h3><i class="fa-solid fa-address-card"></i> Información de Contacto</h3>
-                    <address>
-                        <p><strong>RALOZ COL S.A.S</strong></p>
-                        <p><i class="fa-solid fa-phone"></i> Pedidos: <a href="tel:+573213412903">+57 321 341 2903</a></p>
-                        <p><i class="fa-solid fa-phone"></i> Asociaciones: <a href="tel:+573106503630">+57 310 650 3630</a></p>
-                        <p><i class="fa-solid fa-envelope"></i> Info: <a href="mailto:creacionesraloz@hotmail.com">creacionesraloz@hotmail.com</a></p>
-                        <p><i class="fa-solid fa-envelope"></i> Reclamos: <a href="mailto:ralozcol@outlook.com">ralozcol@outlook.com</a></p>
-                        <p><i class="fa-solid fa-location-dot"></i> <strong>CC. San Andresito de la 68</strong><br>
-                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Local M14, Segundo Piso<br>
-                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calle 72 # 70-35, Bogotá</p>
-                    </address>
-                    <div class="horario-card">
-                        <h4><i class="fa-solid fa-clock"></i> Horario de Atención</h4>
-                        <p><strong>Miércoles a Domingo</strong></p>
-                        <p>10:00 – 12:00 h &nbsp;|&nbsp; 14:00 – 17:00 h</p>
-                        <p style="color:var(--yellow);font-size:0.8rem;margin-top:0.5rem;">
-                            <i class="fa-solid fa-triangle-exclamation"></i> Lunes y martes cerrado
-                        </p>
                     </div>
-                    <div class="pagos-card">
-                        <h4><i class="fa-solid fa-wallet"></i> Forma de Pago</h4>
-                        <div class="pago-item">
-                            <i class="fa-solid fa-arrow-right-arrow-left" style="color:#3483fa;"></i>
-                            <div>
-                                <strong>Transferencia bancaria</strong>
-                                <span>Nequi, Daviplata, Bancolombia y más</span>
-                            </div>
-                        </div>
-                        <div class="pago-item">
-                            <i class="fa-solid fa-money-bill-wave" style="color:#00a650;"></i>
-                            <div>
-                                <strong>Efectivo</strong>
-                                <span>En punto de venta</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </form>
             </div>
-        </section>
-    </main>
 
-    <footer>
-        <div class="footer-grid">
-            <div>
-                <h3>RALOZ COL S.A.S</h3>
-                <p>Confeccionamos uniformes escolares de alta calidad para colegios en Bogotá. También ofrecemos relojes y más. Calidad, diseño y compromiso garantizados en cada pedido.</p>
-                <div class="footer-badges">
-                    <span><i class="fa-solid fa-shield-halved"></i> Calidad Garantizada</span>
-                    <span><i class="fa-solid fa-award"></i> 5+ Años</span>
-                </div>
-            </div>
-            <div>
-                <h4>Navegación</h4>
-                <ul>
-                    <li><a href="#inicio"><i class="fa-solid fa-chevron-right"></i> Inicio</a></li>
-                    <li><a href="#quienes-somos"><i class="fa-solid fa-chevron-right"></i> Nosotros</a></li>
-                    <li><a href="#tienda-online"><i class="fa-solid fa-chevron-right"></i> Catálogo y Tienda</a></li>
-                    <li><a href="#tienda-online"><i class="fa-solid fa-chevron-right"></i> Colegios</a></li>
-                    <li><a href="#contacto"><i class="fa-solid fa-chevron-right"></i> Contacto</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4>Síguenos</h4>
-                <ul class="social-links">
-                    <li><a href="https://facebook.com/ralozcol" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
-                    <li><a href="https://instagram.com/ralozcol" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
-                    <li><a href="https://wa.me/573213412903" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a></li>
-                </ul>
-                <div class="footer-powered">
-                    <i class="fa-solid fa-gear"></i>
-                    <span>Gestionado con <strong>RALOZ Software</strong></span>
-                </div>
-            </div>
         </div>
-        <div class="footer-legal">
-            <a href="politicas.html"><i class="fa-solid fa-shield-halved"></i> Política de Privacidad</a>
-            <span class="footer-legal-sep">·</span>
-            <a href="terminos.html"><i class="fa-solid fa-file-contract"></i> Términos y Condiciones</a>
-            <span class="footer-legal-sep">·</span>
-            <a href="#faq"><i class="fa-solid fa-circle-question"></i> Preguntas Frecuentes</a>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 RALOZ COL S.A.S | Todos los derechos reservados</p>
-            <p>Avenida Calle 72 # 70-35, Bogotá, Distrito Especial 111061</p>
-        </div>
-    </footer>
+    </section>
 
-    <script type="module" src="js/main.js?v=20260413d"></script>
+</div><!-- /view-contacto -->
 
-    <!-- Carousel autoplay -->
-    <script>
-    (function () {
-        var track   = document.getElementById('carouselTrack');
-        var dotsEl  = document.getElementById('carouselDots');
-        if (!track) return;
 
-        var slides  = track.querySelectorAll('.carousel-slide');
-        var total   = slides.length;
-        var current = 0;
-        var timer   = null;
-        var DELAY   = 4500;
+<!-- ══ MODALES GLOBALES (siempre en DOM) ══ -->
 
-        // Build dots
-        slides.forEach(function (_, i) {
-            var d = document.createElement('button');
-            d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-            d.setAttribute('aria-label', 'Ir a imagen ' + (i + 1));
-            d.addEventListener('click', function () { goTo(i); resetTimer(); });
-            dotsEl.appendChild(d);
-        });
-
-        function goTo(idx) {
-            current = (idx + total) % total;
-            track.style.transform = 'translateX(-' + current * 100 + '%)';
-            dotsEl.querySelectorAll('.carousel-dot').forEach(function (d, i) {
-                d.classList.toggle('active', i === current);
-            });
-        }
-
-        function next() { goTo(current + 1); }
-
-        function resetTimer() {
-            clearInterval(timer);
-            timer = setInterval(next, DELAY);
-        }
-
-        // Expose for inline onclick buttons
-        window.carouselMove = function (dir) { goTo(current + dir); resetTimer(); };
-
-        // Pause on hover
-        track.parentElement.addEventListener('mouseenter', function () { clearInterval(timer); });
-        track.parentElement.addEventListener('mouseleave', resetTimer);
-
-        // Touch swipe
-        var startX = 0;
-        track.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; }, { passive: true });
-        track.addEventListener('touchend', function (e) {
-            var dx = e.changedTouches[0].clientX - startX;
-            if (Math.abs(dx) > 40) { goTo(current + (dx < 0 ? 1 : -1)); resetTimer(); }
-        }, { passive: true });
-
-        resetTimer();
-    })();
-    </script>
-
-    <!-- Barra sticky "Ir a la tienda" — solo móvil -->
-    <div class="sticky-cta-mobile" id="stickyCTA" aria-hidden="true">
-        <a href="#tienda-online" class="sticky-cta-btn">
-            <i class="fa-solid fa-bag-shopping"></i> Comprar ahora
-        </a>
+<!-- Panel carrito -->
+<div id="carritoPanel" role="dialog" aria-modal="true" aria-label="Carrito de compras" style="display:none;">
+    <div class="carrito-panel-header">
+        <h3><i class="fa-solid fa-cart-shopping"></i> Tu carrito</h3>
+        <button id="carritoCerrar" aria-label="Cerrar carrito"><i class="fa-solid fa-xmark"></i></button>
     </div>
+    <div id="carritoItems"></div>
+    <div id="carritoPanelFooter" style="display:none;">
+        <div class="carrito-total-row">
+            <span class="carrito-total-label">Total:</span>
+            <span id="carritoTotal" class="carrito-total-val">$0</span>
+        </div>
+        <button id="carritoCheckout">
+            <i class="fa-solid fa-credit-card"></i> Proceder al pago
+        </button>
+    </div>
+</div>
+
+<!-- Overlay checkout -->
+<div id="checkoutOverlay" style="display:none;"></div>
+
+<!-- Modal checkout -->
+<div id="checkoutModal" role="dialog" aria-modal="true" style="display:none;">
+    <div class="checkout-modal-inner">
+        <div class="checkout-modal-header">
+            <h2><i class="fa-solid fa-shield-halved"></i> Pago seguro</h2>
+            <button id="checkoutCerrar" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="checkout-body">
+            <div class="checkout-resumen">
+                <p class="checkout-resumen-title">Resumen del pedido</p>
+                <div id="checkoutResumenItems"></div>
+                <div id="checkoutAbonoWrap" style="display:none;"></div>
+                <div class="checkout-total-row">
+                    <span class="checkout-total-label">Total a pagar:</span>
+                    <span id="checkoutTotalDisplay"></span>
+                </div>
+            </div>
+            <form id="checkoutForm" novalidate>
+                <div class="checkout-campos">
+                    <div class="checkout-campo">
+                        <label for="ck-nombre">Nombre completo *</label>
+                        <input type="text" id="ck-nombre" placeholder="Tu nombre" required autocomplete="name">
+                    </div>
+                    <div class="checkout-campo">
+                        <label for="ck-email">Correo electrónico *</label>
+                        <input type="email" id="ck-email" placeholder="correo@ejemplo.com" required autocomplete="email">
+                    </div>
+                    <div class="checkout-campo">
+                        <label for="ck-telefono">Teléfono *</label>
+                        <input type="tel" id="ck-telefono" placeholder="+57 300 000 0000" required autocomplete="tel">
+                    </div>
+                    <div class="checkout-campo">
+                        <label for="ck-documento">Cédula / NIT (opcional)</label>
+                        <input type="text" id="ck-documento" placeholder="123456789">
+                    </div>
+                    <div class="checkout-campo">
+                        <label for="ck-direccion">Dirección de entrega <span style="font-weight:400;color:var(--muted)">(opcional)</span></label>
+                        <input type="text" id="ck-direccion" placeholder="Ej: Cra 15 #23-45, Bogotá" maxlength="300">
+                    </div>
+                </div>
+                <label class="ck-terminos-label" style="display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;cursor:pointer;font-size:13px;color:var(--muted);line-height:1.5;">
+                    <input type="checkbox" id="ck-terminos" style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:var(--blue,#003da5);" required>
+                    <span>
+                        He leído y acepto la
+                        <a href="politicas.html" target="_blank" rel="noopener" style="color:var(--blue,#003da5);font-weight:600;">Política de Privacidad</a>
+                        y los
+                        <a href="terminos.html" target="_blank" rel="noopener" style="color:var(--blue,#003da5);font-weight:600;">Términos y Condiciones</a>
+                        de RALOZ COL S.A.S. Autorizo el tratamiento de mis datos conforme a la Ley 1581 de 2012.
+                    </span>
+                </label>
+                <p style="font-size:13px;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:6px;">
+                    <i class="fa-solid fa-lock"></i>
+                    Serás redirigido a <strong style="color:var(--ink);">MercadoPago</strong> para pagar de forma segura.
+                </p>
+                <button type="submit" id="checkoutPagarBtn">
+                    <i class="fa-solid fa-lock"></i> Ir a pagar con MercadoPago
+                </button>
+                <p id="checkoutError" class="checkout-error" style="display:none;"></p>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Overlay talla -->
+<div id="tallaOverlay" style="display:none;"></div>
+
+<!-- Modal talla -->
+<div id="tallaModal" role="dialog" aria-modal="true" style="display:none;">
+    <div class="talla-modal-inner">
+        <div class="talla-modal-header">
+            <h3 id="tallaNombreProducto"></h3>
+            <button id="tallaCerrar" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <p style="font-size:14px;color:var(--muted);margin-bottom:14px;">Selecciona la talla y cantidad:</p>
+        <div id="tallaOpciones" class="talla-pills"></div>
+    </div>
+</div>
+
+<!-- Overlay color reloj -->
+<div id="colorOverlay" style="display:none;"></div>
+
+<!-- Modal color reloj -->
+<div id="colorModal" role="dialog" aria-modal="true" aria-label="Seleccionar color de reloj" style="display:none;">
+    <div class="color-modal-inner">
+        <div class="color-modal-header">
+            <h3 id="colorNombreProducto"></h3>
+            <button id="colorCerrar" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="color-modal-icon-wrap">
+            <i id="colorModalIcon" class="fa-solid fa-clock"></i>
+        </div>
+        <p id="colorDescripcion" style="font-size:13px;color:var(--muted);margin-bottom:16px;"></p>
+        <p style="font-size:13px;font-weight:600;color:var(--ink-2);margin-bottom:10px;">Selecciona el color:</p>
+        <div id="colorOpciones"></div>
+        <div id="colorDetalle" style="display:none;padding:14px;background:var(--paper);border-radius:8px;margin-bottom:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                <span style="font-size:14px;color:var(--muted);">Precio:</span>
+                <span id="colorPrecioDisplay" style="font-family:'Fraunces',serif;font-size:20px;font-weight:700;"></span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:14px;color:var(--muted);">Cantidad:</span>
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <button id="colorMenos" class="color-qty-btn">−</button>
+                    <span id="colorCantVal" style="font-weight:700;font-size:18px;min-width:28px;text-align:center;">1</span>
+                    <button id="colorMas" class="color-qty-btn">+</button>
+                </div>
+            </div>
+        </div>
+        <button id="btnColorAdd" style="display:none;">
+            <i class="fa-solid fa-cart-plus"></i> Agregar al carrito
+        </button>
+    </div>
+</div>
+
+<!-- Lightbox -->
+<div class="galeria-lightbox" id="galeriaLightbox" onclick="galeriaCerrar()">
+    <button class="galeria-lb-prev" onclick="event.stopPropagation(); galeriaNav(-1)" aria-label="Anterior">
+        <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <img id="galeriaLbImg" src="" alt="">
+    <button class="galeria-lb-next" onclick="event.stopPropagation(); galeriaNav(1)" aria-label="Siguiente">
+        <i class="fa-solid fa-chevron-right"></i>
+    </button>
+    <button class="galeria-lb-cerrar" onclick="galeriaCerrar()" aria-label="Cerrar">
+        <i class="fa-solid fa-xmark"></i>
+    </button>
+</div>
+
+</main><!-- /app-main -->
+
+<!-- ── Footer ── -->
+<footer>
+    <div class="footer-grid">
+        <div class="footer-brand">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+                <span class="logo-mark" style="width:32px;height:32px;font-size:18px;">R</span>
+                <span style="font-family:'Fraunces',serif;font-size:20px;font-weight:700;color:var(--white);">RALOZ</span>
+            </div>
+            <p>Confeccionamos uniformes escolares de alta calidad para colegios en Bogotá.</p>
+            <a href="https://wa.me/573213412903" target="_blank" rel="noopener"
+               style="display:inline-flex;align-items:center;gap:6px;background:var(--yellow);color:var(--ink);padding:9px 14px;border-radius:8px;font-weight:600;font-size:13px;margin-top:16px;">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+            </a>
+        </div>
+
+        <div>
+            <h4>Navegación</h4>
+            <ul>
+                <li><a href="#view-inicio">Inicio</a></li>
+                <li><a href="#view-colegios">Colegios y Tienda</a></li>
+                <li><a href="#view-tienda">Relojes</a></li>
+                <li><a href="#view-contacto">Contáctanos</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h4>Colegios</h4>
+            <ul>
+                <li><a href="#view-colegios" onclick="abrirTiendaColegio(1)">Colegio Marillac</a></li>
+                <li><a href="#view-colegios" onclick="abrirTiendaColegio(2)">Colegio Adventista</a></li>
+                <li><a href="#view-colegios" onclick="abrirTiendaColegio(3)">Colegio Manyanet</a></li>
+                <li><a href="#view-contacto">Postular mi colegio</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h4>Contacto</h4>
+            <ul>
+                <li><a href="tel:+573213412903">+57 321 341 2903</a></li>
+                <li><a href="mailto:creacionesraloz@hotmail.com">creacionesraloz@hotmail.com</a></li>
+                <li><a href="https://instagram.com/ralozcol" target="_blank" rel="noopener">
+                    <i class="fa-brands fa-instagram"></i> Instagram
+                </a></li>
+                <li><a href="https://facebook.com/ralozcol" target="_blank" rel="noopener">
+                    <i class="fa-brands fa-facebook"></i> Facebook
+                </a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-legal">
+        <a href="politicas.html">Política de Privacidad</a>
+        <span class="footer-legal-sep">·</span>
+        <a href="terminos.html">Términos y Condiciones</a>
+        <span class="footer-legal-sep">·</span>
+        <a href="cookies.html">Política de Cookies</a>
+        <span class="footer-legal-sep">·</span>
+        <a href="#view-inicio">FAQ</a>
+    </div>
+    <div class="footer-bottom">
+        <span>&copy; 2026 RALOZ COL S.A.S — Todos los derechos reservados</span>
+        <span>CC San Andresito de la 68 · Local M14, Bogotá</span>
+    </div>
+</footer>
+
+<!-- ══ Banner de Cookies ══════════════════════════════════════ -->
+<div id="cookieBanner" role="dialog" aria-label="Aviso de cookies" style="display:none;">
+    <div class="cookie-banner-inner">
+        <div class="cookie-banner-text">
+            <strong>🍪 Usamos cookies esenciales</strong>
+            <p>
+                Solo utilizamos cookies necesarias para que el carrito y el proceso de pago funcionen correctamente.
+                No usamos cookies de publicidad ni rastreo de terceros.
+                <a href="cookies.html" target="_blank" rel="noopener">Ver política de cookies</a>
+            </p>
+        </div>
+        <div class="cookie-banner-acciones">
+            <button id="cookieAceptar" class="cookie-btn cookie-btn-ok">Aceptar</button>
+            <button id="cookieRechazar" class="cookie-btn cookie-btn-no">Solo esenciales</button>
+        </div>
+    </div>
+</div>
+
+<style>
+#cookieBanner {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 10000;
+    background: #0d1b3e;
+    border-top: 2px solid #ffc107;
+    padding: 16px 20px;
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.35);
+    animation: slideUpBanner 0.35s ease;
+}
+@keyframes slideUpBanner {
+    from { transform: translateY(100%); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+}
+.cookie-banner-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.cookie-banner-text {
+    flex: 1;
+    min-width: 220px;
+}
+.cookie-banner-text strong {
+    display: block;
+    color: #fff;
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+}
+.cookie-banner-text p {
+    color: rgba(255,255,255,0.65);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    margin: 0;
+}
+.cookie-banner-text a {
+    color: #ffc107;
+    text-underline-offset: 2px;
+}
+.cookie-banner-acciones {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+.cookie-btn {
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.2s;
+}
+.cookie-btn:hover { opacity: 0.85; }
+.cookie-btn-ok  { background: #ffc107; color: #0d1b3e; }
+.cookie-btn-no  { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.2); }
+</style>
+
+<script>
+(function() {
+    var consent = localStorage.getItem('raloz_cookie_consent');
+    if (!consent) {
+        var banner = document.getElementById('cookieBanner');
+        if (banner) banner.style.display = 'block';
+        document.getElementById('cookieAceptar')?.addEventListener('click', function() {
+            localStorage.setItem('raloz_cookie_consent', 'accepted');
+            banner.style.display = 'none';
+        });
+        document.getElementById('cookieRechazar')?.addEventListener('click', function() {
+            localStorage.setItem('raloz_cookie_consent', 'essential');
+            banner.style.display = 'none';
+        });
+    }
+})();
+</script>
+
+<script type="module" src="js/main.js?v=20260509a"></script>
+
+<!-- Carousel inline -->
+<script>
+(function () {
+    var track  = document.getElementById('carouselTrack');
+    var dotsEl = document.getElementById('carouselDots');
+    if (!track) return;
+    var slides = track.querySelectorAll('.carousel-slide');
+    var total  = slides.length;
+    var current = 0;
+    var timer   = null;
+    var DELAY   = 4500;
+
+    slides.forEach(function (_, i) {
+        var d = document.createElement('button');
+        d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+        d.setAttribute('aria-label', 'Ir a imagen ' + (i + 1));
+        d.addEventListener('click', function () { goTo(i); resetTimer(); });
+        dotsEl.appendChild(d);
+    });
+
+    function goTo(idx) {
+        current = (idx + total) % total;
+        track.style.transform = 'translateX(-' + current * 100 + '%)';
+        dotsEl.querySelectorAll('.carousel-dot').forEach(function (d, i) {
+            d.classList.toggle('active', i === current);
+        });
+    }
+
+    function next() { goTo(current + 1); }
+    function resetTimer() { clearInterval(timer); timer = setInterval(next, DELAY); }
+
+    window.carouselMove = function (dir) { goTo(current + dir); resetTimer(); };
+
+    track.parentElement.addEventListener('mouseenter', function () { clearInterval(timer); });
+    track.parentElement.addEventListener('mouseleave', resetTimer);
+
+    var startX = 0;
+    track.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', function (e) {
+        var dx = e.changedTouches[0].clientX - startX;
+        if (Math.abs(dx) > 40) { goTo(current + (dx < 0 ? 1 : -1)); resetTimer(); }
+    }, { passive: true });
+
+    resetTimer();
+})();
+</script>
+
+<!-- Sticky CTA móvil -->
+<div class="sticky-cta-mobile" id="stickyCTA" aria-hidden="true">
+    <a href="#view-colegios" class="btn btn-primary" style="width:100%;justify-content:center;">
+        <i class="fa-solid fa-bag-shopping"></i> Comprar ahora
+    </a>
+</div>
+
 </body>
 </html>

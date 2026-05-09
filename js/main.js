@@ -21,9 +21,7 @@ import { actualizarContadoresEscuelas, initCatalogo } from './modules/catalogo.j
 import {
   initNavDropdown,
   initMobileMenu,
-  initSmoothScroll,
-  initScrollAnimations,
-  initActiveNavIndicator,
+  initSPARouter,
   initNavScroll,
   initBackToTop,
   initCounters,
@@ -57,68 +55,118 @@ import './modules/lookbook.js';
 // ===================================================================
 // RETORNO DE MERCADOPAGO — muestra mensaje al cliente tras el pago
 // ===================================================================
-function initPagoRetorno() {
+function _crearModalPago() {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
+  const box = document.createElement('div');
+  box.style.cssText = 'background:#fff;border-radius:20px;padding:36px 28px;max-width:420px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.2)';
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+  return { overlay, box };
+}
+
+function _renderModalPago(box, overlay, { icon, titulo, msg, color, withWA = false }) {
+  const waLink = withWA
+    ? `<a href="https://wa.me/573213412903" target="_blank" rel="noopener noreferrer"
+         style="display:block;margin-top:10px;color:#25d366;font-weight:700;font-size:0.9rem;">
+         Escribir por WhatsApp →
+       </a>`
+    : '';
+  box.innerHTML = `
+    <div style="font-size:3rem;margin-bottom:12px">${icon}</div>
+    <h2 style="margin:0 0 10px;font-size:1.4rem;color:#1a1a2e">${titulo}</h2>
+    <p style="margin:0 0 6px;color:#555;font-size:0.95rem;line-height:1.5">${msg}</p>
+    ${waLink}
+    <button id="btnCerrarPago"
+      style="margin-top:20px;background:${color};color:#fff;border:none;border-radius:12px;padding:12px 32px;font-size:1rem;font-weight:700;cursor:pointer;width:100%">
+      Entendido
+    </button>
+  `;
+  box.querySelector('#btnCerrarPago')?.addEventListener('click', () => overlay.remove());
+}
+
+async function initPagoRetorno() {
   const params = new URLSearchParams(window.location.search);
   const estado = params.get('estado');
   const ref    = params.get('ref') || params.get('external_reference');
   if (!estado) return;
 
-  // Limpiar la URL sin recargar la página
   history.replaceState({}, '', window.location.pathname);
 
-  // Configuración del mensaje según estado
-  const configs = {
-    aprobado: {
-      icon: '✅',
-      titulo: '¡Pago recibido!',
+  const { overlay, box } = _crearModalPago();
+
+  // Estados que no son aprobado: mostrar directo sin polling
+  if (estado === 'fallido') {
+    _renderModalPago(box, overlay, {
+      icon: '❌', titulo: 'Pago no completado', color: '#e74c3c',
+      msg: 'Hubo un problema con el pago. Puedes intentarlo de nuevo o contactarnos.',
+      withWA: true,
+    });
+    return;
+  }
+
+  if (estado === 'pendiente') {
+    _renderModalPago(box, overlay, {
+      icon: '⏳', titulo: 'Pago pendiente', color: '#f39c12',
       msg: ref
-        ? `Tu pedido <strong>${ref}</strong> está confirmado. Recibirás un correo con los detalles.`
-        : 'Tu pedido está confirmado. Recibirás un correo con los detalles.',
-      color: '#00b09b',
-      vaciar: true,
-    },
-    pendiente: {
-      icon: '⏳',
-      titulo: 'Pago pendiente',
-      msg: ref
-        ? `Tu pago para el pedido <strong>${ref}</strong> está en proceso. Te notificaremos cuando se confirme.`
-        : 'Tu pago está en proceso. Te notificaremos cuando se confirme.',
-      color: '#f39c12',
-      vaciar: false,
-    },
-    fallido: {
-      icon: '❌',
-      titulo: 'Pago no completado',
-      msg: 'Hubo un problema con el pago. Puedes intentarlo de nuevo o contactarnos por WhatsApp.',
-      color: '#e74c3c',
-      vaciar: false,
-    },
-  };
+        ? `Tu pago para el pedido <strong>${ref}</strong> está en proceso. Te avisaremos cuando se confirme.`
+        : 'Tu pago está en proceso. Te avisaremos cuando se confirme.',
+    });
+    return;
+  }
 
-  const cfg = configs[estado] || configs.fallido;
-  if (cfg.vaciar) Carrito.vaciar();
-
-  // Crear modal de confirmación
-  const overlay = document.createElement('div');
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
-
-  const box = document.createElement('div');
-  box.style.cssText = 'background:#fff;border-radius:20px;padding:36px 28px;max-width:420px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.2)';
+  // estado === 'aprobado': hacer polling hasta que el backend confirme
+  // (el webhook puede llegar unos segundos después del redirect de MP)
   box.innerHTML = `
-    <div style="font-size:3rem;margin-bottom:12px">${cfg.icon}</div>
-    <h2 style="margin:0 0 10px;font-size:1.4rem;color:#1a1a2e">${cfg.titulo}</h2>
-    <p style="margin:0 0 24px;color:#555;font-size:0.95rem;line-height:1.5">${cfg.msg}</p>
-    <button id="btnCerrarPago" style="background:${cfg.color};color:#fff;border:none;border-radius:12px;padding:12px 32px;font-size:1rem;font-weight:700;cursor:pointer;width:100%">
-      Entendido
-    </button>
+    <div style="font-size:3rem;margin-bottom:12px">⏳</div>
+    <h2 style="margin:0 0 10px;font-size:1.4rem;color:#1a1a2e">Verificando tu pago…</h2>
+    <p style="color:#555;font-size:0.95rem">Estamos confirmando tu pedido con MercadoPago.</p>
   `;
 
-  overlay.appendChild(box);
-  document.body.appendChild(overlay);
+  const MAX_INTENTOS = 15;   // 15 × 2s = 30 s máximo
+  const INTERVALO_MS = 2000;
+  let confirmado = false;
 
-  const cerrar = () => overlay.remove();
-  document.getElementById('btnCerrarPago')?.addEventListener('click', cerrar);
-  overlay.addEventListener('click', e => { if (e.target === overlay) cerrar(); });
+  for (let i = 0; i < MAX_INTENTOS; i++) {
+    await new Promise(r => setTimeout(r, INTERVALO_MS));
+    try {
+      if (ref) {
+        const data = await RalozAPI.consultarPedido(ref);
+        const estadoPedido = data?.pedido?.estado;
+        if (estadoPedido === 'pagado') { confirmado = true; break; }
+        if (estadoPedido === 'fallido') {
+          _renderModalPago(box, overlay, {
+            icon: '❌', titulo: 'Pago rechazado', color: '#e74c3c',
+            msg: 'El pago no fue aprobado. Puedes intentarlo de nuevo o contactarnos.',
+            withWA: true,
+          });
+          return;
+        }
+      }
+    } catch { /* red inestable, seguir esperando */ }
+  }
+
+  Carrito.vaciar();
+
+  if (confirmado) {
+    _renderModalPago(box, overlay, {
+      icon: '✅', titulo: '¡Pedido confirmado!', color: '#00b09b',
+      msg: ref
+        ? `Tu pedido <strong>${ref}</strong> está confirmado.
+           Recibirás la factura en tu correo durante el transcurso del día.`
+        : 'Tu pedido está confirmado. Recibirás la factura en tu correo durante el transcurso del día.',
+    });
+  } else {
+    // Webhook tardó más de 30s (Render cold start extremo o red lenta)
+    _renderModalPago(box, overlay, {
+      icon: '⏳', titulo: 'Pago en proceso', color: '#f39c12',
+      msg: ref
+        ? `Tu pago para el pedido <strong>${ref}</strong> está siendo verificado.
+           Recibirás la factura por correo una vez confirmado (puede tardar unos minutos).`
+        : 'Tu pago está siendo verificado. Recibirás la factura por correo cuando se confirme.',
+    });
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -129,9 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
   [
     initNavDropdown,
     initMobileMenu,
-    initSmoothScroll,
-    initScrollAnimations,
-    initActiveNavIndicator,
+    initSPARouter,
     initNavScroll,
     initBackToTop,
     initCounters,

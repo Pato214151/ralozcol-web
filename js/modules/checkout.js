@@ -290,40 +290,36 @@ export function abrirCheckout() {
     `;
   }).join('');
 
-  // Selectores dinámicos
+  // Selectores dinámicos de pago
   const abonoWrap = document.getElementById('checkoutAbonoWrap');
   if (abonoWrap) {
     let html = '';
 
-    // Selector tipo_entrega (solo si hay mixtos)
+    // Aviso fijo para ítems mixtos: siempre se envía todo junto
     if (tieneMixto) {
       const unidInm = itemsMixtos.reduce((s, i) => s + (i.stock_disponible || 0), 0);
       const unidFab = itemsMixtos.reduce((s, i) => s + (i.cantidad - (i.stock_disponible || 0)), 0);
       html += `
         <div class="ck-abono-wrap" style="margin-bottom:12px;">
-          <p>🔀 Tienes <strong>${unidInm}</strong> unidades disponibles ahora y <strong>${unidFab}</strong> por fabricar. ¿Cómo las quieres recibir?</p>
-          <div class="ck-abono-opciones">
-            <button class="ck-abono-btn selected" data-entrega="parcial">
-              <span class="abono-pct">Recibir por partes</span>
-              <span class="abono-monto">Las ${unidInm} disponibles ahora · las ${unidFab} restantes al fabricarse</span>
-            </button>
-            <button class="ck-abono-btn" data-entrega="completa">
-              <span class="abono-pct">Esperar todo junto</span>
-              <span class="abono-monto">Se envía todo cuando esté completo el pedido</span>
-            </button>
-          </div>
+          <p>
+            <i class="fa-solid fa-box-open"></i>
+            Tienes <strong>${unidInm}</strong> unidad${unidInm !== 1 ? 'es' : ''} disponible${unidInm !== 1 ? 's' : ''}
+            y <strong>${unidFab}</strong> por fabricar.
+            <strong>Todo se enviará junto cuando esté completo el pedido.</strong>
+          </p>
         </div>
       `;
     }
 
-    // Selector abono (solo si hay porción de fabricación)
+    // Selector abono 50% / 100% (solo si hay porción de fabricación)
     if (tieneFab) {
-      const abono50 = Math.round(montoFab * 0.5);
-      const totalConAbono = totalNormal + totalMixtoInm + abono50;
-      const totalCompleto = totalGeneral;
+      const abono50        = Math.round(montoFab * 0.5);
+      const totalConAbono  = totalNormal + totalMixtoInm + abono50;
+      const totalCompleto  = totalGeneral;
       html += `
         <div class="ck-abono-wrap">
-          <p>🪡 Tu pedido incluye <strong>${formatCOP(montoFab)}</strong> en prendas por fabricación. Elige cómo pagar esa parte:</p>
+          <p>🪡 Tu pedido incluye <strong>${formatCOP(montoFab)}</strong> en prendas por fabricación.
+             Elige cómo pagar esa parte:</p>
           <div class="ck-abono-opciones">
             <button class="ck-abono-btn selected" data-pct="50">
               <span class="abono-pct">Abono 50%</span>
@@ -331,10 +327,14 @@ export function abrirCheckout() {
             </button>
             <button class="ck-abono-btn" data-pct="100">
               <span class="abono-pct">Pago total</span>
-              <span class="abono-monto">${formatCOP(totalCompleto)} ahora</span>
+              <span class="abono-monto">${formatCOP(totalCompleto)} ahora · sin saldo pendiente</span>
             </button>
           </div>
-          <p class="ck-politica-nota"><i class="fa-solid fa-circle-info"></i> El saldo restante se paga <strong>antes del envío o al recoger en tienda</strong>. Recibirás confirmación por WhatsApp con tu número de pedido.</p>
+          <p class="ck-politica-nota">
+            <i class="fa-solid fa-circle-info"></i>
+            El saldo restante se paga <strong>antes del envío o al recoger en tienda</strong>.
+            Recibirás confirmación por WhatsApp con tu número de pedido.
+          </p>
         </div>
       `;
     }
@@ -342,20 +342,16 @@ export function abrirCheckout() {
     if (html) {
       abonoWrap.style.display = 'block';
       abonoWrap.innerHTML = html;
-      abonoWrap.querySelectorAll('.ck-abono-btn').forEach(btn => {
+      // Solo el selector de abono actualiza el total
+      abonoWrap.querySelectorAll('.ck-abono-btn[data-pct]').forEach(btn => {
         btn.addEventListener('click', () => {
           btn.closest('.ck-abono-opciones').querySelectorAll('.ck-abono-btn')
             .forEach(b => b.classList.remove('selected'));
           btn.classList.add('selected');
-          // Actualizar "Total a pagar" cuando cambia la opción de abono
-          if ('pct' in btn.dataset) {
-            const pct = parseInt(btn.dataset.pct);
-            const abono50 = Math.round(montoFab * 0.5);
-            const nuevoTotal = pct === 50
-              ? totalNormal + totalMixtoInm + abono50
-              : totalGeneral;
-            document.getElementById('checkoutTotalDisplay').textContent = formatCOP(nuevoTotal);
-          }
+          const pct      = parseInt(btn.dataset.pct);
+          const abono50  = Math.round(montoFab * 0.5);
+          const nuevo    = pct === 50 ? totalNormal + totalMixtoInm + abono50 : totalGeneral;
+          document.getElementById('checkoutTotalDisplay').textContent = formatCOP(nuevo);
         });
       });
     } else {
@@ -388,6 +384,12 @@ export async function procesarCheckout(e) {
   const telefono  = document.getElementById('ck-telefono').value.trim();
   const documento = document.getElementById('ck-documento').value.trim();
 
+  const terminos = document.getElementById('ck-terminos');
+  if (!terminos?.checked) {
+    _checkoutError(errorEl, 'Debes aceptar los Términos y Condiciones y la Política de Privacidad para continuar.');
+    return;
+  }
+
   if (!nombre || !email || !telefono) {
     _checkoutError(errorEl, 'Por favor completa todos los campos requeridos.');
     return;
@@ -416,14 +418,8 @@ export async function procesarCheckout(e) {
     }
   }, 8000);
 
-  // Leer abono seleccionado (solo aplica a porción fabricación)
   const abonoBtn = document.querySelector('.ck-abono-btn[data-pct].selected');
   const abonoPct = abonoBtn ? parseInt(abonoBtn.dataset.pct) : 100;
-
-  // Leer tipo_entrega (parcial o completa)
-  const entregaBtn = document.querySelector('.ck-abono-btn[data-entrega].selected');
-  const tipoEntrega = entregaBtn ? entregaBtn.dataset.entrega : 'completa';
-
   const direccion = document.getElementById('ck-direccion')?.value?.trim() || '';
 
   const payload = {
@@ -434,7 +430,6 @@ export async function procesarCheckout(e) {
     direccion_envio:   direccion,
     id_colegio:        Carrito.colegio_id,
     abono_porcentaje:  abonoPct,
-    tipo_entrega:      tipoEntrega,
     items: Carrito.items.map(i => ({
       id_producto:      i.id_producto,
       nombre:           i.nombre,
