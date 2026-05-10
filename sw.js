@@ -1,14 +1,14 @@
 // ===================================================================
-// RALOZ COL S.A.S — Service Worker v2.0
+// RALOZ COL S.A.S — Service Worker v2.1
 // Caché offline para estáticos + respaldo de API (colegios/productos)
+// En localhost: pasa todo directo a la red, sin cachear.
 // ===================================================================
 
-const CACHE_STATIC = 'raloz-static-v6';
+const CACHE_STATIC = 'raloz-static-v7';
 const CACHE_API    = 'raloz-api-v1';
+const IS_LOCAL     = self.location.hostname === 'localhost' ||
+                     self.location.hostname === '127.0.0.1';
 
-// Solo los archivos mínimos para modo offline.
-// CSS/JS NO se pre-cachean aquí porque usan ?v= versioning:
-// se cachean automáticamente en el primer fetch con su URL versionada.
 const STATIC_FILES = [
   '/',
   '/index.html',
@@ -16,8 +16,9 @@ const STATIC_FILES = [
   '/favicon.ico',
 ];
 
-// ─── Install: pre-caché mínimo ────────────────────────────────────
+// ─── Install ─────────────────────────────────────────────────────
 self.addEventListener('install', e => {
+  if (IS_LOCAL) { self.skipWaiting(); return; }
   e.waitUntil(
     caches.open(CACHE_STATIC)
       .then(cache => cache.addAll(STATIC_FILES))
@@ -26,8 +27,6 @@ self.addEventListener('install', e => {
 });
 
 // ─── Activate: limpiar cachés antiguas + notificar tabs ──────────
-// Cuando se activa una nueva versión del SW, se avisa a todos los
-// tabs abiertos para que recarguen y obtengan el CSS/JS nuevo.
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys()
@@ -44,31 +43,31 @@ self.addEventListener('activate', e => {
 
 // ─── Fetch ───────────────────────────────────────────────────────
 self.addEventListener('fetch', e => {
+  // En localhost: todo va directo a la red, sin interceptar
+  if (IS_LOCAL) return;
+
   const url = new URL(e.request.url);
 
-  // Peticiones a la API: network-first con fallback a caché
+  // API: network-first con fallback a caché
   if (url.hostname.includes('raloz-web.onrender.com')) {
     e.respondWith(networkFirstAPI(e.request));
     return;
   }
 
-  // HTML de navegación: network-first (siempre HTML fresco)
+  // HTML: siempre desde la red (no-store evita caché HTTP del browser)
   if (e.request.mode === 'navigate') {
     e.respondWith(networkFirstHTML(e.request));
     return;
   }
 
-  // CSS/JS/imágenes: cache-first
-  // Para CSS/JS versionados (?v=...) cada versión tiene URL única,
-  // por lo que un cambio de versión siempre genera un cache miss → red.
+  // CSS/JS/imágenes versionadas: cache-first (URL nueva = cache miss = red)
   e.respondWith(cacheFirstStatic(e.request));
 });
 
-// ─── Estrategia: network-first para HTML ─────────────────────────
+// ─── network-first HTML ──────────────────────────────────────────
 async function networkFirstHTML(req) {
   const cache = await caches.open(CACHE_STATIC);
   try {
-    // cache:'no-store' evita que el browser sirva HTML del caché HTTP
     const res = await fetch(new Request(req, { cache: 'no-store' }));
     if (res.ok) cache.put(req, res.clone());
     return res;
@@ -78,7 +77,7 @@ async function networkFirstHTML(req) {
   }
 }
 
-// ─── Estrategia: network-first para la API ───────────────────────
+// ─── network-first API ───────────────────────────────────────────
 async function networkFirstAPI(req) {
   const cache = await caches.open(CACHE_API);
   try {
@@ -103,7 +102,7 @@ async function networkFirstAPI(req) {
   }
 }
 
-// ─── Estrategia: cache-first para estáticos ──────────────────────
+// ─── cache-first estáticos ───────────────────────────────────────
 async function cacheFirstStatic(req) {
   const cached = await caches.match(req);
   if (cached) return cached;
