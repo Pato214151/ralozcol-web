@@ -11,7 +11,7 @@
 
 /* ===== 1024px ===== */
 @media (max-width: 1024px) {
-  .tienda-grid-productos  { grid-template-columns: repeat(2, 1fr); }
+  .tienda-grid-productos  { grid-template-columns: repeat(3, 1fr); }
   .tienda-colegios-grid   { grid-template-columns: repeat(2, 1fr); }
   .cotizador-grid         { grid-template-columns: 1fr; }
   .contacto-grid          { grid-template-columns: 1fr; }
@@ -127,9 +127,33 @@
   #tallaModal,
   #colorModal { align-items: flex-end; padding: 0; }
 
-  /* Checkout */
-  #checkoutModal { border-radius: 18px 18px 0 0; max-height: 95vh; }
-  #checkoutOverlay { align-items: flex-end; }
+  /* Checkout — bottom sheet (igual que talla modal) */
+  #checkoutModal { align-items: flex-end; padding: 0; }
+  .checkout-modal-inner {
+    max-width: 100%;
+    border-radius: 18px 18px 0 0;
+    max-height: 95vh;
+    overflow-y: auto;
+  }
+  /* Handle visual de bottom sheet */
+  .checkout-modal-inner::before {
+    content: '';
+    display: block;
+    width: 36px; height: 4px;
+    background: var(--line);
+    border-radius: 2px;
+    margin: 12px auto -4px;
+  }
+  /* Talla + color modals también con handle */
+  .talla-modal-inner::before,
+  .color-modal-inner::before {
+    content: '';
+    display: block;
+    width: 36px; height: 4px;
+    background: var(--line);
+    border-radius: 2px;
+    margin: 12px auto -4px;
+  }
 
   /* Hero actions */
   .hero-actions { flex-direction: column; }
@@ -145,6 +169,10 @@
 
   /* Sticky CTA mobile */
   .sticky-cta-mobile { display: block; }
+
+  /* Float elements: move up above the sticky CTA bar (~70px) */
+  .whatsapp-float, #whatsappFloat { bottom: 86px; }
+  .back-to-top, #backToTop { bottom: 154px; }
 
   /* Announcement */
   .announce-bar .ann-close { display: flex !important; }
@@ -167,12 +195,15 @@
   .tienda-colegios-grid  { grid-template-columns: 1fr; gap: 10px; }
 
   /* Product card mobile touch targets */
-  .btn-agregar-carrito { min-height: 48px; font-size: 22px; padding: 12px 10px; margin: 0 10px 10px; gap: 0; border-radius: 10px; }
+  .btn-agregar-carrito { min-height: 48px; font-size: 20px; padding: 12px 10px; margin: 0 10px 10px; gap: 0; border-radius: 10px; }
   .btn-agregar-carrito .btn-lbl { display: none; }
-  .tpc-info { padding: 10px 12px 8px; }
-  .tpc-nombre { font-size: 14px; }
-  .tpc-precio { font-size: 19px; }
+  .tpc-info { padding: 10px 10px 8px; }
+  .tpc-icon { font-size: 2.8rem; }
+  .tpc-nombre { font-size: 13px; }
+  .tpc-precio { font-size: 18px; }
   .tpc-tipo-tag { font-size: 10px; }
+  .tpc-tallas-hint, .tpc-fab-tiempo { font-size: 11px; }
+  .tpc-stock-ok, .tpc-stock-poco, .tpc-fab-badge { font-size: 11px; padding: 3px 8px; }
 
   /* Filter pills scrollable row on mobile */
   #tiendaTipoFiltros { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
@@ -205,7 +236,7 @@
 
   /* Talla pills */
   .talla-pills { gap: 8px; }
-  .talla-pill  { padding: 9px 14px; font-size: 13px; }
+  .talla-pill  { font-size: 13px; }
 
   /* Carrito panel */
   #carritoItems { padding: 12px 16px; }
@@ -214,6 +245,18 @@
 
   /* Checkout body */
   .checkout-body { padding: 16px; }
+
+  /* iOS: font-size >= 16px evita zoom automático al enfocar inputs */
+  .checkout-campo input,
+  .checkout-campo select,
+  .checkout-campo textarea,
+  .contacto-form input,
+  .contacto-form select,
+  .contacto-form textarea { font-size: 16px; }
+
+  /* Talla pills: mínimo 44px de alto para táctil cómodo */
+  .talla-pill { min-height: 44px; padding: 10px 16px; }
+  .talla-qty-btn, .color-qty-btn { width: 40px; height: 40px; font-size: 20px; }
 
   /* FAQ */
   .faq-question { padding: 14px 16px; font-size: 14px; }
