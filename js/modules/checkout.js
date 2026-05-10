@@ -10,66 +10,90 @@ import { formatCOP, mostrarToast, escapeHTML, esPagoUrlSegura } from '../core/ut
 
 export function abrirTallaModal(producto, opts = {}) {
   const esFabricacion = opts.esFabricacion === true;
+  const tipoCls       = opts.tipoCls  || 'tpc-tipo-default';
+  const iconCls       = opts.iconCls  || 'fa-solid fa-shirt';
 
+  // — Ícono grande con gradiente del tipo de producto —
+  const iconArea = document.getElementById('tallaIconArea');
+  if (iconArea) {
+    iconArea.className = `talla-bs-icon-area ${tipoCls}`;
+    iconArea.innerHTML = `<i class="${iconCls}"></i>`;
+  }
+
+  // — Nombre y tipo —
   document.getElementById('tallaNombreProducto').textContent = producto.nombre;
+  const tipoTag = document.getElementById('tallaTipoTag');
+  if (tipoTag) tipoTag.textContent = producto.tipo || '';
+
   const opciones = document.getElementById('tallaOpciones');
+  const footer   = document.getElementById('tallaFooter');
 
   let selectedTalla  = null;
   let selectedPrecio = null;
-  let selectedStock  = 0;  // stock real de la talla seleccionada
+  let selectedStock  = 0;
 
   const tallasUnicas = [...new Map(producto.tallas.map(t => [t.talla, t])).values()];
 
   const avisoFab = esFabricacion ? `
     <div class="talla-fab-aviso">
       <i class="fa-solid fa-scissors"></i>
-      <strong>Pedido con anticipación</strong>
-      <p>Este producto se fabrica bajo pedido en <strong>1 a 2 meses</strong>. Se requiere un abono del <strong>50%</strong> para confirmar.</p>
+      <div>
+        <strong>Pedido con anticipación</strong>
+        <p>Se fabrica en <strong>1–2 meses</strong>. Abono del <strong>50%</strong> al confirmar.</p>
+      </div>
     </div>
   ` : '';
 
+  // — Chips de talla —
   opciones.innerHTML = `
     ${avisoFab}
-    <p class="talla-instruccion">Elige la talla:</p>
+    <p class="talla-instruccion">Elige tu talla</p>
     <div class="talla-pills" id="tallaPills">
       ${tallasUnicas.map(t => {
         const tallaEsFab = esFabricacion || t.stock === 0;
-        const stockLabel = tallaEsFab
-          ? '<br><small class="talla-pill-fab">🪡 Bajo pedido</small>'
+        const subLabel = tallaEsFab
+          ? '<small class="talla-pill-fab">Pedido</small>'
           : t.stock > 0 && t.stock < 5
-            ? `<br><small class="talla-pill-ok">¡${t.stock} disp.!</small>`
+            ? `<small class="talla-pill-ok">¡${t.stock}!</small>`
             : '';
         return `
           <button class="talla-pill${tallaEsFab ? ' talla-pill-anticipo' : ''}"
             data-talla="${t.talla}" data-precio="${t.precio}"
             data-stock="${t.stock}" data-fab="${tallaEsFab}">
-            ${t.talla}${stockLabel}
+            <span class="talla-pill-val">${t.talla}</span>
+            ${subLabel}
           </button>
         `;
       }).join('')}
     </div>
-
     <div class="talla-seleccion-detalle" id="tallaDetalle" style="display:none;">
-      <div class="tsd-precio-wrap">
-        <span class="tsd-label">Precio:</span>
-        <span class="tsd-precio" id="tallaPrecioDisplay"></span>
+      <div class="tsd-top">
+        <div class="tsd-precio-wrap">
+          <span class="tsd-label">Precio</span>
+          <span class="tsd-precio" id="tallaPrecioDisplay"></span>
+        </div>
+        <div id="tallaStockInfo" class="tsd-stock-info"></div>
       </div>
       <div class="tsd-cantidad-wrap">
-        <span class="tsd-label">Cantidad:</span>
+        <span class="tsd-label">Cantidad</span>
         <div class="tsd-cantidad">
-          <button class="talla-menos" id="tallaMenos">−</button>
+          <button class="talla-qty-btn" id="tallaMenos" aria-label="Menos">−</button>
           <span class="talla-cant-val" id="tallaCantVal">1</span>
-          <button class="talla-mas" id="tallaMas">+</button>
+          <button class="talla-qty-btn" id="tallaMas" aria-label="Más">+</button>
         </div>
       </div>
-      <div id="tallaStockInfo" style="margin-top:6px;font-size:0.82rem;"></div>
     </div>
+  `;
 
-    <button class="btn-talla-add" id="btnTallaAdd" style="display:none;">
-      <i class="fa-solid fa-cart-plus"></i> Agregar al carrito
+  // — Botón sticky en el footer (fuera del área scrollable) —
+  footer.innerHTML = `
+    <button class="btn-talla-add" id="btnTallaAdd" disabled>
+      <i class="fa-solid fa-cart-plus"></i>
+      <span>Elige una talla</span>
     </button>
   `;
 
+  // — Lógica de selección de talla —
   opciones.querySelectorAll('.talla-pill').forEach(btn => {
     btn.addEventListener('click', () => {
       opciones.querySelectorAll('.talla-pill').forEach(b => b.classList.remove('selected'));
@@ -79,33 +103,36 @@ export function abrirTallaModal(producto, opts = {}) {
       selectedStock  = parseInt(btn.dataset.stock) || 0;
       const tallaEsFab = btn.dataset.fab === 'true';
 
+      // Mostrar detalle con animación
+      const detalle = document.getElementById('tallaDetalle');
       document.getElementById('tallaPrecioDisplay').textContent = formatCOP(selectedPrecio);
       document.getElementById('tallaCantVal').textContent = '1';
-      document.getElementById('tallaDetalle').style.display = 'flex';
+      detalle.style.display = 'flex';
 
-      // Label dinámico del botón
-      const btnAdd = document.getElementById('btnTallaAdd');
-      if (tallaEsFab) {
-        btnAdd.className = 'btn-talla-add btn-talla-fab';
-        btnAdd.innerHTML = '<i class="fa-solid fa-scissors"></i> Agregar pedido anticipado';
-      } else {
-        btnAdd.className = 'btn-talla-add';
-        btnAdd.innerHTML = '<i class="fa-solid fa-cart-plus"></i> Agregar al carrito';
-      }
-      btnAdd.style.display = 'flex';
-
-      // Info de stock bajo el precio
+      // Info de disponibilidad
       const info = document.getElementById('tallaStockInfo');
       if (tallaEsFab) {
-        info.innerHTML = '<span style="color:#8d5a2b;">🪡 Bajo pedido · Entrega en 1-2 meses</span>';
+        info.innerHTML = `<span class="tsd-stock-fab"><i class="fa-solid fa-scissors"></i> Bajo pedido · 1–2 meses</span>`;
       } else if (selectedStock > 0) {
-        info.innerHTML = `<span style="color:#388e3c;"><i class="fa-solid fa-check"></i> ${selectedStock} disponibles · Entrega inmediata</span>`;
+        info.innerHTML = `<span class="tsd-stock-ok"><i class="fa-solid fa-check-circle"></i> ${selectedStock} disponibles · Entrega inmediata</span>`;
       } else {
         info.innerHTML = '';
+      }
+
+      // Actualizar botón sticky
+      const btnAdd = document.getElementById('btnTallaAdd');
+      btnAdd.disabled = false;
+      if (tallaEsFab) {
+        btnAdd.className = 'btn-talla-add btn-talla-fab';
+        btnAdd.innerHTML = '<i class="fa-solid fa-scissors"></i><span>Agregar pedido anticipado</span>';
+      } else {
+        btnAdd.className = 'btn-talla-add';
+        btnAdd.innerHTML = '<i class="fa-solid fa-cart-plus"></i><span>Agregar al carrito</span>';
       }
     });
   });
 
+  // — Cantidad —
   document.getElementById('tallaMenos').addEventListener('click', () => {
     const el = document.getElementById('tallaCantVal');
     const v = parseInt(el.textContent);
@@ -118,82 +145,64 @@ export function abrirTallaModal(producto, opts = {}) {
     if (cur < max) el.textContent = cur + 1;
   });
 
+  // — Agregar al carrito —
   document.getElementById('btnTallaAdd').addEventListener('click', async () => {
     if (!selectedTalla) return;
-    const cant    = parseInt(document.getElementById('tallaCantVal').textContent);
-    const btnAdd  = document.getElementById('btnTallaAdd');
+    const cant       = parseInt(document.getElementById('tallaCantVal').textContent);
+    const btnAdd     = document.getElementById('btnTallaAdd');
     const tallaEsFab = opciones.querySelector('.talla-pill.selected')?.dataset.fab === 'true';
-    document.getElementById('tallaReservaError')?.remove();
+    opciones.querySelector('#tallaReservaError')?.remove();
 
     if (tallaEsFab) {
-      // Talla sin stock: pedido anticipado, sin reserva
       Carrito.agregar({
-        id_producto:      producto.id_producto,
-        nombre:           producto.nombre,
-        talla:            selectedTalla,
-        cantidad:         cant,
-        precio:           selectedPrecio,
-        tipo_pedido:      'fabricacion',
-        stock_disponible: 0,
+        id_producto: producto.id_producto, nombre: producto.nombre,
+        talla: selectedTalla, cantidad: cant, precio: selectedPrecio,
+        tipo_pedido: 'fabricacion', stock_disponible: 0,
       });
       cerrarTallaModal();
-      mostrarToast(`🪡 ${producto.nombre} — Talla ${selectedTalla} añadido (fabricación)`);
+      mostrarToast(`🪡 ${producto.nombre} — T.${selectedTalla} añadido`);
       return;
     }
 
-    // Talla con stock: verificar si hay suficiente o si es mixto
     if (cant > selectedStock) {
-      // Stock parcial: parte inmediata + parte fabricación
       Carrito.agregar({
-        id_producto:      producto.id_producto,
-        nombre:           producto.nombre,
-        talla:            selectedTalla,
-        cantidad:         cant,
-        precio:           selectedPrecio,
-        tipo_pedido:      'mixto',
-        stock_disponible: selectedStock,
+        id_producto: producto.id_producto, nombre: producto.nombre,
+        talla: selectedTalla, cantidad: cant, precio: selectedPrecio,
+        tipo_pedido: 'mixto', stock_disponible: selectedStock,
       });
       cerrarTallaModal();
       mostrarToast(`${producto.nombre} T.${selectedTalla} ×${cant} (${selectedStock} inmediato + ${cant - selectedStock} 🪡)`);
       return;
     }
 
-    // Stock suficiente: reserva normal
+    // Reserva normal con stock
     btnAdd.disabled = true;
-    btnAdd.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Reservando...';
+    btnAdd.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span>Reservando...</span>';
 
     try {
       const resp = await RalozAPI.reservar({
-        session_id:  Carrito.sessionId,
-        id_colegio:  Carrito.colegio_id,
-        id_producto: producto.id_producto,
-        talla:       selectedTalla,
-        cantidad:    cant,
+        session_id: Carrito.sessionId, id_colegio: Carrito.colegio_id,
+        id_producto: producto.id_producto, talla: selectedTalla, cantidad: cant,
       });
-
       Carrito.agregar({
-        id_producto:      producto.id_producto,
-        nombre:           producto.nombre,
-        talla:            selectedTalla,
-        cantidad:         cant,
-        precio:           selectedPrecio,
-        id_reserva:       resp.id_reserva,
-        tipo_pedido:      'normal',
-        stock_disponible: selectedStock,
+        id_producto: producto.id_producto, nombre: producto.nombre,
+        talla: selectedTalla, cantidad: cant, precio: selectedPrecio,
+        id_reserva: resp.id_reserva, tipo_pedido: 'normal', stock_disponible: selectedStock,
       });
       cerrarTallaModal();
-      mostrarToast(`${producto.nombre} — Talla ${selectedTalla} agregado ✓`);
+      mostrarToast(`${producto.nombre} — T.${selectedTalla} agregado ✓`);
     } catch (err) {
       btnAdd.disabled = false;
-      btnAdd.innerHTML = '<i class="fa-solid fa-cart-plus"></i> Agregar al carrito';
+      btnAdd.className = 'btn-talla-add';
+      btnAdd.innerHTML = '<i class="fa-solid fa-cart-plus"></i><span>Agregar al carrito</span>';
       const msg = err.message?.toLowerCase().includes('stock')
-        ? '⚠️ Sin stock disponible para esta talla'
+        ? '⚠️ Sin stock para esta talla'
         : `⚠️ ${err.message || 'Error al reservar, intenta de nuevo'}`;
       const errEl = document.createElement('p');
       errEl.id = 'tallaReservaError';
-      errEl.style.cssText = 'color:#e53935;font-size:0.85rem;margin:8px 0 0;text-align:center;';
+      errEl.className = 'talla-reserva-error';
       errEl.textContent = msg;
-      btnAdd.parentNode.insertBefore(errEl, btnAdd);
+      opciones.appendChild(errEl);
     }
   });
 

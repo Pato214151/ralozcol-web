@@ -121,13 +121,19 @@
   /* Carrito panel */
   #carritoPanel { width: 100%; }
 
-  /* Modals full-width */
-  .talla-modal-inner,
-  .color-modal-inner { max-width: 100%; border-radius: 18px 18px 0 0; }
-  #tallaModal,
-  #colorModal { align-items: flex-end; padding: 0; }
+  /* Talla bottom sheet — ya nativo en el diseño, sin overrides necesarios */
 
-  /* Checkout — bottom sheet (igual que talla modal) */
+  /* Color modal → bottom sheet */
+  .color-modal-inner { max-width: 100%; border-radius: 18px 18px 0 0; }
+  #colorModal { align-items: flex-end; padding: 0; }
+  .color-modal-inner::before {
+    content: ''; display: block;
+    width: 36px; height: 4px;
+    background: var(--line); border-radius: 2px;
+    margin: 12px auto -4px;
+  }
+
+  /* Checkout → bottom sheet */
   #checkoutModal { align-items: flex-end; padding: 0; }
   .checkout-modal-inner {
     max-width: 100%;
@@ -135,23 +141,10 @@
     max-height: 95vh;
     overflow-y: auto;
   }
-  /* Handle visual de bottom sheet */
   .checkout-modal-inner::before {
-    content: '';
-    display: block;
+    content: ''; display: block;
     width: 36px; height: 4px;
-    background: var(--line);
-    border-radius: 2px;
-    margin: 12px auto -4px;
-  }
-  /* Talla + color modals también con handle */
-  .talla-modal-inner::before,
-  .color-modal-inner::before {
-    content: '';
-    display: block;
-    width: 36px; height: 4px;
-    background: var(--line);
-    border-radius: 2px;
+    background: var(--line); border-radius: 2px;
     margin: 12px auto -4px;
   }
 
@@ -234,9 +227,12 @@
   /* Duo */
   .duo-grid { grid-template-columns: 1fr; }
 
-  /* Talla pills */
-  .talla-pills { gap: 8px; }
-  .talla-pill  { font-size: 13px; }
+  /* Talla chips en móvil */
+  .talla-pills { grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); gap: 6px; }
+  .talla-pill  { min-height: 54px; }
+  .talla-pill-val { font-size: 14px; }
+  .tsd-precio { font-size: 24px; }
+  .talla-bs-icon-area { height: 88px; font-size: 2.8rem; }
 
   /* Carrito panel */
   #carritoItems { padding: 12px 16px; }

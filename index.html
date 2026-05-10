@@ -669,17 +669,25 @@
 </div>
 
 <!-- Overlay talla -->
-<div id="tallaOverlay" style="display:none;"></div>
+<div id="tallaOverlay" style="display:none;" class="talla-bs-backdrop"></div>
 
 <!-- Modal talla -->
-<div id="tallaModal" role="dialog" aria-modal="true" style="display:none;">
-    <div class="talla-modal-inner">
-        <div class="talla-modal-header">
-            <h3 id="tallaNombreProducto"></h3>
-            <button id="tallaCerrar" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
+<div id="tallaModal" class="talla-bs-wrapper" role="dialog" aria-modal="true" style="display:none;">
+    <div class="talla-bs-inner">
+        <div class="talla-bs-handle"></div>
+        <!-- Icono grande del producto con gradiente -->
+        <div id="tallaIconArea" class="talla-bs-icon-area"></div>
+        <div class="talla-bs-header">
+            <div class="talla-bs-header-text">
+                <h3 id="tallaNombreProducto" class="talla-bs-title"></h3>
+                <p id="tallaTipoTag" class="talla-bs-tipo"></p>
+            </div>
+            <button id="tallaCerrar" class="talla-bs-close" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <p style="font-size:14px;color:var(--muted);margin-bottom:14px;">Selecciona la talla y cantidad:</p>
-        <div id="tallaOpciones" class="talla-pills"></div>
+        <!-- Zona scrollable: aviso, chips de talla, detalle -->
+        <div class="talla-bs-content" id="tallaOpciones"></div>
+        <!-- Footer sticky: botón agregar siempre visible -->
+        <div class="talla-bs-footer" id="tallaFooter"></div>
     </div>
 </div>
 

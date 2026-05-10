@@ -433,7 +433,12 @@ function renderProductos(productos) {
       if (!producto) return;
 
       // Abrir modal: fabricacion pura si el producto es fab o estático
-      abrirTallaModal(producto, { esFabricacion: esFab || producto._static });
+      const { cls: tipoCls, icon: tipoIcon } = tipoToStyle(producto.tipo);
+      abrirTallaModal(producto, {
+        esFabricacion: esFab || producto._static,
+        tipoCls,
+        iconCls: producto.icon || tipoIcon,
+      });
     });
   });
 }
