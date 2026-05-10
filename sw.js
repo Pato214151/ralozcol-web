@@ -3,7 +3,7 @@
 // Caché offline para estáticos + respaldo de API (colegios/productos)
 // ===================================================================
 
-const CACHE_STATIC = 'raloz-static-v5';
+const CACHE_STATIC = 'raloz-static-v6';
 const CACHE_API    = 'raloz-api-v1';
 
 // Solo los archivos mínimos para modo offline.
@@ -68,7 +68,8 @@ self.addEventListener('fetch', e => {
 async function networkFirstHTML(req) {
   const cache = await caches.open(CACHE_STATIC);
   try {
-    const res = await fetch(req);
+    // cache:'no-store' evita que el browser sirva HTML del caché HTTP
+    const res = await fetch(new Request(req, { cache: 'no-store' }));
     if (res.ok) cache.put(req, res.clone());
     return res;
   } catch {
